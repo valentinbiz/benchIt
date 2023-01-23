@@ -1,4 +1,3 @@
-import React from "react";
 import { Typography, Button, Box } from "@mui/material";
 import park from "../creativeAssets/image_processing20201103-8805-fkmj5v.png";
 // import BenchCard from "./BenchCard";
