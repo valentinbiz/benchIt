@@ -1,20 +1,9 @@
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+// import { Container, Header, Content, Footer, FooterTab, Button, Icon, Typography, Box, Grid, Link, Checkbox, FormControlLabel, TextField, TextArea, Avatar} from 'native-base'
+import { Container, Content, Form, Item, Input, Label, Button, Text, H3, CheckBox } from 'native-base';
 
-const theme = createTheme();
 
 const LogIn = () => {
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -24,80 +13,34 @@ const LogIn = () => {
     });
   };
 
+return (
+<Container>
+  <Content>
+    <H3 style={{ alignSelf: "center", marginTop: 8 }}>Sign In</H3>
+    <Form>
+      <Item floatingLabel>
+        <Label>Email</Label>
+        <Input autoCompleteType='email' autoFocus={true} />
+      </Item>
+      <Item floatingLabel last>
+        <Label>Password</Label>
+        <Input secureTextEntry={true} />
+      </Item>
+      <CheckBox style={{ marginTop: 10 }} checked={true} color='primary' />
+      <Text style={{ alignSelf: "center", marginTop: 10 }}>Remember me</Text>
+      <Button block style={{ marginTop: 20 }}>
+        <Text>Sign In</Text>
+      </Button>
+      <Button transparent style={{ alignSelf: "center", marginTop: 20 }}>
+        <Text>Forgot password?</Text>
+      </Button>
+      <Button transparent style={{ alignSelf: "center", marginTop: 20 }}>
+        <Text>Don't have an account? Sign Up</Text>
+      </Button>
+    </Form>
+  </Content>
+</Container>
+)
 
-  return (
-    <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign in
-          </Typography>
-          <Box
-            component="form"
-            onSubmit={handleSubmit}
-            noValidate
-            sx={{ mt: 1 }}
-          >
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Sign In
-            </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
-            </Grid>
-          </Box>
-        </Box>
-      </Container>
-    </ThemeProvider>
-  );
-};
-
+  }
 export default LogIn;

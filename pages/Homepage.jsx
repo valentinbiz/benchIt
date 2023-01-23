@@ -1,40 +1,30 @@
-import { Typography, Button, Box } from "@mui/material";
+
+import { Container, Content, H3, Text, Button, Image } from 'native-base';
+
 import park from "../creativeAssets/image_processing20201103-8805-fkmj5v.png";
-// import BenchCard from "./BenchCard";
 
 const HomePage = ({ navigation }) => {
   return (
-    <Box
-      display="flex"
-      alignItems="center"
-      justifyContent="center"
-      flexDirection="column"
-    >
-      <Typography sx={{ fontSize: 30 }}>BenchIt </Typography>
-      <Typography sx={{ fontSize: 14 }}>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus,
-        voluptate numquam. Reiciendis reprehenderit minus rerum quibusdam odit
-        pariatur quasi fugiat mollitia quas!
-      </Typography>
-      <img src={park} width="300" height="auto"></img>
-      <Button
-        variant="contained"
-        sx={{ textTransform: "none", mt: 6 }}
-        onClick={() => navigation.navigate("SignUp", { name: "Jane" })}
-      >
-        Sign up
-      </Button>
-      <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-        or
-      </Typography>
-      <Button
-        variant="contained"
-        sx={{ textTransform: "none" }}
-        onClick={() => navigation.navigate("LogIn", { name: "Jane" })}
-      >
-        Log in
-      </Button>
-    </Box>
+    <Container>
+      <Content>
+        <H3 style={{ alignSelf: "center", marginTop: 8 }}> BenchIt </H3>
+        <Text style={{ alignSelf: "center", marginTop: 8 }}>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus,
+          voluptate numquam. Reiciendis reprehenderit minus rerum quibusdam odit
+          pariatur quasi fugiat mollitia quas!
+        </Text>
+        <Image source={park} style={{ width: 300, height: 200, alignSelf: "center", marginTop: 8}} />
+        <Button block style={{ alignSelf: "center", marginTop: 8 }}
+            onClick={() => navigation.navigate("SignUp", { name: "Jane" })}>
+            <Text>Sign up</Text>
+        </Button>
+        <Text style={{ alignSelf: "center", marginTop: 8 }}>or</Text>
+        <Button block style={{ alignSelf: "center", marginTop: 8 }}
+            onClick={() => navigation.navigate("LogIn", { name: "Jane" })}>
+            <Text>Log in</Text>
+        </Button>
+      </Content>
+    </Container>
   );
 };
 
