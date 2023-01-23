@@ -1,42 +1,42 @@
 import React from "react";
-// import Button from '@mui/material/Button';
-// import Card from '@mui/material/Card';
-// import CardContent from '@mui/material/CardContent';
-// import Typography from '@mui/material/Typography';
-// import CardHeader from '@mui/material/CardHeader';
-// import Container from '@mui/material/Container';
-// import Stack from '@mui/material/Stack';
-// import Paper from '@mui/material/Paper';
-import {Stack, Container, CardHeader, Typography, CardContent, Card, Button, Paper, Box, Grid}from '@mui/material';
-import park from '../creativeAssets/image_processing20201103-8805-fkmj5v.png'
+import { Typography, Button, Box } from "@mui/material";
+import park from "../creativeAssets/image_processing20201103-8805-fkmj5v.png";
+// import BenchCard from "./BenchCard";
 
-const HomePage = () => {
-
-    return (
-        <Box
-       styles={{
-     display: 'flex', 
-     alignItems: 'center', 
-     justifyContent:'center'
-}}>
-        
-        {/* <Paper elevation={10} centered> */}
-
-        <Typography variant="h2">BenchIt </Typography>
-        <img src={park} width="600" height='auto'></img>
-
-        {/* <CardContent> */}
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-            HEY FRIENDS
-        </Typography>
-        {/* </CardContent> */}
-        <Button variant="contained" spacing={2}>Sign in</Button>
-        <Button variant="contained">Sign up</Button>
-
-
-        {/* </Paper> */}
+const HomePage = ({ navigation }) => {
+  return (
+    <Box
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+      flexDirection="column"
+    >
+      <Typography sx={{ fontSize: 30 }}>BenchIt </Typography>
+      <Typography sx={{ fontSize: 14 }}>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus,
+        voluptate numquam. Reiciendis reprehenderit minus rerum quibusdam odit
+        pariatur quasi fugiat mollitia quas!
+      </Typography>
+      <img src={park} width="300" height="auto"></img>
+      <Button
+        variant="contained"
+        sx={{ textTransform: "none", mt: 6 }}
+        onClick={() => navigation.navigate("SignUp", { name: "Jane" })}
+      >
+        Sign up
+      </Button>
+      <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+        or
+      </Typography>
+      <Button
+        variant="contained"
+        sx={{ textTransform: "none" }}
+        onClick={() => navigation.navigate("LogIn", { name: "Jane" })}
+      >
+        Log in
+      </Button>
     </Box>
-        )
-}
+  );
+};
 
-export default HomePage
+export default HomePage;
