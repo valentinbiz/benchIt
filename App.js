@@ -1,16 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import { doc, getDoc } from "firebase/firestore";
-import { db } from "./firebaseConfig";
-
-const docRef = doc(db, "benches", "J2nYpqRO9o8Iphd3nQuQ");
-const docSnap = await getDoc(docRef);
-
-if (docSnap.exists()) { 
-  console.log(docSnap.data());
-} else {
-  console.log("no such document");
-}
 
 export default function App() {
   return (
