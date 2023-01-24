@@ -1,114 +1,91 @@
-import { Container, Button, Typography, Box, Grid, Link, TextField, Avatar} from 'native-base'
+import React from "react";
+import {
+  StyleSheet,
+  SafeAreaView,
+  View,
+  Text,
+  TextInput,
+  TouchableHighlight,
+  Alert,
+} from "react-native";
 
-const SignUp = () => {
-  const handleSubmit = (event) => {
-    // event.preventDefault();
-    // const data = new FormData(event.currentTarget);
-    // console.log({
-    //   email: data.get("email"),
-    //   password: data.get("password"),
-    // });
-  };
-
+function SignUp() {
+  const [name, onChangeName] = React.useState("");
+  const [email, onChangeEmail] = React.useState("");
+  const [password, onChangePassword] = React.useState("");
+  const [repassword, onChangeRepassword] = React.useState("");
   return (
-    <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
+    <SafeAreaView style={styles.container}>
+      <View>
+        <Text>Sign Up Page</Text>
+      </View>
+      <View>
+        <TextInput
+          style={styles.input}
+          onChangeText={onChangeName}
+          value={name}
+          placeholder="Name"
+          keyboardType="numeric"
+        />
+        <TextInput
+          style={styles.input}
+          onChangeText={onChangeEmail}
+          value={email}
+          placeholder="Email"
+          keyboardType="numeric"
+        />
+        <TextInput
+          style={styles.input}
+          onChangeText={onChangePassword}
+          value={password}
+          placeholder="Passowrd"
+          keyboardType="numeric"
+          secureTextEntry="true"
+        />
+        <TextInput
+          style={styles.input}
+          onChangeText={onChangeRepassword}
+          value={repassword}
+          placeholder="Re-enter passowrd"
+          keyboardType="numeric"
+          secureTextEntry="true"
+        />
+      </View>
+      <View>
+        <TouchableHighlight
+          style={styles.button}
+          onPress={() => Alert.alert(name, email, password)}
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign up
-          </Typography>
-          <Box
-            component="form"
-            noValidate
-            onSubmit={handleSubmit}
-            sx={{ mt: 3 }}
-          >
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  autoComplete="given-name"
-                  name="firstName"
-                  required
-                  fullWidth
-                  id="firstName"
-                  label="First Name"
-                  autoFocus
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
-                  autoComplete="family-name"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="new-password"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="confirm-password"
-                  label="Confirm Password"
-                  type="confirm-password"
-                  id="confirm-password"
-                  autoComplete="confirm-new-password"
-                />
-              </Grid>
-            </Grid>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Sign Up
-            </Button>
-            <Grid container justifyContent="flex-end">
-              <Grid item>
-                <Link href="#" variant="body2">
-                  Already have an account? Sign in
-                </Link>
-              </Grid>
-            </Grid>
-          </Box>
-        </Box>
-      </Container>
-    </ThemeProvider>
+          <Text>Log In</Text>
+        </TouchableHighlight>
+      </View>
+    </SafeAreaView>
   );
-};
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignContent: "center",
+    marginHorizontal: 16,
+  },
+  input: {
+    width: 350,
+    height: 40,
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
+    borderRadius: 20,
+  },
+  button: {
+    alignItems: "center",
+    backgroundColor: "#DDDDDD",
+    borderRadius: 20,
+    padding: 10,
+    width: 200,
+    margin: 20,
+  },
+});
 
 export default SignUp;
