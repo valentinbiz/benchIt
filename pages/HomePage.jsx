@@ -9,7 +9,7 @@ import {
   Image,
   ScrollView
 } from "react-native";
-import park from "../creativeAssets/image_processing20201103-8805-fkmj5v.png";
+import park from "../creativeAssets/bench.png";
 
 function HomePage({ navigation }) {
   return (

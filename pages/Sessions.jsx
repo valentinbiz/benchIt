@@ -1,60 +1,150 @@
 import React from "react";
 import {
-  StyleSheet,
-  SafeAreaView,
   View,
   Text,
   TextInput,
-  TouchableHighlight,
-  Alert,
+  ScrollView,
+  TouchableOpacity,
+  Image,
 } from "react-native";
+import SessionsList from "../components/SessionsList";
 
 function Sessions() {
+  return (
+    <View>
+      <ScrollView>
+        <Text
+          style={{
+            paddingHorizontal: 20,
+            fontSize: 30,
+            paddingTop: 30,
+          }}
+        >
+          Welcome back!
+        </Text>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            backgroundColor: "#FFF",
+            padding: 10,
+            borderRadius: 12,
+            marginHorizontal: 20,
+            marginTop: 20,
+          }}
+        >
+          <TextInput
+            placeholder="Search for sessions!"
+            placeholderTextColor="#345c74"
+            style={{
+              fontSize: 12,
+              width: 280,
+              paddingHorizontal: 12,
+            }}
+          />
+          <Image
+            source={require("../creativeAssets/sear.png")}
+            style={{ height: 14, width: 14 }}
+          />
+        </View>
+        <View
+          style={{
+            flexDirection: "row",
+            backgroundColor: "#FFF2F2",
+            marginTop: 20,
+            marginHorizontal: 20,
+            borderRadius: 30,
+            paddingVertical: 20,
+            paddingLeft: 30,
+          }}
+        >
+          <View>
+            <Text style={{ fontSize: 20, width: 200 }}>
+              Check out these available bench sessions!
+            </Text>
+            <View style={{ flexDirection: "row", height: 35 }}>
+              <TouchableOpacity
+                style={{
+                  flexDirection: "row",
+                  backgroundColor: "#f58084",
+                  alignItems: "center",
+                  marginTop: 15,
+                  width: 66,
+                  borderRadius: 14,
+                  paddingHorizontal: 10,
+                }}
+              >
+                <Text
+                  style={{
+                    color: "#FFF",
+                    fontSize: 12,
+                  }}
+                >
+                  List View
+                </Text>
+              </TouchableOpacity>
+              <Text style={{ marginTop: 15, fontSize: 20 }}> / </Text>
+              <TouchableOpacity
+                style={{
+                  flexDirection: "row",
+                  backgroundColor: "#f58084",
+                  alignItems: "center",
+                  marginTop: 15,
+                  width: 70,
+                  borderRadius: 14,
+                  paddingHorizontal: 10,
+                }}
+              >
+                <Text
+                  style={{
+                    color: "#FFF",
+                    fontSize: 12,
+                  }}
+                >
+                  Map view
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          <Image
+            source={require("../creativeAssets/undraw.png")}
+            style={{ marginLeft: -45, marginTop: 35 }}
+          />
+        </View>
+        <Text
+          style={{
+            color: "#345c74",
+            fontSize: 20,
+            paddingHorizontal: 20,
+            marginTop: 20,
+            marginBottom: 10,
+          }}
+        >
+          Available sessions
+        </Text>
+        <ScrollView>
+          <SessionsList
+            img={require("../creativeAssets/bench.png")}
+            title="Serenity Bench"
+            address="12 Oxford Road, Manchester"
+            bg="#8888"
+          />
+          <SessionsList
+            img={require("../creativeAssets/bench.png")}
+            title="Serenity Bench"
+            address="12 Oxford Road, Manchester"
+            bg="#8888"
+          />
+          <SessionsList
+            img={require("../creativeAssets/bench.png")}
+            title="Serenity Bench"
+            address="12 Oxford Road, Manchester"
+            bg="#8888"
+          />
+        </ScrollView>
+      </ScrollView>
+    </View>
+  );
+}
 
-    return (
-      <SafeAreaView style={styles.container}>
-        <View>
-          <Text>Sessions Page</Text>
-        </View>
-        <View>
-          <Text>This is a placeholder </Text>
-          <Text>This is a placeholder b </Text>
-        </View>
-        <View>
-          <TouchableHighlight
-            style={styles.button}
-            // onPress={() => Alert.alert(name, email, password)}
-          >
-            <Text>Start Session!</Text>
-          </TouchableHighlight>
-        </View>
-      </SafeAreaView>
-    );
-  }
-  
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      justifyContent: "center",
-      alignContent: "center",
-      marginHorizontal: 16,
-    },
-    input: {
-      width: 350,
-      height: 40,
-      margin: 12,
-      borderWidth: 1,
-      padding: 10,
-      borderRadius: 20,
-    },
-    button: {
-      alignItems: "center",
-      backgroundColor: "#DDDDDD",
-      borderRadius: 20,
-      padding: 10,
-      width: 200,
-      margin: 20,
-    },
-  });
-  
 export default Sessions;
