@@ -9,37 +9,23 @@ import {
   Alert,
 } from "react-native";
 
-function LogIn() {
-    const [email, onChangeEmail] = React.useState("");
-    const [password, onChangePassword] = React.useState("");
+function Schedule() {
+
     return (
       <SafeAreaView style={styles.container}>
         <View>
-          <Text>Sign Up Page</Text>
+          <Text>Schedule Page</Text>
         </View>
         <View>
-          <TextInput
-            style={styles.input}
-            onChangeText={onChangeEmail}
-            value={email}
-            placeholder="Email"
-            keyboardType="email"
-          />
-          <TextInput
-            style={styles.input}
-            onChangeText={onChangePassword}
-            value={password}
-            placeholder="Password"
-            keyboardType="text"
-            // secureTextEntry="true"
-          />
+          <Text>This is a placeholder </Text>
+          <Text>This is a placeholder b </Text>
         </View>
         <View>
           <TouchableHighlight
             style={styles.button}
-            onPress={() => Alert.alert(name, email, password)}
+            // onPress={() => Alert.alert(name, email, password)}
           >
-            <Text>Log In</Text>
+            <Text>Start Session!</Text>
           </TouchableHighlight>
         </View>
       </SafeAreaView>
@@ -71,4 +57,4 @@ function LogIn() {
     },
   });
   
-export default LogIn;
+export default Schedule;

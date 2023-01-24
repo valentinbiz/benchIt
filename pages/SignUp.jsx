@@ -25,30 +25,30 @@ function SignUp() {
           onChangeText={onChangeName}
           value={name}
           placeholder="Name"
-          keyboardType="numeric"
+          keyboardType="text"
         />
         <TextInput
           style={styles.input}
           onChangeText={onChangeEmail}
           value={email}
           placeholder="Email"
-          keyboardType="numeric"
+          keyboardType="email"
         />
         <TextInput
           style={styles.input}
           onChangeText={onChangePassword}
           value={password}
-          placeholder="Passowrd"
-          keyboardType="numeric"
-          secureTextEntry="true"
+          placeholder="Password"
+          keyboardType="text"
+          // secureTextEntry="true"
         />
         <TextInput
           style={styles.input}
           onChangeText={onChangeRepassword}
           value={repassword}
-          placeholder="Re-enter passowrd"
+          placeholder="Re-enter password"
           keyboardType="numeric"
-          secureTextEntry="true"
+          // secureTextEntry="true"
         />
       </View>
       <View>

@@ -7,12 +7,14 @@ import {
   Alert,
   TouchableHighlight,
   Image,
+  ScrollView
 } from "react-native";
 import park from "../creativeAssets/image_processing20201103-8805-fkmj5v.png";
 
 function HomePage({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
+    <ScrollView>
       <View style={styles.viewContainer}>
         <Text style={styles.title}>BenchIt</Text>
         <Text style={styles.missionText}>
@@ -27,6 +29,12 @@ function HomePage({ navigation }) {
         <Image source={park} style={styles.picture} />
       </View>
       <View style={styles.viewContainer}>
+      <TouchableHighlight
+          style={styles.button}
+          onPress={() => navigation.navigate("Sessions")}
+        >
+          <Text>Sessions</Text>
+          </TouchableHighlight>
         <TouchableHighlight
           style={styles.button}
           onPress={() => navigation.navigate("SignUp")}
@@ -40,7 +48,32 @@ function HomePage({ navigation }) {
         >
           <Text>Log In</Text>
         </TouchableHighlight>
+        <TouchableHighlight
+          style={styles.button}
+          onPress={() => navigation.navigate("Sessions")}
+        >
+          <Text>Sessions</Text>
+        </TouchableHighlight>
+        <TouchableHighlight
+          style={styles.button}
+          onPress={() => navigation.navigate("Account")}
+        >
+          <Text>Account</Text>
+        </TouchableHighlight>
+        <TouchableHighlight
+          style={styles.button}
+          onPress={() => navigation.navigate("Schedule")}
+        >
+          <Text>Schedule</Text>
+        </TouchableHighlight>
+        <TouchableHighlight
+          style={styles.button}
+          onPress={() => navigation.navigate("NewBooking")}
+        >
+          <Text>NewBooking</Text>
+        </TouchableHighlight>
       </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
