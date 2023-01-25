@@ -71,11 +71,4 @@ const styles = StyleSheet.create({
   },
 });
 
-
-{/* <Callout tooltip>
-  <View style={styles.popUp}>
-    <Text>Hello there</Text>
-    {console.log(benches, "IN MAP COMP")}
-  </View>
-</Callout>; */}
 export default MapComponent;
