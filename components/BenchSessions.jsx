@@ -2,7 +2,7 @@ import React from "react";
 import { Text, TouchableOpacity, View, Image, Button } from "react-native";
 // import ProgressCircle from "react-native-progress-circle";
 
-function SessionsList({ img, title, address, bg }) {
+function BenchSessions({ img, title, address, bg }) {
   return (
     <TouchableOpacity
       style={{
@@ -59,4 +59,4 @@ function SessionsList({ img, title, address, bg }) {
   );
 }
 
-export default SessionsList;
+export default BenchSessions;

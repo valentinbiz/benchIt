@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -7,9 +7,12 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
-import SessionsList from "../components/SessionsList";
+import BenchSessions from "../components/BenchSessions";
+import MapComponent from "../components/MapComponent";
 
 function Sessions() {
+  const [viewType, setViewType] = useState("List");
+  const [clickedButtons, setClickedButtons] = useState(false);
   return (
     <View>
       <ScrollView>
@@ -50,7 +53,7 @@ function Sessions() {
         <View
           style={{
             flexDirection: "row",
-            backgroundColor: "#FFF2F2",
+            backgroundColor: "#808080",
             marginTop: 20,
             marginHorizontal: 20,
             borderRadius: 30,
@@ -64,6 +67,7 @@ function Sessions() {
             </Text>
             <View style={{ flexDirection: "row", height: 35 }}>
               <TouchableOpacity
+                onPress={() => setViewType("List")}
                 style={{
                   flexDirection: "row",
                   backgroundColor: "#f58084",
@@ -85,6 +89,7 @@ function Sessions() {
               </TouchableOpacity>
               <Text style={{ marginTop: 15, fontSize: 20 }}> / </Text>
               <TouchableOpacity
+                onPress={() => setViewType("Map")}
                 style={{
                   flexDirection: "row",
                   backgroundColor: "#f58084",
@@ -122,26 +127,38 @@ function Sessions() {
         >
           Available sessions
         </Text>
-        <ScrollView>
-          <SessionsList
-            img={require("../creativeAssets/bench.png")}
-            title="Serenity Bench"
-            address="12 Oxford Road, Manchester"
-            bg="#8888"
-          />
-          <SessionsList
-            img={require("../creativeAssets/bench.png")}
-            title="Serenity Bench"
-            address="12 Oxford Road, Manchester"
-            bg="#8888"
-          />
-          <SessionsList
-            img={require("../creativeAssets/bench.png")}
-            title="Serenity Bench"
-            address="12 Oxford Road, Manchester"
-            bg="#8888"
-          />
-        </ScrollView>
+        {viewType === "List" ? (
+          <ScrollView style={{ height: 300 }}>
+            <View>
+              <BenchSessions
+                img={require("../creativeAssets/bench.png")}
+                title="Serenity Bench"
+                address="12 Oxford Road, Manchester"
+                bg="#8888"
+              />
+              <BenchSessions
+                img={require("../creativeAssets/bench.png")}
+                title="Serenity Bench"
+                address="12 Oxford Road, Manchester"
+                bg="#8888"
+              />
+              <BenchSessions
+                img={require("../creativeAssets/bench.png")}
+                title="Serenity Bench"
+                address="12 Oxford Road, Manchester"
+                bg="#8888"
+              />
+              <BenchSessions
+                img={require("../creativeAssets/bench.png")}
+                title="Serenity Bench"
+                address="12 Oxford Road, Manchester"
+                bg="#8888"
+              />
+            </View>
+          </ScrollView>
+        ) : (
+          <MapComponent />
+        )}
       </ScrollView>
     </View>
   );

@@ -1,74 +1,108 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import {
-  StyleSheet,
-  SafeAreaView,
   View,
   Text,
-  TextInput,
-  TouchableHighlight,
-  Alert,
+  TouchableOpacity,
+  Image,
+  Platform,
+  StyleSheet,
+  ScrollView,
 } from "react-native";
+import FormInput from "../components/FormInput";
+import FormButton from "../components/FormButton";
+import SocialButton from "../components/SocialButton";
 
-function LogIn() {
-    const [email, onChangeEmail] = React.useState("");
-    const [password, onChangePassword] = React.useState("");
-    return (
-      <SafeAreaView style={styles.container}>
-        <View>
-          <Text>Sign Up Page</Text>
-        </View>
-        <View>
-          <TextInput
-            style={styles.input}
-            onChangeText={onChangeEmail}
-            value={email}
-            placeholder="Email"
-            keyboardType="email"
-          />
-          <TextInput
-            style={styles.input}
-            onChangeText={onChangePassword}
-            value={password}
-            placeholder="Password"
-            keyboardType="text"
-            // secureTextEntry="true"
-          />
-        </View>
-        <View>
-          <TouchableHighlight
-            style={styles.button}
-            onPress={() => Alert.alert(name, email, password)}
-          >
-            <Text>Log In</Text>
-          </TouchableHighlight>
-        </View>
-      </SafeAreaView>
-    );
-  }
-  
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      justifyContent: "center",
-      alignContent: "center",
-      marginHorizontal: 16,
-    },
-    input: {
-      width: 350,
-      height: 40,
-      margin: 12,
-      borderWidth: 1,
-      padding: 10,
-      borderRadius: 20,
-    },
-    button: {
-      alignItems: "center",
-      backgroundColor: "#DDDDDD",
-      borderRadius: 20,
-      padding: 10,
-      width: 200,
-      margin: 20,
-    },
-  });
-  
+function LogIn({ navigation }) {
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+
+  return (
+    <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.container}>
+        <Text style={styles.text}>Login </Text>
+
+        <FormInput
+          labelValue={email}
+          onChangeText={(userEmail) => setEmail(userEmail)}
+          placeholderText="Email"
+          iconType="user"
+          keyboardType="email-address"
+          autoCapitalize="none"
+          autoCorrect={false}
+        />
+
+        <FormInput
+          labelValue={password}
+          onChangeText={(userPassword) => setPassword(userPassword)}
+          placeholderText="Password"
+          iconType="lock"
+          secureTextEntry={true}
+        />
+
+        <FormButton
+          buttonTitle="Log in"
+          onPress={() => login(email, password)}
+        />
+
+        <TouchableOpacity style={styles.forgotButton} onPress={() => {}}>
+          <Text style={styles.navButtonText}>Forgot Password?</Text>
+        </TouchableOpacity>
+
+        {Platform.OS === "android" ? (
+          <View>
+            <SocialButton
+              buttonTitle="Sign In with Facebook"
+              btnType="facebook"
+              color="#4867aa"
+              backgroundColor="#e6eaf4"
+              onPress={() => {}}
+            />
+
+            <SocialButton
+              buttonTitle="Sign In with Google"
+              btnType="google"
+              color="#de4d41"
+              backgroundColor="#f5e7ea"
+              onPress={() => {}}
+            />
+          </View>
+        ) : null}
+
+        <TouchableOpacity
+          style={styles.forgotButton}
+          onPress={() => navigation.navigate("SignUp")}
+        >
+          <Text style={styles.navButtonText}>
+            Don't have an acount? Create here
+          </Text>
+        </TouchableOpacity>
+      </ScrollView>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 10,
+  },
+  text: {
+    fontSize: 28,
+    marginBottom: 10,
+    color: "#051d5f",
+  },
+  navButton: {
+    marginTop: 15,
+  },
+  forgotButton: {
+    marginVertical: 35,
+  },
+  navButtonText: {
+    fontSize: 18,
+    fontWeight: "500",
+    color: "#2e64e5",
+  },
+});
+
 export default LogIn;
