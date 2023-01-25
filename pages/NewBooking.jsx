@@ -1,60 +1,46 @@
-import React from "react";
-import {
-  StyleSheet,
-  SafeAreaView,
-  View,
-  Text,
-  TextInput,
-  TouchableHighlight,
-  Alert,
-} from "react-native";
+import { View, StyleSheet, Text } from "react-native";
+import CalendarAgenda from "../components/Calendar";
+import FormButton from "../components/FormButton";
 
-function NewBooking() {
+export default function PlaygroundScreen() {
+  return (
+    <>
+      <View style={styles.buttonsContainer}>
+        <View style={styles.calendarContainer}>
+          <View style={styles.infoContainer}>
+            <Text>Finish booking</Text>
+            <Text>Finish booking</Text>
+            <Text>Finish booking</Text>
+            <Text>Finish booking</Text>
+            <Text>Finish booking</Text>
+            <Text>Finish booking</Text>
+          </View>
+          <CalendarAgenda />
+          <FormButton buttonTitle="Book this session" />
+        </View>
+      </View>
+    </>
+  );
+}
 
-    return (
-      <SafeAreaView style={styles.container}>
-        <View>
-          <Text>New Booking page </Text>
-        </View>
-        <View>
-          <Text>This is a placeholder </Text>
-          <Text>This is a placeholder b </Text>
-        </View>
-        <View>
-          <TouchableHighlight
-            style={styles.button}
-            // onPress={() => Alert.alert(name, email, password)}
-          >
-            <Text>Start Session!</Text>
-          </TouchableHighlight>
-        </View>
-      </SafeAreaView>
-    );
-  }
-  
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      justifyContent: "center",
-      alignContent: "center",
-      marginHorizontal: 16,
-    },
-    input: {
-      width: 350,
-      height: 40,
-      margin: 12,
-      borderWidth: 1,
-      padding: 10,
-      borderRadius: 20,
-    },
-    button: {
-      alignItems: "center",
-      backgroundColor: "#DDDDDD",
-      borderRadius: 20,
-      padding: 10,
-      width: 200,
-      margin: 20,
-    },
-  });
-  
-export default NewBooking;
+const styles = StyleSheet.create({
+  infoContainer: {
+    height: 100,
+  },
+  calendarContainer: {
+    Width: 300,
+    height: 500,
+  },
+  buttonsContainer: {
+    borderColor: "#00000",
+  },
+  calendar: {
+    borderWidth: 1,
+    borderColor: "#b6c1cd",
+  },
+  text: {
+    alignSelf: "center",
+    padding: 20,
+    fontSize: 16,
+  },
+});
