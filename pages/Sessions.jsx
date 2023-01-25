@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { getDocs, collection } from "firebase/firestore";
+import  { db } from "../firebaseConfig";
 import {
   View,
   Text,
@@ -7,12 +9,30 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
+
 import BenchSessions from "../components/BenchSessions";
 import MapComponent from "../components/MapComponent";
 
 function Sessions() {
   const [viewType, setViewType] = useState("List");
   const [clickedButtons, setClickedButtons] = useState(false);
+  const [ benches, setBenches ] = useState([]);
+
+  const getBenches = () => {
+    const docRefCollection = collection(db, "benches");
+    getDocs(docRefCollection)
+      .then(documents => {
+        const benchesArray = []
+        documents.forEach(doc => benchesArray.push(doc.data()))
+        setBenches(benchesArray);
+      })
+      .catch(error => console.log(error));
+  }
+
+  useEffect(() => {
+    getBenches()
+  }, []);
+
   return (
     <View>
       <ScrollView>
@@ -157,7 +177,7 @@ function Sessions() {
             </View>
           </ScrollView>
         ) : (
-          <MapComponent />
+          <MapComponent benches={benches}/>
         )}
       </ScrollView>
     </View>

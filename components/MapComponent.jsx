@@ -1,14 +1,21 @@
 import React, { useState } from "react";
 import MapView, { Marker, Callout } from "react-native-maps";
 import { StyleSheet, View, Text } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
-function MapComponent() {
+function MapComponent({ benches }) {
   const [mapRegion, setMapRegion] = useState({
     latitude: 53.483959,
     longitude: -2.244644,
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   });
+  const navigation = useNavigation();
+
+  const navigateToBookSession = (benchId) => {
+    console.log("Book Session for ", benchId);
+    navigation.navigate("NewBooking");
+  }
   return (
     <View style={styles.container}>
       <MapView
@@ -16,13 +23,21 @@ function MapComponent() {
         region={mapRegion}
         provider={MapView.PROVIDER_GOOGLE}
       >
-        <Marker coordinate={mapRegion} title="Test bench">
-          <Callout tooltip>
-            <View style={styles.popUp}>
-              <Text> Hello there</Text>
-            </View>
-          </Callout>
-        </Marker>
+        {benches.map(bench => {
+          const benchCoords = {
+            latitude: Number(bench.latitude),
+            longitude: Number(bench.longitude),
+          }
+          return (
+            <Marker
+              coordinate={benchCoords}
+              title={bench.benchName}
+              description={bench.benchDescription}
+              key={bench.benchId}
+              onCalloutPress={() => navigateToBookSession(bench.benchId)}
+            ></Marker>
+          );
+        })}
       </MapView>
     </View>
   );
@@ -56,4 +71,11 @@ const styles = StyleSheet.create({
   },
 });
 
+
+{/* <Callout tooltip>
+  <View style={styles.popUp}>
+    <Text>Hello there</Text>
+    {console.log(benches, "IN MAP COMP")}
+  </View>
+</Callout>; */}
 export default MapComponent;
