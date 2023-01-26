@@ -11,21 +11,31 @@ import {
 import FormInput from "../components/FormInput";
 import FormButton from "../components/FormButton";
 import SocialButton from "../components/SocialButton";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../firebaseConfig";
+import isLoggedInContext from "../contexts/IsLoggedInContext";
 
 function SignUp({ navigation }) {
-  const [name, setUserName] = useState();
+  const [displayName, setDisplayName] = useState();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [repeatPassword, setRepeatPassword] = useState();
+  const { setIsLoggedIn } = useContext(isLoggedInContext);
   const handleSignUp = () => {
-    createUserWithEmailAndPassword(auth, email, password)
-    .then((userCreds) => {
-      console.log(userCreds);
-    })
-    .catch((err) => alert(err.message));
-  }
+    if (password !== repeatPassword) {
+      alert("Passwords must match");
+    } else {
+      createUserWithEmailAndPassword(auth, email, password)
+        .then(() => {
+          return updateProfile(auth.currentUser, { displayName: displayName });
+        })
+        .then(() => {
+          setIsLoggedIn(true);
+          navigation.navigate("Home");
+        })
+        .catch((err) => alert(err.message));
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -33,8 +43,8 @@ function SignUp({ navigation }) {
         <Text style={styles.text}>Sign Up </Text>
 
         <FormInput
-          labelValue={name}
-          onChangeText={(userName) => setUserName(userName)}
+          labelValue={displayName}
+          onChangeText={(userName) => setDisplayName(userName)}
           placeholderText="Name"
           iconType="user"
           keyboardType="text"

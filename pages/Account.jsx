@@ -1,5 +1,4 @@
-import { Navigation } from "@mui/icons-material";
-import React from "react";
+import React, { useContext } from "react";
 import {
   StyleSheet,
   SafeAreaView,
@@ -11,13 +10,13 @@ import {
   TouchableOpacity
 } from "react-native";
 import { auth } from "../firebaseConfig"
-import { useNavigation } from "@react-navigation/native";
+import isLoggedInContext from "../contexts/IsLoggedInContext";
 
-function Account() {
-
-  const navigation = useNavigation();
+function Account({ navigation }) {
+  const { setIsLoggedIn } = useContext(isLoggedInContext);
   const handleSignOut = () => {
     auth.signOut().then(() => {
+      setIsLoggedIn(false);
       navigation.navigate("Login");
     }).catch((err) => {console.log(err)});
   }

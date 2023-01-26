@@ -43,8 +43,7 @@ function Sessions() {
             paddingTop: 30,
           }}
         >
-    {auth.currentUser?.email}
-          Welcome back!
+          Welcome back, {auth.currentUser?.displayName}!
         </Text>
         <View
           style={{

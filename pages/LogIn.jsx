@@ -1,5 +1,4 @@
 import React, { useContext, useState, useEffect } from "react";
-import { useNavigation } from "@react-navigation/native";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebaseConfig";
 import {
@@ -14,6 +13,7 @@ import {
 import FormInput from "../components/FormInput";
 import FormButton from "../components/FormButton";
 import SocialButton from "../components/SocialButton";
+import isLoggedInContext from "../contexts/IsLoggedInContext";
 
 const handleLogin = (email, password) => {
   signInWithEmailAndPassword(auth, email, password).then((userCreds) => {
@@ -21,17 +21,20 @@ const handleLogin = (email, password) => {
     console.log(user.email);
     console.log(user.displayName);
   });
-}
+};
 
-function LogIn() {
+function LogIn({ navigation }) {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
-  const navigation = useNavigation();
+  const { setIsLoggedIn } = useContext(isLoggedInContext);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user) navigation.navigate("Home");
-    })
+      if (user) {
+        navigation.navigate("Home");
+        setIsLoggedIn(true);
+      }
+    });
     return unsubscribe;
   }, []);
   return (

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
   StyleSheet,
   View,
@@ -10,8 +10,11 @@ import {
   ScrollView,
 } from "react-native";
 import park from "../creativeAssets/bench.png";
+import { auth } from "../firebaseConfig";
+import isLoggedInContext from "../contexts/IsLoggedInContext";
 
 function HomePage({ navigation }) {
+  const {isLoggedIn, setIsLoggedIn} = useContext(isLoggedInContext);
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -23,9 +26,12 @@ function HomePage({ navigation }) {
             bench.
           </Text>
         </View>
+    
         <View style={styles.viewContainer}>
           <Image source={park} style={styles.picture} />
         </View>
+
+    {!isLoggedIn ? (
         <View style={styles.viewContainer}>
           <TouchableHighlight
             style={styles.button}
@@ -41,6 +47,8 @@ function HomePage({ navigation }) {
             <Text>Log In</Text>
           </TouchableHighlight>
         </View>
+    ) : null}
+
       </ScrollView>
     </SafeAreaView>
   );
