@@ -30,7 +30,7 @@ function LogIn() {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user) navigation.navigate("home");
+      if (user) navigation.navigate("Home");
     })
     return unsubscribe;
   }, []);

@@ -18,7 +18,7 @@ function Account() {
   const navigation = useNavigation();
   const handleSignOut = () => {
     auth.signOut().then(() => {
-      navigation.navigate("login");
+      navigation.navigate("Login");
     }).catch((err) => {console.log(err)});
   }
     return (

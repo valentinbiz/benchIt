@@ -10,8 +10,6 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { View } from "native-base";
 
-const Stack = createNativeStackNavigator();
-
 const App = () => {
   return (
     // <NavigationContainer>

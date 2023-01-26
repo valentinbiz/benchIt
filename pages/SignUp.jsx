@@ -11,12 +11,21 @@ import {
 import FormInput from "../components/FormInput";
 import FormButton from "../components/FormButton";
 import SocialButton from "../components/SocialButton";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebaseConfig";
 
 function SignUp({ navigation }) {
   const [name, setUserName] = useState();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [repeatPassword, setRepeatPassword] = useState();
+  const handleSignUp = () => {
+    createUserWithEmailAndPassword(auth, email, password)
+    .then((userCreds) => {
+      console.log(userCreds);
+    })
+    .catch((err) => alert(err.message));
+  }
 
   return (
     <View style={styles.container}>
@@ -57,7 +66,7 @@ function SignUp({ navigation }) {
           secureTextEntry={true}
         />
 
-        <FormButton buttonTitle="Sign up" onPress={() => {}} />
+        <FormButton buttonTitle="Sign up" onPress={() => handleSignUp()} />
 
         {Platform.OS === "android" ? (
           <View>
