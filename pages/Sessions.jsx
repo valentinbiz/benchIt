@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getDocs, collection } from "firebase/firestore";
-import  { db } from "../firebaseConfig";
+import  { db, auth } from "../firebaseConfig";
 import {
   View,
   Text,
@@ -43,7 +43,7 @@ function Sessions() {
             paddingTop: 30,
           }}
         >
-          Welcome back!
+          Welcome back, {auth.currentUser?.displayName}!
         </Text>
         <View
           style={{

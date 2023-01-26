@@ -9,10 +9,11 @@ import Navbar from "./pages/Navbar";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { View } from "native-base";
-
-const Stack = createNativeStackNavigator();
+import isLoggedInContext from "./contexts/IsLoggedInContext";
+import { useState } from "react";
 
 const App = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   return (
     // <NavigationContainer>
     //   <Stack.Navigator>
@@ -25,7 +26,9 @@ const App = () => {
     //     <Stack.Screen name="Schedule" component={Schedule} />
     //   </Stack.Navigator>
     // </NavigationContainer>
+    <isLoggedInContext.Provider value={{isLoggedIn, setIsLoggedIn}}>
     <Navbar></Navbar>
+</isLoggedInContext.Provider>
   );
 };
 

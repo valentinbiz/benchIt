@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   StyleSheet,
   SafeAreaView,
@@ -7,10 +7,19 @@ import {
   TextInput,
   TouchableHighlight,
   Alert,
+  TouchableOpacity
 } from "react-native";
+import { auth } from "../firebaseConfig"
+import isLoggedInContext from "../contexts/IsLoggedInContext";
 
-function Account() {
-
+function Account({ navigation }) {
+  const { setIsLoggedIn } = useContext(isLoggedInContext);
+  const handleSignOut = () => {
+    auth.signOut().then(() => {
+      setIsLoggedIn(false);
+      navigation.navigate("Login");
+    }).catch((err) => {console.log(err)});
+  }
     return (
       <SafeAreaView style={styles.container}>
         <View>
@@ -27,6 +36,9 @@ function Account() {
           >
             <Text>Start Session!</Text>
           </TouchableHighlight>
+      <TouchableHighlight style={styles.button} onPress={() => handleSignOut()}>
+      <Text>Sign Out</Text>
+      </TouchableHighlight>
         </View>
       </SafeAreaView>
     );
