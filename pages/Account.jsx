@@ -1,3 +1,4 @@
+import { Navigation } from "@mui/icons-material";
 import React from "react";
 import {
   StyleSheet,
@@ -7,10 +8,19 @@ import {
   TextInput,
   TouchableHighlight,
   Alert,
+  TouchableOpacity
 } from "react-native";
+import { auth } from "../firebaseConfig"
+import { useNavigation } from "@react-navigation/native";
 
 function Account() {
 
+  const navigation = useNavigation();
+  const handleSignOut = () => {
+    auth.signOut().then(() => {
+      navigation.navigate("login");
+    }).catch((err) => {console.log(err)});
+  }
     return (
       <SafeAreaView style={styles.container}>
         <View>
@@ -27,6 +37,9 @@ function Account() {
           >
             <Text>Start Session!</Text>
           </TouchableHighlight>
+      <TouchableHighlight style={styles.button} onPress={() => handleSignOut()}>
+      <Text>Sign Out</Text>
+      </TouchableHighlight>
         </View>
       </SafeAreaView>
     );

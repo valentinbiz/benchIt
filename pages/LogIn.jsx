@@ -1,4 +1,7 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
+import { useNavigation } from "@react-navigation/native";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebaseConfig";
 import {
   View,
   Text,
@@ -12,10 +15,25 @@ import FormInput from "../components/FormInput";
 import FormButton from "../components/FormButton";
 import SocialButton from "../components/SocialButton";
 
-function LogIn({ navigation }) {
+const handleLogin = (email, password) => {
+  signInWithEmailAndPassword(auth, email, password).then((userCreds) => {
+    const user = userCreds.user;
+    console.log(user.email);
+    console.log(user.displayName);
+  });
+}
+
+function LogIn() {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+  const navigation = useNavigation();
 
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) navigation.navigate("home");
+    })
+    return unsubscribe;
+  }, []);
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.container}>
@@ -41,7 +59,7 @@ function LogIn({ navigation }) {
 
         <FormButton
           buttonTitle="Log in"
-          onPress={() => login(email, password)}
+          onPress={() => handleLogin(email, password)}
         />
 
         <TouchableOpacity style={styles.forgotButton} onPress={() => {}}>
