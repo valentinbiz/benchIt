@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
+import * as Location from "expo-location";
 import { getDocs, collection } from "firebase/firestore";
-import  { db, auth } from "../firebaseConfig";
+import { db, auth } from "../firebaseConfig";
 import {
   View,
   Text,
@@ -9,6 +10,9 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
+import { getGeoPosition, getCurrConditions } from "../utils/api";
+
+// azevzStu0Se4qcapDPLKjNCs5JVONnVL
 
 import BenchSessions from "../components/BenchSessions";
 import MapComponent from "../components/MapComponent";
@@ -16,22 +20,56 @@ import MapComponent from "../components/MapComponent";
 function Sessions() {
   const [viewType, setViewType] = useState("List");
   const [clickedButtons, setClickedButtons] = useState(false);
-  const [ benches, setBenches ] = useState([]);
+  const [benches, setBenches] = useState([]);
+  const [currLocation, setCurrLocation] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
 
   const getBenches = () => {
     const docRefCollection = collection(db, "benches");
     getDocs(docRefCollection)
-      .then(documents => {
-        const benchesArray = []
-        documents.forEach(doc => benchesArray.push(doc.data()))
+      .then((documents) => {
+        const benchesArray = [];
+        documents.forEach((doc) => benchesArray.push(doc.data()));
         setBenches(benchesArray);
       })
-      .catch(error => console.log(error));
-  }
+      .catch((error) => console.log(error));
+  };
 
   useEffect(() => {
-    getBenches()
+    getBenches();
+
+    getCurrConditions().then((result) => {
+      console.log(result);
+    });
+    getGeoPosition()
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((err) => {
+        console.log(err, "<< ERROR");
+      });
   }, []);
+
+  async function getCurrLocation() {
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== "granted") {
+      setErrorMsg("Permission to access location was denied");
+      return;
+    }
+
+    let location = await Location.getCurrentPositionAsync({});
+    setCurrLocation([location.coords.latitude, location.coords.longitude]);
+  }
+  useEffect(() => {
+    getCurrLocation();
+  }, []);
+
+  let text = "Waiting..";
+  if (errorMsg) {
+    text = errorMsg;
+  } else if (currLocation) {
+    text = JSON.stringify(currLocation);
+  }
 
   return (
     <View>
@@ -146,6 +184,7 @@ function Sessions() {
           }}
         >
           Available sessions
+          {text}
         </Text>
         {viewType === "List" ? (
           <ScrollView style={{ height: 300 }}>
@@ -177,7 +216,7 @@ function Sessions() {
             </View>
           </ScrollView>
         ) : (
-          <MapComponent benches={benches}/>
+          <MapComponent benches={benches} />
         )}
       </ScrollView>
     </View>
