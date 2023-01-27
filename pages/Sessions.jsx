@@ -8,33 +8,12 @@ import {
   ScrollView,
   TouchableOpacity,
   Image,
+  StyleSheet
 } from "react-native";
-import axios from "axios";
 import * as Location from "expo-location";
 import BenchSessions from "../components/BenchSessions";
 import MapComponent from "../components/MapComponent";
-
-
-/* ====================== API functions ====================== */
-const api = axios.create({ baseUrl: "" });
-
-export const getGeoPosition = () => {
-  const params = { params: { apikey: "azevzStu0Se4qcapDPLKjNCs5JVONnVL", q: "53.5,-2.24" } };
-  return api.get(
-    "http://dataservice.accuweather.com/locations/v1/cities/geoposition/search",
-    params
-  );
-};
-
-export const getCurrConditions = (locationKey) => {
-  const params = { params: { apikey: "azevzStu0Se4qcapDPLKjNCs5JVONnVL", details: true } };
-  return axios.get(
-    `http://dataservice.accuweather.com/currentconditions/v1/${locationKey}`,
-    params
-  );
-};
-
-
+import ForecastCard from "../components/ForecastCard"
 
 function Sessions() {
   const [viewType, setViewType] = useState("List");
@@ -42,10 +21,7 @@ function Sessions() {
   const [benches, setBenches] = useState([]);
   const [currLocation, setCurrLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
-  const [weatherCondition, setWeatherCondition] = useState(null);
-  const [temp, setTemp] = useState(null);
-  const [tempFeel, setTempFeel] = useState(null);
-  const [cityName, setCityName] = useState(null);
+  
 
   const getBenches = () => {
     const docRefCollection = collection(db, "benches");
@@ -60,17 +36,6 @@ function Sessions() {
 
   useEffect(() => {
     getBenches();
-    getGeoPosition()
-      .then((result) => {
-        setCityName(result.data.EnglishName);
-        return getCurrConditions(result.data.Key);
-      })
-      .then((result) => {
-        setWeatherCondition(result.data[0].WeatherText.toLowerCase());
-        setTemp(result.data[0].Temperature.Metric.Value);
-        setTempFeel(result.data[0].RealFeelTemperature.Metric.Value);
-      })
-      .catch((err) => console.log(err, "<< ERROR"));
   }, []);
 
   async function getCurrLocation() {
@@ -94,127 +59,46 @@ function Sessions() {
   return (
     <View>
       <ScrollView>
-        <Text
-          style={{
-            paddingHorizontal: 20,
-            fontSize: 30,
-            paddingTop: 30,
-          }}
-        >
-          Welcome back, {auth.currentUser?.displayName}!
-        </Text>
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            backgroundColor: "#FFF",
-            padding: 10,
-            borderRadius: 12,
-            marginHorizontal: 20,
-            marginTop: 20,
-          }}
-        >
+        <Text style={styles.GreetingMessage}> Welcome back, {auth.currentUser?.displayName}! </Text>
+        <View style={styles.SearchBar}>
           <TextInput
             placeholder="Search for sessions!"
             placeholderTextColor="#345c74"
-            style={{
-              fontSize: 12,
-              width: 280,
-              paddingHorizontal: 12,
-            }}
+            style={styles.SearchInput}
           />
           <Image
             source={require("../creativeAssets/sear.png")}
-            style={{ height: 14, width: 14 }}
+            style={styles.SearchIcon}
           />
         </View>
-        <View
-          style={{
-            flexDirection: "row",
-            backgroundColor: "#808080",
-            marginTop: 20,
-            marginHorizontal: 20,
-            borderRadius: 30,
-            paddingVertical: 20,
-            paddingLeft: 30,
-          }}
-        >
+        <View style={styles.ViewToggleCard}>
           <View>
-            <Text style={{ fontSize: 20, width: 200 }}>
+            <Text style={styles.ViewToggleCard__header}>
               Check out these available bench sessions!
             </Text>
-            <View style={{ flexDirection: "row", height: 35 }}>
+            <View style={styles.ViewToggleCard__direction}>
               <TouchableOpacity
                 onPress={() => setViewType("List")}
-                style={{
-                  flexDirection: "row",
-                  backgroundColor: "#f58084",
-                  alignItems: "center",
-                  marginTop: 15,
-                  width: 66,
-                  borderRadius: 14,
-                  paddingHorizontal: 10,
-                }}
+                style={styles.ViewToggleButton}
               >
-                <Text
-                  style={{
-                    color: "#FFF",
-                    fontSize: 12,
-                  }}
-                >
-                  List
-                </Text>
+                <Text style={styles.ViewToggleText}>List</Text>
               </TouchableOpacity>
-              <Text style={{ marginTop: 15, fontSize: 20 }}> / </Text>
+              <Text style={styles.ViewToggleText__separator}> / </Text>
               <TouchableOpacity
                 onPress={() => setViewType("Map")}
-                style={{
-                  flexDirection: "row",
-                  backgroundColor: "#f58084",
-                  alignItems: "center",
-                  marginTop: 15,
-                  width: 70,
-                  borderRadius: 14,
-                  paddingHorizontal: 10,
-                }}
+                style={styles.ViewToggleButton}
               >
-                <Text
-                  style={{
-                    color: "#FFF",
-                    fontSize: 12,
-                  }}
-                >
-                  Map
-                </Text>
+                <Text style={styles.ViewToggleText}> Map </Text>
               </TouchableOpacity>
             </View>
           </View>
           <Image
             source={require("../creativeAssets/undraw.png")}
-            style={{ marginLeft: -45, marginTop: 35 }}
+            style={styles.ViewToggleImage}
           />
         </View>
-        <Text>
-          {" "}
-          Current Condition: The weather in {cityName} is {weatherCondition}.
-          The temperature is {temp}°C
-          {temp !== tempFeel ? (
-            <Text>but it really feels like {tempFeel}°C</Text>
-          ) : null}
-          . Perfect for a bench session.
-        </Text>
-        <Text
-          style={{
-            color: "#345c74",
-            fontSize: 20,
-            paddingHorizontal: 20,
-            marginTop: 20,
-            marginBottom: 10,
-          }}
-        >
-          Available sessions
-          {/* {text} current location */}
-        </Text>
+        <ForecastCard></ForecastCard>
+        <Text style={styles.SessionsHeader} > Available sessions {/* {text} current location */}</Text>
         {viewType === "List" ? (
           <ScrollView style={{ height: 300 }}>
             <View>
@@ -251,5 +135,76 @@ function Sessions() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  GreetingMessage: {
+    paddingHorizontal: 20,
+    fontSize: 30,
+    paddingTop: 30,
+  },
+  SearchBar: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#FFF",
+    padding: 10,
+    borderRadius: 10,
+    marginHorizontal: 20,
+    marginTop: 20,
+  },
+  SearchInput: {
+    fontSize: 12,
+    width: 280,
+    paddingHorizontal: 12,
+  },
+  SearchIcon: {
+    height: 14,
+    width: 14,
+  },
+  ViewToggleCard: {
+    flexDirection: "row",
+    backgroundColor: "#808080",
+    marginTop: 20,
+    marginHorizontal: 20,
+    borderRadius: 30,
+    paddingVertical: 20,
+    paddingLeft: 30,
+  },
+  ViewToggleButton: {
+    flexDirection: "row",
+    backgroundColor: "#f58084",
+    alignItems: "center",
+    marginTop: 15,
+    width: 66,
+    borderRadius: 14,
+    paddingHorizontal: 10,
+  },
+  ViewToggleText: {
+    color: "#FFF",
+    fontSize: 12,
+  },
+  ViewToggleCard__direction: { 
+    flexDirection: "row", 
+    height: 35 
+  },
+  ViewToggleCard__header: { 
+    fontSize: 20, 
+    width: 200 
+  },
+  ViewToggleText__separator: {
+    marginTop: 15,
+    fontSize: 20,
+  },
+  ViewToggleImage: { 
+    marginLeft: -45, 
+    marginTop: 35 
+  },
+  SessionsHeader: {
+    color: "#345c74",
+    fontSize: 20,
+    paddingHorizontal: 20,
+    marginTop: 20,
+    marginBottom: 10,
+  },
+});
 
 export default Sessions;
