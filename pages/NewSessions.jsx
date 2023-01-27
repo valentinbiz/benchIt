@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { getDocs, collection } from "firebase/firestore";
-import { db, auth } from "../firebaseConfig";
 import {
   View,
   Text,
@@ -9,45 +7,21 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
-
+import { getDocs, collection } from "firebase/firestore";
+import { db, auth } from "../firebaseConfig";
 import BenchSessions from "../components/BenchSessions";
 import FormButton from "../components/FormButton";
 import MapComponent from "../components/MapComponent";
 
-function Sessions({ navigation }) {
+function NewSessions({ navigation }) {
   const [viewType, setViewType] = useState("List");
   const [clickedBench, setClickedBench] = useState(false);
-  const [sessions, setSessions] = useState("12th January, 15:00");
-  const [testBenches, setTestBenches] = useState([
-    {
-      benchId: 1,
-      img: "../creativeAssets/bench.png",
-      title: "Serenity Bench",
-      address: "12 Oxford Road, Manchester",
-      bg: "#8888",
-    },
-    {
-      benchId: 2,
-      img: "../creativeAssets/bench.png",
-      title: "Serenity Bench",
-      address: "1 Oxford Road, Manchester",
-      bg: "white",
-    },
-    {
-      benchId: 3,
-      img: "../creativeAssets/bench.png",
-      title: "Serenity Bench",
-      address: "1dd2 Oxford Road, Manchester",
-      bg: "salmon",
-    },
-    {
-      benchId: 4,
-      img: "../creativeAssets/bench.png",
-      title: "Serenity Bench",
-      address: "1a2 Oxford Road, Manchester",
-      bg: "black",
-    },
-  ]);
+
+  const bookingSelect = (target) => {
+    setClickedBench(target);
+    console.log(clickedBench);
+  };
+
   const [benches, setBenches] = useState([]);
 
   const getBenches = () => {
@@ -64,15 +38,8 @@ function Sessions({ navigation }) {
   useEffect(() => {
     getBenches();
   }, []);
-
-  const bookingSelect = (target) => {
-    setClickedBench(target);
-  };
-
-  console.log(benches);
-
   return (
-    <View>
+    <>
       <ScrollView nestedScrollEnabled={true}>
         <Text
           style={{
@@ -81,7 +48,7 @@ function Sessions({ navigation }) {
             paddingTop: 30,
           }}
         >
-          Welcome back, {auth.currentUser?.displayName}!
+          Create your own booking
         </Text>
         <View
           style={{
@@ -95,7 +62,7 @@ function Sessions({ navigation }) {
           }}
         >
           <TextInput
-            placeholder="Search for sessions!"
+            placeholder="Search for benches!"
             placeholderTextColor="#345c74"
             style={{
               fontSize: 12,
@@ -114,14 +81,14 @@ function Sessions({ navigation }) {
             backgroundColor: "#808080",
             marginTop: 20,
             marginHorizontal: 20,
-            borderRadius: 30,
+            borderRadius: 15,
             paddingVertical: 20,
             paddingLeft: 30,
           }}
         >
           <View>
             <Text style={{ fontSize: 20, width: 200 }}>
-              Check out these available bench sessions!
+              Select a bench you would like to book
             </Text>
             <View style={{ flexDirection: "row", height: 35 }}>
               <TouchableOpacity
@@ -171,7 +138,7 @@ function Sessions({ navigation }) {
           </View>
           <Image
             source={require("../creativeAssets/undraw.png")}
-            style={{ marginLeft: -5, marginTop: 5 }}
+            style={{ marginLeft: -5, marginTop: 0 }}
           />
         </View>
         <Text
@@ -183,29 +150,30 @@ function Sessions({ navigation }) {
             marginBottom: 10,
           }}
         >
-          Available sessions
+          Available benches
         </Text>
         {viewType === "List" ? (
-          <ScrollView style={{ height: 300 }} nestedScrollEnabled={true}>
-            {benches.map((bench) => {
-              return (
-                <>
-                  <BenchSessions
-                    key={bench.benchId}
-                    img={require("../creativeAssets/bench.png")}
-                    title={bench.benchName}
-                    address={bench.benchAddress}
-                    bg={"#fcfef7"}
-                    behaviour={bookingSelect}
-                    sessionTime={sessions}
-                    target={bench}
-                  />
-                </>
-              );
-            })}
-          </ScrollView>
+          <View>
+            <ScrollView style={{ height: 300 }} nestedScrollEnabled={true}>
+              {benches.map((bench) => {
+                return (
+                  <>
+                    <BenchSessions
+                      key={bench.benchId}
+                      img={require("../creativeAssets/bench.png")}
+                      title={bench.benchName}
+                      address={bench.benchAddress}
+                      bg={"#fcfef7"}
+                      behaviour={bookingSelect}
+                      target={bench}
+                    />
+                  </>
+                );
+              })}
+            </ScrollView>
+          </View>
         ) : (
-          <MapComponent benches={benches} />
+          <MapComponent />
         )}
         <View style={{ paddingHorizontal: 20, alignItems: "center" }}>
           {clickedBench ? (
@@ -220,19 +188,9 @@ function Sessions({ navigation }) {
             </>
           ) : null}
         </View>
-        <View style={{ paddingHorizontal: 20, alignItems: "center" }}>
-          <FormButton
-            buttonTitle={"Create new session"}
-            onPress={() => {
-              navigation.navigate("NewSessions");
-            }}
-          />
-        </View>
       </ScrollView>
-    </View>
+    </>
   );
 }
 
-export default Sessions;
-
-// {"benchCity": "Liverpool", "benchDescription": "Mysterious bench set aside from Prince Rupert's Tower", "benchId": 10, "benchName": "Whispering Willow Bench", "benchPicture": "https://images.unsplash.com/photo-1573079883023-62fc208b9d75?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80", "latitude": "53.418877980620884", "longitude": "-2.970565414361296"}
+export default NewSessions;

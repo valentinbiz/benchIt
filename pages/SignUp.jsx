@@ -3,7 +3,6 @@ import {
   View,
   Text,
   TouchableOpacity,
-  Image,
   Platform,
   StyleSheet,
   ScrollView,
@@ -13,7 +12,7 @@ import FormButton from "../components/FormButton";
 import SocialButton from "../components/SocialButton";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../firebaseConfig";
-import isLoggedInContext from "../contexts/IsLoggedInContext";
+import { isLoggedInContext, user } from "../contexts/IsLoggedInContext";
 
 function SignUp({ navigation }) {
   const [displayName, setDisplayName] = useState();
@@ -21,6 +20,8 @@ function SignUp({ navigation }) {
   const [password, setPassword] = useState();
   const [repeatPassword, setRepeatPassword] = useState();
   const { setIsLoggedIn } = useContext(isLoggedInContext);
+  const { setUser } = useContext(user);
+
   const handleSignUp = () => {
     if (password !== repeatPassword) {
       alert("Passwords must match");
@@ -31,6 +32,7 @@ function SignUp({ navigation }) {
         })
         .then(() => {
           setIsLoggedIn(true);
+          setUser(auth.currentUser.displayName);
           navigation.navigate("Home");
         })
         .catch((err) => alert(err.message));

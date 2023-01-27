@@ -1,20 +1,21 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useContext } from "react";
 import {
   StyleSheet,
   View,
   SafeAreaView,
   Text,
-  Alert,
   TouchableHighlight,
   Image,
   ScrollView,
 } from "react-native";
+import userContext from "../contexts/UserContext";
 import park from "../creativeAssets/bench.png";
-import { auth } from "../firebaseConfig";
 import isLoggedInContext from "../contexts/IsLoggedInContext";
 
 function HomePage({ navigation }) {
-  const {isLoggedIn, setIsLoggedIn} = useContext(isLoggedInContext);
+  const { isLoggedIn, setIsLoggedIn } = useContext(isLoggedInContext);
+  const { user, setUser } = useContext(userContext);
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -26,29 +27,32 @@ function HomePage({ navigation }) {
             bench.
           </Text>
         </View>
-    
+
         <View style={styles.viewContainer}>
           <Image source={park} style={styles.picture} />
         </View>
 
-    {!isLoggedIn ? (
-        <View style={styles.viewContainer}>
-          <TouchableHighlight
-            style={styles.button}
-            onPress={() => navigation.navigate("SignUp")}
-          >
-            <Text>Sign Up</Text>
-          </TouchableHighlight>
-          <Text>or</Text>
-          <TouchableHighlight
-            style={styles.button}
-            onPress={() => navigation.navigate("Login")}
-          >
-            <Text>Log In</Text>
-          </TouchableHighlight>
-        </View>
-    ) : null}
-
+        {!isLoggedIn ? (
+          <View style={styles.viewContainer}>
+            <TouchableHighlight
+              style={styles.button}
+              onPress={() => navigation.navigate("SignUp")}
+            >
+              <Text>Sign Up</Text>
+            </TouchableHighlight>
+            <Text>or</Text>
+            <TouchableHighlight
+              style={styles.button}
+              onPress={() => navigation.navigate("Login")}
+            >
+              <Text>Log In</Text>
+            </TouchableHighlight>
+          </View>
+        ) : (
+          <View style={styles.viewContainer}>
+            <Text> Hello there, {user}</Text>
+          </View>
+        )}
       </ScrollView>
     </SafeAreaView>
   );

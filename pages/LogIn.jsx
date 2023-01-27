@@ -5,7 +5,6 @@ import {
   View,
   Text,
   TouchableOpacity,
-  Image,
   Platform,
   StyleSheet,
   ScrollView,
@@ -14,6 +13,7 @@ import FormInput from "../components/FormInput";
 import FormButton from "../components/FormButton";
 import SocialButton from "../components/SocialButton";
 import isLoggedInContext from "../contexts/IsLoggedInContext";
+import userContext from "../contexts/UserContext";
 
 const handleLogin = (email, password) => {
   signInWithEmailAndPassword(auth, email, password).then((userCreds) => {
@@ -27,12 +27,14 @@ function LogIn({ navigation }) {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const { setIsLoggedIn } = useContext(isLoggedInContext);
+  const { setUser } = useContext(userContext);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
         navigation.navigate("Home");
         setIsLoggedIn(true);
+        setUser(auth.currentUser.displayName);
       }
     });
     return unsubscribe;

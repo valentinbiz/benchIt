@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import MapView, { Marker, Callout } from "react-native-maps";
-import { StyleSheet, View, Text } from "react-native";
+import MapView, { Marker } from "react-native-maps";
+import { StyleSheet, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 function MapComponent({ benches }) {
@@ -15,7 +15,7 @@ function MapComponent({ benches }) {
   const navigateToBookSession = (benchId) => {
     console.log("Book Session for ", benchId);
     navigation.navigate("NewBooking");
-  }
+  };
   return (
     <View style={styles.container}>
       <MapView
@@ -23,11 +23,11 @@ function MapComponent({ benches }) {
         region={mapRegion}
         provider={MapView.PROVIDER_GOOGLE}
       >
-        {benches.map(bench => {
+        {benches.map((bench) => {
           const benchCoords = {
             latitude: Number(bench.latitude),
             longitude: Number(bench.longitude),
-          }
+          };
           return (
             <Marker
               coordinate={benchCoords}

@@ -15,9 +15,9 @@ const FormInput = ({
     <View style={styles.inputContainer}>
       <View style={styles.iconStyle}>
         {iconPack === "AntDesign" ? (
-          <AntDesign name={iconType} size={25} color="#666" />
+          <AntDesign name={iconType} size={20} color="#666" />
         ) : (
-          <FontAwesome name={iconType} size={25} color="#666" />
+          <FontAwesome name={iconType} size={20} color="#666" />
         )}
       </View>
       <TextInput
