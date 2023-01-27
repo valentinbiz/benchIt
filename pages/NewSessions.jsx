@@ -21,24 +21,28 @@ function NewSessions({ navigation }) {
   };
   const [benches, setBenches] = useState([
     {
+      benchId: 1,
       img: "../creativeAssets/bench.png",
       title: "Serenity Bench",
       address: "12 Oxford Road, Manchester",
       bg: "#8888",
     },
     {
+      benchId: 2,
       img: "../creativeAssets/bench.png",
       title: "Serenity Bench",
       address: "1 Oxford Road, Manchester",
       bg: "white",
     },
     {
+      benchId: 3,
       img: "../creativeAssets/bench.png",
       title: "Serenity Bench",
       address: "1dd2 Oxford Road, Manchester",
       bg: "salmon",
     },
     {
+      benchId: 4,
       img: "../creativeAssets/bench.png",
       title: "Serenity Bench",
       address: "1a2 Oxford Road, Manchester",
@@ -166,7 +170,7 @@ function NewSessions({ navigation }) {
                 return (
                   <>
                     <BenchSessions
-                      key={bench.address}
+                      key={bench.benchId}
                       img={require("../creativeAssets/bench.png")}
                       title={bench.title}
                       address={bench.address}

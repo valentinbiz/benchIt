@@ -8,12 +8,10 @@ import {
   Modal,
   Image,
 } from "react-native";
-import CalendarAgenda from "../components/Calendar";
 import FormButton from "../components/FormButton";
 
 import { Agenda } from "react-native-calendars";
 import { useState } from "react";
-import { padding } from "@mui/system";
 
 export default function NewBooking() {
   const [modalVisible, setModalVisible] = useState(false);
@@ -62,14 +60,50 @@ export default function NewBooking() {
                     <Agenda
                       items={{
                         "2022-12-01": [
-                          { name: "Cycling: 12:00", time: "12:00" },
-                          { name: "Walking" },
-                          { name: "Running" },
+                          {
+                            name: "Cycling",
+                            time: "12:00",
+                            duration: "1 hour",
+                          },
+                          {
+                            name: "Cycling",
+                            time: "12:00",
+                            duration: "1 hour",
+                          },
+                          {
+                            name: "Cycling",
+                            time: "12:00",
+                            duration: "1 hour",
+                          },
                         ],
-                        "2022-12-02": [{ name: "Writing" }],
-                        "2022-12-03": [{ name: "Writing" }],
-                        "2022-12-04": [{ name: "Writing" }],
-                        "2022-12-05": [{ name: "Writing" }],
+                        "2022-12-02": [
+                          {
+                            name: "Cycling",
+                            time: "12:00",
+                            duration: "1 hour",
+                          },
+                        ],
+                        "2022-12-03": [
+                          {
+                            name: "Cycling:",
+                            time: "12:00",
+                            duration: "1 hour",
+                          },
+                        ],
+                        "2022-12-04": [
+                          {
+                            name: "Cycling",
+                            time: "12:00",
+                            duration: "1 hour",
+                          },
+                        ],
+                        "2022-12-05": [
+                          {
+                            name: "Cycling",
+                            time: "12:00",
+                            duration: "1 hour",
+                          },
+                        ],
                       }}
                       renderItem={(item, isFirst) => (
                         <TouchableOpacity style={styles.item}>
@@ -95,15 +129,17 @@ export default function NewBooking() {
                       selected={"2022-12-05"}
                     />
                   </View>
-                  {/* <Pressable
-                    style={[styles.button, styles.buttonClose]}
-                    onPress={() => setModalVisible(!modalVisible)}
-                  >
-                    <Text style={styles.textStyle}>Hide Modal</Text>
-                  </Pressable> */}
                 </View>
               </View>
             </Modal>
+            {sessionData ? (
+              <View style={{ marginTop: 200 }}>
+                <Text>Session details: </Text>
+                <Text> Activity: {sessionData.name}</Text>
+                <Text> Time: {sessionData.time}</Text>
+                <Text> Duration: {sessionData.duration}</Text>
+              </View>
+            ) : null}
           </View>
           <Pressable
             style={[styles.button, styles.buttonOpen]}
@@ -111,9 +147,10 @@ export default function NewBooking() {
           >
             <Text style={styles.textStyle}>Select an available session</Text>
           </Pressable>
-          <FormButton buttonTitle="Book this session" />
+          <View style={{ paddingHorizontal: 20, alignItems: "center" }}>
+            <FormButton buttonTitle="Book this session" />
+          </View>
         </View>
-        <FormButton buttonTitle={"Continue"} />
       </View>
     </>
   );

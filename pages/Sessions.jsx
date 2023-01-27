@@ -1,4 +1,4 @@
-import React, { useState, useContext} from "react";
+import React, { useState, useContext } from "react";
 import {
   View,
   Text,
@@ -12,15 +12,49 @@ import FormButton from "../components/FormButton";
 import MapComponent from "../components/MapComponent";
 import { UserContext } from "../components/UserContext";
 
-
-function Sessions() {
+function Sessions({ navigation }) {
   const [viewType, setViewType] = useState("List");
-  const [clickedButtons, setClickedButtons] = useState(false);
-  const msg = useContext(UserContext)
+  const [clickedBench, setClickedBench] = useState(false);
+  const [benches, setBenches] = useState([
+    {
+      benchId: 1,
+      img: "../creativeAssets/bench.png",
+      title: "Serenity Bench",
+      address: "12 Oxford Road, Manchester",
+      bg: "#8888",
+    },
+    {
+      benchId: 2,
+      img: "../creativeAssets/bench.png",
+      title: "Serenity Bench",
+      address: "1 Oxford Road, Manchester",
+      bg: "white",
+    },
+    {
+      benchId: 3,
+      img: "../creativeAssets/bench.png",
+      title: "Serenity Bench",
+      address: "1dd2 Oxford Road, Manchester",
+      bg: "salmon",
+    },
+    {
+      benchId: 4,
+      img: "../creativeAssets/bench.png",
+      title: "Serenity Bench",
+      address: "1a2 Oxford Road, Manchester",
+      bg: "black",
+    },
+  ]);
+  const msg = useContext(UserContext);
+
+  const bookingSelect = (target) => {
+    setClickedBench(target);
+    console.log(clickedBench);
+  };
 
   return (
     <View>
-      <ScrollView>
+      <ScrollView nestedScrollEnabled={true}>
         <Text
           style={{
             paddingHorizontal: 20,
@@ -118,7 +152,7 @@ function Sessions() {
           </View>
           <Image
             source={require("../creativeAssets/undraw.png")}
-            style={{ marginLeft: -45, marginTop: 35 }}
+            style={{ marginLeft: -5, marginTop: 5 }}
           />
         </View>
         <Text
@@ -133,39 +167,48 @@ function Sessions() {
           Available sessions
         </Text>
         {viewType === "List" ? (
-          <ScrollView style={{ height: 300 }}>
-            <View>
-              <BenchSessions
-                img={require("../creativeAssets/bench.png")}
-                title="Serenity Bench"
-                address="12 Oxford Road, Manchester"
-                bg="#8888"
-              />
-              <BenchSessions
-                img={require("../creativeAssets/bench.png")}
-                title="Serenity Bench"
-                address="12 Oxford Road, Manchester"
-                bg="#8888"
-              />
-              <BenchSessions
-                img={require("../creativeAssets/bench.png")}
-                title="Serenity Bench"
-                address="12 Oxford Road, Manchester"
-                bg="#8888"
-              />
-              <BenchSessions
-                img={require("../creativeAssets/bench.png")}
-                title="Serenity Bench"
-                address="12 Oxford Road, Manchester"
-                bg="#8888"
-              />
-            </View>
+          <ScrollView style={{ height: 300 }} nestedScrollEnabled={true}>
+            {benches.map((bench) => {
+              return (
+                <>
+                  <BenchSessions
+                    key={bench.benchId}
+                    img={require("../creativeAssets/bench.png")}
+                    title={bench.title}
+                    address={bench.address}
+                    bg={bench.bg}
+                    behaviour={bookingSelect}
+                    target={bench}
+                  />
+                </>
+              );
+            })}
           </ScrollView>
         ) : (
           <MapComponent />
         )}
+        <View style={{ paddingHorizontal: 20, alignItems: "center" }}>
+          {clickedBench ? (
+            <>
+              <Text> You have picked {clickedBench.title}</Text>
+              <FormButton
+                buttonTitle={"Continue"}
+                onPress={() => {
+                  navigation.navigate("NewBooking");
+                }}
+              />
+            </>
+          ) : null}
+        </View>
+        <View style={{ paddingHorizontal: 20, alignItems: "center" }}>
+          <FormButton
+            buttonTitle={"Create new session"}
+            onPress={() => {
+              navigation.navigate("NewSessions");
+            }}
+          />
+        </View>
       </ScrollView>
-      <FormButton />
     </View>
   );
 }

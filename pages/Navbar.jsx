@@ -22,7 +22,7 @@ const home = "Home";
 const login = "Login";
 const signUp = "SignUp";
 const account = "Account";
-const accountSettings = "AccountSettings"
+const accountSettings = "AccountSettings";
 const newBooking = "NewBooking";
 const newSessions = "NewSessions";
 const sessions = "Sessions";
@@ -30,50 +30,43 @@ const schedule = "Schedule";
 const benchUpload = "BenchUpload";
 const camera = "Camera";
 
-
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 const Navbar = () => {
   return (
+    <Tab.Navigator
+      initialRouteName={home}
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName;
+          let routeName = route.name;
+          if (routeName === home) {
+            iconName = focused ? "home" : "home-outline";
+          } else if (routeName === login) {
+            iconName = focused ? "list-sharp" : "list-outline";
+          } else if (routeName === account) {
+            iconName = focused ? "person" : "person-outline";
+          } else if (routeName === signUp) {
+            iconName = focused ? "person-add" : "person-add-outline";
+          } else if (routeName === sessions) {
+            iconName = focused ? "person" : "person-outline";
+          } else if (routeName === schedule) {
+            iconName = focused ? "alarm" : "alarm-outline";
+          } else if (routeName === benchUpload) {
+            iconName = focused ? "add" : "add-outline";
+          }
 
-      <Tab.Navigator
-        initialRouteName={home}
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
-            let iconName;
-            let routeName = route.name;
-            if (routeName === home) {
-              iconName = focused ? "home" : "home-outline";
-            } else if (routeName === login) {
-              iconName = focused ? "list-sharp" : "list-outline";
-            } else if (routeName === account) {
-              iconName = focused ? "person" : "person-outline";
-            } else if (routeName === signUp) {
-              iconName = focused ? "person-add" : "person-add-outline";
-            } else if (routeName === sessions) {
-              iconName = focused ? "person" : "person-outline";
-            } else if (routeName === schedule) {
-              iconName = focused ? "alarm" : "alarm-outline";
-            } else if (routeName === benchUpload) {
-              iconName = focused ? "add" : "add-outline";
-            }
-
-            return <Ionicons name={iconName} size={size} color={"green"} />;
-          },
-        })}
-      >
-        <Tab.Screen name={home} component={HomePage}></Tab.Screen>
-        <Tab.Screen name={login} component={LogIn}></Tab.Screen>
-        <Tab.Screen name={account} component={Account}></Tab.Screen>
-        <Tab.Screen name={newSessions} component={NewSessions}></Tab.Screen>
-        <Tab.Screen name={newBooking} component={NewBooking}></Tab.Screen>
-        <Tab.Screen name={sessions} component={Sessions}></Tab.Screen>
-        <Tab.Screen name={signUp} component={SignUp}></Tab.Screen>
-        <Tab.Screen name={schedule} component={Schedule}></Tab.Screen>
-        <Tab.Screen name={benchUpload} component={BenchUpload}></Tab.Screen>
-        <Tab.Screen name={camera} component={BenchImageCapture}></Tab.Screen>
-      </Tab.Navigator>
+          return <Ionicons name={iconName} size={size} color={"green"} />;
+        },
+      })}
+    >
+      <Tab.Screen name={home} component={HomePage}></Tab.Screen>
+      <Tab.Screen name={sessions} component={Sessions}></Tab.Screen>
+      <Tab.Screen name={benchUpload} component={BenchUpload}></Tab.Screen>
+      <Tab.Screen name={schedule} component={Schedule}></Tab.Screen>
+      <Tab.Screen name={account} component={Account}></Tab.Screen>
+    </Tab.Navigator>
   );
 };
 
