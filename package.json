@@ -19,6 +19,7 @@
     "@react-navigation/native": "^6.1.2",
     "@react-navigation/native-stack": "^6.9.8",
     "axios": "^1.2.5",
+    "cors": "^2.8.5",
     "expo": "~47.0.12",
     "expo-camera": "~13.1.0",
     "expo-location": "~15.0.1",

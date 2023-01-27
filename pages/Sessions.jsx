@@ -10,12 +10,38 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
-import { getGeoPosition, getCurrConditions } from "../utils/api";
+import axios from "axios";
+import BenchSessions from "../components/BenchSessions";
+import MapComponent from "../components/MapComponent";
 
 // azevzStu0Se4qcapDPLKjNCs5JVONnVL
 
-import BenchSessions from "../components/BenchSessions";
-import MapComponent from "../components/MapComponent";
+const api = axios.create({
+  baseUrl: "http://dataservice.accuweather.com",
+});
+
+export const getGeoPosition = () => {
+  const params = {
+    params: { apikey: "azevzStu0Se4qcapDPLKjNCs5JVONnVL", q: "53.5,-2.24" },
+  };
+
+  return api.get(
+    "http://dataservice.accuweather.com/locations/v1/cities/geoposition/search",
+    params
+  );
+};
+
+export const getCurrConditions = (locationKey) => {
+  return axios.get(
+    `http://dataservice.accuweather.com/currentconditions/v1/${locationKey}`,
+    {
+      params: {
+        apikey: "azevzStu0Se4qcapDPLKjNCs5JVONnVL",
+        details: true,
+      },
+    }
+  );
+};
 
 function Sessions() {
   const [viewType, setViewType] = useState("List");
@@ -23,6 +49,9 @@ function Sessions() {
   const [benches, setBenches] = useState([]);
   const [currLocation, setCurrLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
+  const [weatherCondition, setWeatherCondition] = useState(null);
+  const [temp, setTemp] = useState(null);
+  const [tempFeel, setTempFeel] = useState(null);
 
   const getBenches = () => {
     const docRefCollection = collection(db, "benches");
@@ -38,12 +67,17 @@ function Sessions() {
   useEffect(() => {
     getBenches();
 
-    getCurrConditions().then((result) => {
-      console.log(result);
-    });
     getGeoPosition()
       .then((result) => {
-        console.log(result);
+        return result.data.Key;
+      })
+      .then((key) => {
+        return getCurrConditions(key);
+      })
+      .then((result) => {
+        setWeatherCondition(result.data[0].WeatherText);
+        setTemp(result.data[0].Temperature.Metric.Value);
+        setTempFeel(result.data[0].RealFeelTemperature.Metric.Value);
       })
       .catch((err) => {
         console.log(err, "<< ERROR");
@@ -184,7 +218,12 @@ function Sessions() {
           }}
         >
           Available sessions
-          {text}
+          {/* {text} current location */}
+        </Text>
+        <Text>
+          {" "}
+          Current Condition: {weatherCondition} {temp} °C But it really feels
+          like {tempFeel} °C
         </Text>
         {viewType === "List" ? (
           <ScrollView style={{ height: 300 }}>
