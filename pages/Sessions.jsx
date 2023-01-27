@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
-import * as Location from "expo-location";
 import { getDocs, collection } from "firebase/firestore";
 import { db, auth } from "../firebaseConfig";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -11,20 +10,16 @@ import {
   Image,
 } from "react-native";
 import axios from "axios";
+import * as Location from "expo-location";
 import BenchSessions from "../components/BenchSessions";
 import MapComponent from "../components/MapComponent";
 
-// azevzStu0Se4qcapDPLKjNCs5JVONnVL
 
-const api = axios.create({
-  baseUrl: "http://dataservice.accuweather.com",
-});
+/* ====================== API functions ====================== */
+const api = axios.create({ baseUrl: "" });
 
 export const getGeoPosition = () => {
-  const params = {
-    params: { apikey: "azevzStu0Se4qcapDPLKjNCs5JVONnVL", q: "53.5,-2.24" },
-  };
-
+  const params = { params: { apikey: "azevzStu0Se4qcapDPLKjNCs5JVONnVL", q: "53.5,-2.24" } };
   return api.get(
     "http://dataservice.accuweather.com/locations/v1/cities/geoposition/search",
     params
@@ -32,16 +27,14 @@ export const getGeoPosition = () => {
 };
 
 export const getCurrConditions = (locationKey) => {
+  const params = { params: { apikey: "azevzStu0Se4qcapDPLKjNCs5JVONnVL", details: true } };
   return axios.get(
     `http://dataservice.accuweather.com/currentconditions/v1/${locationKey}`,
-    {
-      params: {
-        apikey: "azevzStu0Se4qcapDPLKjNCs5JVONnVL",
-        details: true,
-      },
-    }
+    params
   );
 };
+
+
 
 function Sessions() {
   const [viewType, setViewType] = useState("List");
@@ -52,7 +45,7 @@ function Sessions() {
   const [weatherCondition, setWeatherCondition] = useState(null);
   const [temp, setTemp] = useState(null);
   const [tempFeel, setTempFeel] = useState(null);
-	const [cityName, setCityName] = useState(null);
+  const [cityName, setCityName] = useState(null);
 
   const getBenches = () => {
     const docRefCollection = collection(db, "benches");
@@ -67,24 +60,17 @@ function Sessions() {
 
   useEffect(() => {
     getBenches();
-
-    //getCurrLocation();
     getGeoPosition()
       .then((result) => {
-	      setCityName(result.data.EnglishName);
-        return result.data.Key;
-      })
-      .then((key) => {
-        return getCurrConditions(key);
+        setCityName(result.data.EnglishName);
+        return getCurrConditions(result.data.Key);
       })
       .then((result) => {
         setWeatherCondition(result.data[0].WeatherText.toLowerCase());
         setTemp(result.data[0].Temperature.Metric.Value);
         setTempFeel(result.data[0].RealFeelTemperature.Metric.Value);
       })
-      .catch((err) => {
-        console.log(err, "<< ERROR");
-      });
+      .catch((err) => console.log(err, "<< ERROR"));
   }, []);
 
   async function getCurrLocation() {
@@ -210,11 +196,12 @@ function Sessions() {
         </View>
         <Text>
           {" "}
-          Current Condition: The weather in {cityName} is {weatherCondition}. The temperature is {temp}°C
-	  {temp !== tempFeel ? (
-		  <Text>but it really feels like {tempFeel}°C</Text>
-	  ) : null}.
-          Perfect for a bench session.
+          Current Condition: The weather in {cityName} is {weatherCondition}.
+          The temperature is {temp}°C
+          {temp !== tempFeel ? (
+            <Text>but it really feels like {tempFeel}°C</Text>
+          ) : null}
+          . Perfect for a bench session.
         </Text>
         <Text
           style={{
@@ -226,7 +213,7 @@ function Sessions() {
           }}
         >
           Available sessions
-	  {/* {text} current location */}
+          {/* {text} current location */}
         </Text>
         {viewType === "List" ? (
           <ScrollView style={{ height: 300 }}>
