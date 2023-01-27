@@ -1,9 +1,6 @@
 import React, { useState, useEffect, useContext} from "react";
 import {UserContext} from "../components/UserContext";
 import InfoCard from "../components/InformationCard"
-import AccountSettings from "./AccountSettings"
-import { Button } from "react-native";
-
 import {
   Image,
   View,
@@ -11,26 +8,46 @@ import {
   TouchableOpacity,
   Text,
   StyleSheet,
-  ScrollView,
-  TouchableHighlight
+  ScrollView
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import FormInput from "../components/FormInput";
-import { NavigationContainer, useNavigation } from "@react-navigation/native";
-   
 
-export default function Account({navigation}) {
-  const navigated = useNavigation();
 
+
+
+export default function AccountSettings() {
   const msg = useContext(UserContext)
-  const [image, setImage] = useState(image);
+  const [image, setImage] = useState(null);
 
+  const checkForCameraRollPermission = async () => {
+    const { status } = await ImagePicker.getMediaLibraryPermissionsAsync();
+    if (status !== "granted") {
+      alert(
+        "Please grant camera roll permissions inside your system's settings"
+      );
+    } else {
+      console.log("Media Permissions are granted");
+    }
+  };
+  
+  useEffect(() => {
+    checkForCameraRollPermission();
+  }, []);
 
-  const handlePress = () => {
-    navigation.navigate('AccountSettings');
-}
-
+  const addImage = async () => {
+    let _image = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    console.log(JSON.stringify(_image));
+    if (!_image.canceled) {
+      setImage(_image.assets[0].uri);
+    }
+  };
 
   return (
     <>
@@ -40,29 +57,28 @@ export default function Account({navigation}) {
         {image && (
           <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
         )}
-        <View>
-          <TouchableOpacity>
-            <Text></Text>
+        <View style={styles.uploadBtnContainer}>
+          <TouchableOpacity onPress={addImage} style={styles.uploadBtn}>
+            <Text>{image ? "Edit" : "Upload"} Image</Text>
             <AntDesign name="camera" size={20} color="black" />
           </TouchableOpacity>
+          
         </View>
       </View>
     </View>
     
     <View>
           <Text> You are logged in as {msg}! </Text>
+          
         </View>
-        <View> 
-        <InfoCard description={`Name: ${msg}`}></InfoCard>
-            
-
-          </View>
-    <View>
-        <TouchableOpacity onPress={handlePress}>
-            <Text>Go to Account Settings</Text>
-        </TouchableOpacity>
-    </View>
-
+        <>
+<InfoCard description={`Name: ${msg}`}></InfoCard>
+<InfoCard description={"Location:"}></InfoCard>
+<InfoCard description={"Name"}></InfoCard>
+<InfoCard description={"Change Password"}></InfoCard>
+<InfoCard description={"Change Email"}></InfoCard>
+<InfoCard description={"Log out"}></InfoCard>
+  </>
   </ScrollView>
   </>
   
@@ -96,13 +112,5 @@ const styles = StyleSheet.create({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-  },
-  button: {
-    alignItems: "center",
-    backgroundColor: "#DDDDDD",
-    borderRadius: 20,
-    padding: 10,
-    width: 200,
-    // margin: 20,
   },
 });

@@ -1,34 +1,31 @@
-import HomePage from "./pages/HomePage";
-import SignUp from "./pages/SignUp";
-import LogIn from "./pages/LogIn";
-import Sessions from "./pages/Sessions";
-import NewBooking from "./pages/NewBooking";
-import Account from "./pages/Account";
-import Schedule from "./pages/Schedule";
+import AccountSettings from "./pages/AccountSettings";
 import Navbar from "./pages/Navbar";
+import { StyleSheet, View, Text} from "react-native";
+import { UserContext } from "./components/UserContext";
+import { useContext } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { View } from "native-base";
+
 
 const Stack = createNativeStackNavigator();
 
 const App = () => {
   return (
-    <>
-      {/* <NavigationContainer> */}
-      {/* <Stack.Navigator> */}
-      {/* <Stack.Screen name="Home" component={HomePage} /> */}
-      {/* <Stack.Screen name="LogIn" component={LogIn} /> */}
-      {/* <Stack.Screen name="SignUp" component={SignUp} /> */}
-      {/* <Stack.Screen name="Sessions" component={Sessions} /> */}
-      {/* <Stack.Screen name="Account" component={Account} /> */}
-      {/* <Stack.Screen name="NewBooking" component={NewBooking} /> */}
-      {/* <Stack.Screen name="Schedule" component={Schedule} /> */}
-      {/* </Stack.Navigator> */}
-      {/* // </NavigationContainer> */}
-      <Navbar></Navbar>
-    </>
+    <UserContext.Provider value="Fragiles">
+    <NavigationContainer>
+      <Stack.Navigator>
+      <Stack.Screen
+          name="NavBar"
+          component={Navbar}
+          options={{ headerShown: false }}
+        />
+      <Stack.Screen name="AccountSettings" component={AccountSettings} />
+      </Stack.Navigator>
+    </NavigationContainer>
+    </UserContext.Provider>
   );
 };
 
 export default App;
+
+

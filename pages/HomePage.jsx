@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useContext} from "react";
 import {
   StyleSheet,
   View,
@@ -9,9 +9,12 @@ import {
   Image,
   ScrollView,
 } from "react-native";
+import { UserContext } from "../components/UserContext";
 import park from "../creativeAssets/bench.png";
 
 function HomePage({ navigation }) {
+  const msg = useContext(UserContext)
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -40,6 +43,11 @@ function HomePage({ navigation }) {
           >
             <Text>Log In</Text>
           </TouchableHighlight>
+          <View>
+        <Text>
+          Welcome back, {msg}!
+          </Text>
+        </View>
         </View>
       </ScrollView>
     </SafeAreaView>
