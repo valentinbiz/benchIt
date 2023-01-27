@@ -11,12 +11,31 @@ import {
 import FormInput from "../components/FormInput";
 import FormButton from "../components/FormButton";
 import SocialButton from "../components/SocialButton";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { auth } from "../firebaseConfig";
+import isLoggedInContext from "../contexts/IsLoggedInContext";
 
 function SignUp({ navigation }) {
-  const [name, setUserName] = useState();
+  const [displayName, setDisplayName] = useState();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [repeatPassword, setRepeatPassword] = useState();
+  const { setIsLoggedIn } = useContext(isLoggedInContext);
+  const handleSignUp = () => {
+    if (password !== repeatPassword) {
+      alert("Passwords must match");
+    } else {
+      createUserWithEmailAndPassword(auth, email, password)
+        .then(() => {
+          return updateProfile(auth.currentUser, { displayName: displayName });
+        })
+        .then(() => {
+          setIsLoggedIn(true);
+          navigation.navigate("Home");
+        })
+        .catch((err) => alert(err.message));
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -24,8 +43,8 @@ function SignUp({ navigation }) {
         <Text style={styles.text}>Sign Up </Text>
 
         <FormInput
-          labelValue={name}
-          onChangeText={(userName) => setUserName(userName)}
+          labelValue={displayName}
+          onChangeText={(userName) => setDisplayName(userName)}
           placeholderText="Name"
           iconType="user"
           keyboardType="text"
@@ -57,7 +76,7 @@ function SignUp({ navigation }) {
           secureTextEntry={true}
         />
 
-        <FormButton buttonTitle="Sign up" onPress={() => {}} />
+        <FormButton buttonTitle="Sign up" onPress={() => handleSignUp()} />
 
         {Platform.OS === "android" ? (
           <View>

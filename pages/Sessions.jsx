@@ -1,4 +1,6 @@
-import React, { useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
+import { getDocs, collection } from "firebase/firestore";
+import { db, auth } from "../firebaseConfig";
 import {
   View,
   Text,
@@ -7,6 +9,7 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
+
 import BenchSessions from "../components/BenchSessions";
 import FormButton from "../components/FormButton";
 import MapComponent from "../components/MapComponent";
@@ -15,7 +18,7 @@ import { UserContext } from "../components/UserContext";
 function Sessions({ navigation }) {
   const [viewType, setViewType] = useState("List");
   const [clickedBench, setClickedBench] = useState(false);
-  const [benches, setBenches] = useState([
+  const [testBenches, setTestBenches] = useState([
     {
       benchId: 1,
       img: "../creativeAssets/bench.png",
@@ -45,6 +48,23 @@ function Sessions({ navigation }) {
       bg: "black",
     },
   ]);
+  const [benches, setBenches] = useState([]);
+
+  const getBenches = () => {
+    const docRefCollection = collection(db, "benches");
+    getDocs(docRefCollection)
+      .then((documents) => {
+        const benchesArray = [];
+        documents.forEach((doc) => benchesArray.push(doc.data()));
+        setBenches(benchesArray);
+      })
+      .catch((error) => console.log(error));
+  };
+
+  useEffect(() => {
+    getBenches();
+  }, []);
+
   const msg = useContext(UserContext);
 
   const bookingSelect = (target) => {
@@ -62,7 +82,7 @@ function Sessions({ navigation }) {
             paddingTop: 30,
           }}
         >
-          Welcome back {msg}!
+          Welcome back, {auth.currentUser?.displayName}!
         </Text>
         <View
           style={{
@@ -185,7 +205,7 @@ function Sessions({ navigation }) {
             })}
           </ScrollView>
         ) : (
-          <MapComponent />
+          <MapComponent benches={benches} />
         )}
         <View style={{ paddingHorizontal: 20, alignItems: "center" }}>
           {clickedBench ? (

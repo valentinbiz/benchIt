@@ -10,10 +10,11 @@ import BenchImageCapture from "./components/BenchImageCapture";
 import NewSessions from "./pages/NewSessions";
 import SignUp from "./pages/SignUp";
 import LogIn from "./pages/LogIn";
-
-const Stack = createNativeStackNavigator();
+import isLoggedInContext from "./contexts/IsLoggedInContext";
+import { useState } from "react";
 
 const App = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   return (
     <UserContext.Provider value="Fragiles">
       <NavigationContainer>

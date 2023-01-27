@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
   StyleSheet,
   View,
@@ -11,9 +11,12 @@ import {
 } from "react-native";
 import { UserContext } from "../components/UserContext";
 import park from "../creativeAssets/bench.png";
+import { auth } from "../firebaseConfig";
+import isLoggedInContext from "../contexts/IsLoggedInContext";
 
 function HomePage({ navigation }) {
-  const msg = useContext(UserContext)
+  const { isLoggedIn, setIsLoggedIn } = useContext(isLoggedInContext);
+  const msg = useContext(UserContext);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -26,29 +29,31 @@ function HomePage({ navigation }) {
             bench.
           </Text>
         </View>
+
         <View style={styles.viewContainer}>
           <Image source={park} style={styles.picture} />
         </View>
-        <View style={styles.viewContainer}>
-          <TouchableHighlight
-            style={styles.button}
-            onPress={() => navigation.navigate("SignUp")}
-          >
-            <Text>Sign Up</Text>
-          </TouchableHighlight>
-          <Text>or</Text>
-          <TouchableHighlight
-            style={styles.button}
-            onPress={() => navigation.navigate("Login")}
-          >
-            <Text>Log In</Text>
-          </TouchableHighlight>
-          <View>
-        <Text>
-          Welcome back, {msg}!
-          </Text>
-        </View>
-        </View>
+
+        {!isLoggedIn ? (
+          <View style={styles.viewContainer}>
+            <TouchableHighlight
+              style={styles.button}
+              onPress={() => navigation.navigate("SignUp")}
+            >
+              <Text>Sign Up</Text>
+            </TouchableHighlight>
+            <Text>or</Text>
+            <TouchableHighlight
+              style={styles.button}
+              onPress={() => navigation.navigate("Login")}
+            >
+              <Text>Log In</Text>
+            </TouchableHighlight>
+            <View>
+              <Text>Welcome back, {msg}!</Text>
+            </View>
+          </View>
+        ) : null}
       </ScrollView>
     </SafeAreaView>
   );
