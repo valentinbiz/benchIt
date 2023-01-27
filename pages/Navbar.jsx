@@ -13,6 +13,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import Feather from "react-native-vector-icons/Feather";
 import BenchImageCapture from "../components/BenchImageCapture";
+import NewSessions from "./NewSessions";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 // Lets get together to decide on the icon pack https://oblador.github.io/react-native-vector-icons/
 
 const home = "Home";
@@ -20,12 +22,14 @@ const login = "Login";
 const signUp = "SignUp";
 const account = "Account";
 const newBooking = "NewBooking";
+const newSessions = "NewSessions";
 const sessions = "Sessions";
 const schedule = "Schedule";
 const benchUpload = "BenchUpload";
 const camera = "Camera";
 
 const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
 
 const Navbar = () => {
   return (
@@ -44,8 +48,6 @@ const Navbar = () => {
               iconName = focused ? "person" : "person-outline";
             } else if (routeName === signUp) {
               iconName = focused ? "person-add" : "person-add-outline";
-            } else if (routeName === newBooking) {
-              iconName = focused ? "add" : "add-outline";
             } else if (routeName === sessions) {
               iconName = focused ? "person" : "person-outline";
             } else if (routeName === schedule) {
@@ -61,6 +63,7 @@ const Navbar = () => {
         <Tab.Screen name={home} component={HomePage}></Tab.Screen>
         <Tab.Screen name={login} component={LogIn}></Tab.Screen>
         <Tab.Screen name={account} component={Account}></Tab.Screen>
+        <Tab.Screen name={newSessions} component={NewSessions}></Tab.Screen>
         <Tab.Screen name={newBooking} component={NewBooking}></Tab.Screen>
         <Tab.Screen name={sessions} component={Sessions}></Tab.Screen>
         <Tab.Screen name={signUp} component={SignUp}></Tab.Screen>
@@ -68,6 +71,9 @@ const Navbar = () => {
         <Tab.Screen name={benchUpload} component={BenchUpload}></Tab.Screen>
         <Tab.Screen name={camera} component={BenchImageCapture}></Tab.Screen>
       </Tab.Navigator>
+      {/* <Stack.Navigator>
+        <Stack.Screen name={newBooking} component={NewBooking} />
+      </Stack.Navigator> */}
     </NavigationContainer>
   );
 };

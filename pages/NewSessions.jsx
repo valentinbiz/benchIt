@@ -11,12 +11,43 @@ import BenchSessions from "../components/BenchSessions";
 import FormButton from "../components/FormButton";
 import MapComponent from "../components/MapComponent";
 
-function Sessions() {
+function NewSessions({ navigation }) {
   const [viewType, setViewType] = useState("List");
-  const [clickedButtons, setClickedButtons] = useState(false);
+  const [clickedBench, setClickedBench] = useState(false);
+
+  const bookingSelect = (target) => {
+    setClickedBench(target);
+    console.log(clickedBench);
+  };
+  const [benches, setBenches] = useState([
+    {
+      img: "../creativeAssets/bench.png",
+      title: "Serenity Bench",
+      address: "12 Oxford Road, Manchester",
+      bg: "#8888",
+    },
+    {
+      img: "../creativeAssets/bench.png",
+      title: "Serenity Bench",
+      address: "1 Oxford Road, Manchester",
+      bg: "white",
+    },
+    {
+      img: "../creativeAssets/bench.png",
+      title: "Serenity Bench",
+      address: "1dd2 Oxford Road, Manchester",
+      bg: "salmon",
+    },
+    {
+      img: "../creativeAssets/bench.png",
+      title: "Serenity Bench",
+      address: "1a2 Oxford Road, Manchester",
+      bg: "black",
+    },
+  ]);
   return (
-    <View>
-      <ScrollView>
+    <>
+      <ScrollView nestedScrollEnabled={true}>
         <Text
           style={{
             paddingHorizontal: 20,
@@ -24,7 +55,7 @@ function Sessions() {
             paddingTop: 30,
           }}
         >
-          Welcome back!
+          Create your own booking
         </Text>
         <View
           style={{
@@ -38,7 +69,7 @@ function Sessions() {
           }}
         >
           <TextInput
-            placeholder="Search for sessions!"
+            placeholder="Search for benches!"
             placeholderTextColor="#345c74"
             style={{
               fontSize: 12,
@@ -57,14 +88,14 @@ function Sessions() {
             backgroundColor: "#808080",
             marginTop: 20,
             marginHorizontal: 20,
-            borderRadius: 30,
+            borderRadius: 15,
             paddingVertical: 20,
             paddingLeft: 30,
           }}
         >
           <View>
             <Text style={{ fontSize: 20, width: 200 }}>
-              Check out these available bench sessions!
+              Select a bench you would like to book
             </Text>
             <View style={{ flexDirection: "row", height: 35 }}>
               <TouchableOpacity
@@ -114,7 +145,7 @@ function Sessions() {
           </View>
           <Image
             source={require("../creativeAssets/undraw.png")}
-            style={{ marginLeft: -45, marginTop: 35 }}
+            style={{ marginLeft: -5, marginTop: 0 }}
           />
         </View>
         <Text
@@ -126,44 +157,47 @@ function Sessions() {
             marginBottom: 10,
           }}
         >
-          Available sessions
+          Available benches
         </Text>
         {viewType === "List" ? (
-          <ScrollView style={{ height: 300 }}>
-            <View>
-              <BenchSessions
-                img={require("../creativeAssets/bench.png")}
-                title="Serenity Bench"
-                address="12 Oxford Road, Manchester"
-                bg="#8888"
-              />
-              <BenchSessions
-                img={require("../creativeAssets/bench.png")}
-                title="Serenity Bench"
-                address="12 Oxford Road, Manchester"
-                bg="#8888"
-              />
-              <BenchSessions
-                img={require("../creativeAssets/bench.png")}
-                title="Serenity Bench"
-                address="12 Oxford Road, Manchester"
-                bg="#8888"
-              />
-              <BenchSessions
-                img={require("../creativeAssets/bench.png")}
-                title="Serenity Bench"
-                address="12 Oxford Road, Manchester"
-                bg="#8888"
-              />
-            </View>
-          </ScrollView>
+          <View>
+            <ScrollView style={{ height: 300 }} nestedScrollEnabled={true}>
+              {benches.map((bench) => {
+                return (
+                  <>
+                    <BenchSessions
+                      key={bench.address}
+                      img={require("../creativeAssets/bench.png")}
+                      title={bench.title}
+                      address={bench.address}
+                      bg={bench.bg}
+                      behaviour={bookingSelect}
+                      target={bench}
+                    />
+                  </>
+                );
+              })}
+            </ScrollView>
+          </View>
         ) : (
           <MapComponent />
         )}
+        <View style={{ paddingHorizontal: 20, alignItems: "center" }}>
+          {clickedBench ? (
+            <>
+              <Text> You have picked {clickedBench.title}</Text>
+              <FormButton
+                buttonTitle={"Continue"}
+                onPress={() => {
+                  navigation.navigate("NewBooking");
+                }}
+              />
+            </>
+          ) : null}
+        </View>
       </ScrollView>
-      <FormButton />
-    </View>
+    </>
   );
 }
 
-export default Sessions;
+export default NewSessions;

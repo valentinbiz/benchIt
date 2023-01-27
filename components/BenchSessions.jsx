@@ -2,7 +2,7 @@ import React from "react";
 import { Text, TouchableOpacity, View, Image, Button } from "react-native";
 // import ProgressCircle from "react-native-progress-circle";
 
-function BenchSessions({ img, title, address, bg }) {
+function BenchSessions({ img, title, address, bg, behaviour, target }) {
   return (
     <TouchableOpacity
       style={{
@@ -17,7 +17,7 @@ function BenchSessions({ img, title, address, bg }) {
     >
       <Image source={img} style={{ width: 40, height: 40, borderRadius: 15 }} />
 
-      <View>
+      <View style={{ width: 180 }}>
         <Text
           style={{
             color: "#345c74",
@@ -52,8 +52,9 @@ function BenchSessions({ img, title, address, bg }) {
       </View>
       <TouchableOpacity
         style={{ backgroundColor: "#888888", borderRadius: 20 }}
+        onPress={() => behaviour(target)}
       >
-        <Text style={{ padding: 10 }}>Book!</Text>
+        <Text style={{ padding: 10 }}>Select!</Text>
       </TouchableOpacity>
     </TouchableOpacity>
   );
