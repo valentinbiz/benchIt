@@ -1,8 +1,6 @@
-import React, { useState, useEffect, useContext } from "react";
-import { UserContext } from "../components/UserContext";
+import React, { useState, useContext } from "react";
+import userContext from "../contexts/UserContext";
 import InfoCard from "../components/InformationCard";
-import AccountSettings from "./AccountSettings";
-import { Button } from "react-native";
 
 import {
   Image,
@@ -17,12 +15,10 @@ import {
 import { auth } from "../firebaseConfig";
 import isLoggedInContext from "../contexts/IsLoggedInContext";
 import { AntDesign } from "@expo/vector-icons";
-import * as ImagePicker from "expo-image-picker";
-import FormInput from "../components/FormInput";
-import { NavigationContainer, useNavigation } from "@react-navigation/native";
 
 export default function Account({ navigation }) {
   const { setIsLoggedIn } = useContext(isLoggedInContext);
+  const { user } = useContext(userContext);
   const handleSignOut = () => {
     auth
       .signOut()
@@ -34,9 +30,7 @@ export default function Account({ navigation }) {
         console.log(err);
       });
   };
-  const navigated = useNavigation();
 
-  const msg = useContext(UserContext);
   const [image, setImage] = useState(image);
 
   const handlePress = () => {
@@ -64,10 +58,10 @@ export default function Account({ navigation }) {
         </View>
 
         <View>
-          <Text> You are logged in as {msg}! </Text>
+          <Text> You are logged in as {user}! </Text>
         </View>
         <View>
-          <InfoCard description={`Name: ${msg}`}></InfoCard>
+          <InfoCard description={`Name: ${user}`}></InfoCard>
         </View>
         <View>
           <TouchableOpacity onPress={handlePress}>

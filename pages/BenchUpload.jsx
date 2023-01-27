@@ -1,20 +1,8 @@
-import React, { useContext, useState } from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Image,
-  Platform,
-  StyleSheet,
-  ScrollView,
-  Alert,
-  Modal,
-  Pressable,
-} from "react-native";
+import React, { useState } from "react";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 
 import FormInput from "../components/FormInput";
 import FormButton from "../components/FormButton";
-import BenchImageCapture from "../components/BenchImageCapture";
 
 function BenchUpload({ navigation }) {
   const [address, setaddress] = useState();

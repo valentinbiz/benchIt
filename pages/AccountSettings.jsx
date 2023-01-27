@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useContext} from "react";
-import {UserContext} from "../components/UserContext";
-import InfoCard from "../components/InformationCard"
+import React, { useState, useEffect, useContext } from "react";
+import userContext from "../contexts/UserContext";
+import InfoCard from "../components/InformationCard";
 import {
   Image,
   View,
@@ -8,17 +8,13 @@ import {
   TouchableOpacity,
   Text,
   StyleSheet,
-  ScrollView
+  ScrollView,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
-import FormInput from "../components/FormInput";
-
-
-
 
 export default function AccountSettings() {
-  const msg = useContext(UserContext)
+  const { user } = useContext(userContext);
   const [image, setImage] = useState(null);
 
   const checkForCameraRollPermission = async () => {
@@ -31,7 +27,7 @@ export default function AccountSettings() {
       console.log("Media Permissions are granted");
     }
   };
-  
+
   useEffect(() => {
     checkForCameraRollPermission();
   }, []);
@@ -51,37 +47,37 @@ export default function AccountSettings() {
 
   return (
     <>
-    <ScrollView>
-    <View style={styles.wrapper}>
-      <View style={styles.container}>
-        {image && (
-          <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
-        )}
-        <View style={styles.uploadBtnContainer}>
-          <TouchableOpacity onPress={addImage} style={styles.uploadBtn}>
-            <Text>{image ? "Edit" : "Upload"} Image</Text>
-            <AntDesign name="camera" size={20} color="black" />
-          </TouchableOpacity>
-          
+      <ScrollView>
+        <View style={styles.wrapper}>
+          <View style={styles.container}>
+            {image && (
+              <Image
+                source={{ uri: image }}
+                style={{ width: 200, height: 200 }}
+              />
+            )}
+            <View style={styles.uploadBtnContainer}>
+              <TouchableOpacity onPress={addImage} style={styles.uploadBtn}>
+                <Text>{image ? "Edit" : "Upload"} Image</Text>
+                <AntDesign name="camera" size={20} color="black" />
+              </TouchableOpacity>
+            </View>
+          </View>
         </View>
-      </View>
-    </View>
-    
-    <View>
-          <Text> You are logged in as {msg}! </Text>
-          
+
+        <View>
+          <Text> You are logged in as {user}! </Text>
         </View>
         <>
-<InfoCard description={`Name: ${msg}`}></InfoCard>
-<InfoCard description={"Location:"}></InfoCard>
-<InfoCard description={"Name"}></InfoCard>
-<InfoCard description={"Change Password"}></InfoCard>
-<InfoCard description={"Change Email"}></InfoCard>
-<InfoCard description={"Log out"}></InfoCard>
-  </>
-  </ScrollView>
-  </>
-  
+          <InfoCard description={`Name: ${user}`}></InfoCard>
+          <InfoCard description={"Location:"}></InfoCard>
+          <InfoCard description={"Name"}></InfoCard>
+          <InfoCard description={"Change Password"}></InfoCard>
+          <InfoCard description={"Change Email"}></InfoCard>
+          <InfoCard description={"Log out"}></InfoCard>
+        </>
+      </ScrollView>
+    </>
   );
 }
 const styles = StyleSheet.create({

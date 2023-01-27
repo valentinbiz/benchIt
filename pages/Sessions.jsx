@@ -13,11 +13,11 @@ import {
 import BenchSessions from "../components/BenchSessions";
 import FormButton from "../components/FormButton";
 import MapComponent from "../components/MapComponent";
-import { UserContext } from "../components/UserContext";
 
 function Sessions({ navigation }) {
   const [viewType, setViewType] = useState("List");
   const [clickedBench, setClickedBench] = useState(false);
+  const [sessions, setSessions] = useState("12th January, 15:00");
   const [testBenches, setTestBenches] = useState([
     {
       benchId: 1,
@@ -65,12 +65,11 @@ function Sessions({ navigation }) {
     getBenches();
   }, []);
 
-  const msg = useContext(UserContext);
-
   const bookingSelect = (target) => {
     setClickedBench(target);
-    console.log(clickedBench);
   };
+
+  console.log(benches);
 
   return (
     <View>
@@ -194,10 +193,11 @@ function Sessions({ navigation }) {
                   <BenchSessions
                     key={bench.benchId}
                     img={require("../creativeAssets/bench.png")}
-                    title={bench.title}
-                    address={bench.address}
-                    bg={bench.bg}
+                    title={bench.benchName}
+                    address={bench.benchAddress}
+                    bg={"#fcfef7"}
                     behaviour={bookingSelect}
+                    sessionTime={sessions}
                     target={bench}
                   />
                 </>
@@ -210,7 +210,7 @@ function Sessions({ navigation }) {
         <View style={{ paddingHorizontal: 20, alignItems: "center" }}>
           {clickedBench ? (
             <>
-              <Text> You have picked {clickedBench.title}</Text>
+              <Text> You have picked {clickedBench.benchName}</Text>
               <FormButton
                 buttonTitle={"Continue"}
                 onPress={() => {
@@ -234,3 +234,5 @@ function Sessions({ navigation }) {
 }
 
 export default Sessions;
+
+// {"benchCity": "Liverpool", "benchDescription": "Mysterious bench set aside from Prince Rupert's Tower", "benchId": 10, "benchName": "Whispering Willow Bench", "benchPicture": "https://images.unsplash.com/photo-1573079883023-62fc208b9d75?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80", "latitude": "53.418877980620884", "longitude": "-2.970565414361296"}

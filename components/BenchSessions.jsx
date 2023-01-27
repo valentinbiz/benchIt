@@ -1,8 +1,15 @@
 import React from "react";
-import { Text, TouchableOpacity, View, Image, Button } from "react-native";
-// import ProgressCircle from "react-native-progress-circle";
+import { Text, TouchableOpacity, View, Image } from "react-native";
 
-function BenchSessions({ img, title, address, bg, behaviour, target }) {
+function BenchSessions({
+  img,
+  title,
+  address,
+  bg,
+  behaviour,
+  sessionTime,
+  target,
+}) {
   return (
     <TouchableOpacity
       style={{
@@ -28,18 +35,20 @@ function BenchSessions({ img, title, address, bg, behaviour, target }) {
         >
           {title}
         </Text>
-        <View>
-          <Text
-            style={{
-              color: "#345c74",
-              fontSize: 13,
-              paddingLeft: 20,
-              paddingRight: 10,
-            }}
-          >
-            9:30, Saturday, 19th Jan
-          </Text>
-        </View>
+        {sessionTime ? (
+          <View>
+            <Text
+              style={{
+                color: "#345c74",
+                fontSize: 13,
+                paddingLeft: 20,
+                paddingRight: 10,
+              }}
+            >
+              {sessionTime}
+            </Text>
+          </View>
+        ) : null}
         <Text
           style={{
             color: "#0000000",

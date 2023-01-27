@@ -1,22 +1,20 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useContext } from "react";
 import {
   StyleSheet,
   View,
   SafeAreaView,
   Text,
-  Alert,
   TouchableHighlight,
   Image,
   ScrollView,
 } from "react-native";
-import { UserContext } from "../components/UserContext";
+import userContext from "../contexts/UserContext";
 import park from "../creativeAssets/bench.png";
-import { auth } from "../firebaseConfig";
 import isLoggedInContext from "../contexts/IsLoggedInContext";
 
 function HomePage({ navigation }) {
   const { isLoggedIn, setIsLoggedIn } = useContext(isLoggedInContext);
-  const msg = useContext(UserContext);
+  const { user, setUser } = useContext(userContext);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -49,11 +47,12 @@ function HomePage({ navigation }) {
             >
               <Text>Log In</Text>
             </TouchableHighlight>
-            <View>
-              <Text>Welcome back, {msg}!</Text>
-            </View>
           </View>
-        ) : null}
+        ) : (
+          <View style={styles.viewContainer}>
+            <Text> Hello there, {user}</Text>
+          </View>
+        )}
       </ScrollView>
     </SafeAreaView>
   );

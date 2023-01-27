@@ -1,20 +1,12 @@
 import React from "react";
 import HomePage from "./HomePage";
-import SignUp from "./SignUp";
-import LogIn from "./LogIn";
 import Sessions from "./Sessions";
-import NewBooking from "./NewBooking";
 import Account from "./Account";
-import AccountSettings from "./AccountSettings";
 import Schedule from "./Schedule";
 import BenchUpload from "./BenchUpload";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { StyleSheet } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import Feather from "react-native-vector-icons/Feather";
-import BenchImageCapture from "../components/BenchImageCapture";
-import NewSessions from "./NewSessions";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 // Lets get together to decide on the icon pack https://oblador.github.io/react-native-vector-icons/
 
@@ -22,16 +14,11 @@ const home = "Home";
 const login = "Login";
 const signUp = "SignUp";
 const account = "Account";
-const accountSettings = "AccountSettings";
-const newBooking = "NewBooking";
-const newSessions = "NewSessions";
 const sessions = "Sessions";
 const schedule = "Schedule";
 const benchUpload = "BenchUpload";
-const camera = "Camera";
 
 const Tab = createBottomTabNavigator();
-const Stack = createNativeStackNavigator();
 
 const Navbar = () => {
   return (
