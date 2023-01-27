@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext} from "react";
 import {
   View,
   Text,
@@ -9,10 +9,14 @@ import {
 } from "react-native";
 import BenchSessions from "../components/BenchSessions";
 import MapComponent from "../components/MapComponent";
+import { UserContext } from "../components/UserContext";
+
 
 function Sessions() {
   const [viewType, setViewType] = useState("List");
   const [clickedButtons, setClickedButtons] = useState(false);
+  const msg = useContext(UserContext)
+
   return (
     <View>
       <ScrollView>
@@ -23,7 +27,7 @@ function Sessions() {
             paddingTop: 30,
           }}
         >
-          Welcome back!
+          Welcome back {msg}!
         </Text>
         <View
           style={{

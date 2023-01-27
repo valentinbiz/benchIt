@@ -5,6 +5,7 @@ import LogIn from "./LogIn";
 import Sessions from "./Sessions";
 import NewBooking from "./NewBooking";
 import Account from "./Account";
+import AccountSettings from "./AccountSettings";
 import Schedule from "./Schedule";
 import BenchUpload from "./BenchUpload";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -19,17 +20,19 @@ const home = "Home";
 const login = "Login";
 const signUp = "SignUp";
 const account = "Account";
+const accountSettings = "AccountSettings"
 const newBooking = "NewBooking";
 const sessions = "Sessions";
 const schedule = "Schedule";
 const benchUpload = "BenchUpload";
 const camera = "Camera";
 
+
 const Tab = createBottomTabNavigator();
 
 const Navbar = () => {
   return (
-    <NavigationContainer>
+
       <Tab.Navigator
         initialRouteName={home}
         screenOptions={({ route }) => ({
@@ -68,7 +71,6 @@ const Navbar = () => {
         <Tab.Screen name={benchUpload} component={BenchUpload}></Tab.Screen>
         <Tab.Screen name={camera} component={BenchImageCapture}></Tab.Screen>
       </Tab.Navigator>
-    </NavigationContainer>
   );
 };
 
