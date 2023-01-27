@@ -52,6 +52,7 @@ function Sessions() {
   const [weatherCondition, setWeatherCondition] = useState(null);
   const [temp, setTemp] = useState(null);
   const [tempFeel, setTempFeel] = useState(null);
+	const [cityName, setCityName] = useState(null);
 
   const getBenches = () => {
     const docRefCollection = collection(db, "benches");
@@ -67,15 +68,17 @@ function Sessions() {
   useEffect(() => {
     getBenches();
 
+    //getCurrLocation();
     getGeoPosition()
       .then((result) => {
+	      setCityName(result.data.EnglishName);
         return result.data.Key;
       })
       .then((key) => {
         return getCurrConditions(key);
       })
       .then((result) => {
-        setWeatherCondition(result.data[0].WeatherText);
+        setWeatherCondition(result.data[0].WeatherText.toLowerCase());
         setTemp(result.data[0].Temperature.Metric.Value);
         setTempFeel(result.data[0].RealFeelTemperature.Metric.Value);
       })
@@ -94,9 +97,6 @@ function Sessions() {
     let location = await Location.getCurrentPositionAsync({});
     setCurrLocation([location.coords.latitude, location.coords.longitude]);
   }
-  useEffect(() => {
-    getCurrLocation();
-  }, []);
 
   let text = "Waiting..";
   if (errorMsg) {
@@ -176,7 +176,7 @@ function Sessions() {
                     fontSize: 12,
                   }}
                 >
-                  List View
+                  List
                 </Text>
               </TouchableOpacity>
               <Text style={{ marginTop: 15, fontSize: 20 }}> / </Text>
@@ -198,7 +198,7 @@ function Sessions() {
                     fontSize: 12,
                   }}
                 >
-                  Map view
+                  Map
                 </Text>
               </TouchableOpacity>
             </View>
@@ -208,6 +208,14 @@ function Sessions() {
             style={{ marginLeft: -45, marginTop: 35 }}
           />
         </View>
+        <Text>
+          {" "}
+          Current Condition: The weather in {cityName} is {weatherCondition}. The temperature is {temp}°C
+	  {temp !== tempFeel ? (
+		  <Text>but it really feels like {tempFeel}°C</Text>
+	  ) : null}.
+          Perfect for a bench session.
+        </Text>
         <Text
           style={{
             color: "#345c74",
@@ -218,12 +226,7 @@ function Sessions() {
           }}
         >
           Available sessions
-          {/* {text} current location */}
-        </Text>
-        <Text>
-          {" "}
-          Current Condition: {weatherCondition} {temp} °C But it really feels
-          like {tempFeel} °C
+	  {/* {text} current location */}
         </Text>
         {viewType === "List" ? (
           <ScrollView style={{ height: 300 }}>

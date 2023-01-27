@@ -13,3 +13,4 @@ weather.json
 
 # macOS
 .DS_Store
+cityData.json
