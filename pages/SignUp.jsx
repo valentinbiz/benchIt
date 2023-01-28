@@ -3,7 +3,6 @@ import {
   View,
   Text,
   TouchableOpacity,
-  Image,
   Platform,
   StyleSheet,
   ScrollView,
@@ -21,6 +20,7 @@ function SignUp({ navigation }) {
   const [password, setPassword] = useState();
   const [repeatPassword, setRepeatPassword] = useState();
   const { setIsLoggedIn } = useContext(isLoggedInContext);
+
   const handleSignUp = () => {
     if (password !== repeatPassword) {
       alert("Passwords must match");

@@ -1,8 +1,19 @@
 import React from "react";
-import { Text, TouchableOpacity, View, Image, Button } from "react-native";
-// import ProgressCircle from "react-native-progress-circle";
+import { Text, TouchableOpacity, View, Image, StyleSheet } from "react-native";
 
-function BenchSessions({ img, title, address, bg }) {
+function BenchSessions({
+  img,
+  title,
+  address,
+  bg,
+  behaviour,
+  sessionTime,
+  target,
+}) {
+  const handleBookSession = () => {
+    console.log("Book Session clicked")
+  }
+
   return (
     <TouchableOpacity
       style={{
@@ -17,7 +28,7 @@ function BenchSessions({ img, title, address, bg }) {
     >
       <Image source={img} style={{ width: 40, height: 40, borderRadius: 15 }} />
 
-      <View>
+      <View style={{ width: 180 }}>
         <Text
           style={{
             color: "#345c74",
@@ -28,18 +39,20 @@ function BenchSessions({ img, title, address, bg }) {
         >
           {title}
         </Text>
-        <View>
-          <Text
-            style={{
-              color: "#345c74",
-              fontSize: 13,
-              paddingLeft: 20,
-              paddingRight: 10,
-            }}
-          >
-            9:30, Saturday, 19th Jan
-          </Text>
-        </View>
+        {sessionTime ? (
+          <View>
+            <Text
+              style={{
+                color: "#345c74",
+                fontSize: 13,
+                paddingLeft: 20,
+                paddingRight: 10,
+              }}
+            >
+              {sessionTime}
+            </Text>
+          </View>
+        ) : null}
         <Text
           style={{
             color: "#0000000",
@@ -52,8 +65,9 @@ function BenchSessions({ img, title, address, bg }) {
       </View>
       <TouchableOpacity
         style={{ backgroundColor: "#888888", borderRadius: 20 }}
+        onPress={() => handleBookSession()}
       >
-        <Text style={{ padding: 10 }}>Book!</Text>
+        <Text style={{ padding: 10 }}>Select!</Text>
       </TouchableOpacity>
     </TouchableOpacity>
   );

@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from 'react';
-import { View, Text, AaddStyleSheet } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 
 /* ====================== API functions ====================== */
 const api = axios.create({ baseUrl: "" });

@@ -12,16 +12,47 @@ import {
 } from "react-native";
 import * as Location from "expo-location";
 import BenchSessions from "../components/BenchSessions";
+import FormButton from "../components/FormButton";
 import MapComponent from "../components/MapComponent";
 import ForecastCard from "../components/ForecastCard"
 
-function Sessions() {
+function Sessions({ navigation }) {
   const [viewType, setViewType] = useState("List");
-  const [clickedButtons, setClickedButtons] = useState(false);
+  const [clickedBench, setClickedBench] = useState(false);
+  const [sessions, setSessions] = useState("12th January, 15:00");
+  const [testBenches, setTestBenches] = useState([
+    {
+      benchId: 1,
+      img: "../creativeAssets/bench.png",
+      title: "Serenity Bench",
+      address: "12 Oxford Road, Manchester",
+      bg: "#8888",
+    },
+    {
+      benchId: 2,
+      img: "../creativeAssets/bench.png",
+      title: "Serenity Bench",
+      address: "1 Oxford Road, Manchester",
+      bg: "white",
+    },
+    {
+      benchId: 3,
+      img: "../creativeAssets/bench.png",
+      title: "Serenity Bench",
+      address: "1dd2 Oxford Road, Manchester",
+      bg: "salmon",
+    },
+    {
+      benchId: 4,
+      img: "../creativeAssets/bench.png",
+      title: "Serenity Bench",
+      address: "1a2 Oxford Road, Manchester",
+      bg: "black",
+    },
+  ]);
   const [benches, setBenches] = useState([]);
-  const [currLocation, setCurrLocation] = useState(null);
-  const [errorMsg, setErrorMsg] = useState(null);
-  
+  const [ errorMsg, setErrorMsg ] = useState(false);
+  const [ currLocation, setCurrLocation ] = useState({});
 
   const getBenches = () => {
     const docRefCollection = collection(db, "benches");
@@ -49,6 +80,10 @@ function Sessions() {
     setCurrLocation([location.coords.latitude, location.coords.longitude]);
   }
 
+  const bookingSelect = (target) => {
+    setClickedBench(target);
+  }
+
   let text = "Waiting..";
   if (errorMsg) {
     text = errorMsg;
@@ -58,8 +93,10 @@ function Sessions() {
 
   return (
     <View>
-      <ScrollView>
-        <Text style={styles.GreetingMessage}> Welcome back, {auth.currentUser?.displayName}! </Text>
+      <ScrollView nestedScrollEnabled={true}>
+        <Text style={styles.GreetingMessage}>
+          Welcome back, {auth.currentUser?.displayName}!
+        </Text>
         <View style={styles.SearchBar}>
           <TextInput
             placeholder="Search for sessions!"
@@ -100,37 +137,44 @@ function Sessions() {
         <ForecastCard></ForecastCard>
         <Text style={styles.SessionsHeader} > Available sessions {/* {text} current location */}</Text>
         {viewType === "List" ? (
-          <ScrollView style={{ height: 300 }}>
-            <View>
-              <BenchSessions
-                img={require("../creativeAssets/bench.png")}
-                title="Serenity Bench"
-                address="12 Oxford Road, Manchester"
-                bg="#8888"
-              />
-              <BenchSessions
-                img={require("../creativeAssets/bench.png")}
-                title="Serenity Bench"
-                address="12 Oxford Road, Manchester"
-                bg="#8888"
-              />
-              <BenchSessions
-                img={require("../creativeAssets/bench.png")}
-                title="Serenity Bench"
-                address="12 Oxford Road, Manchester"
-                bg="#8888"
-              />
-              <BenchSessions
-                img={require("../creativeAssets/bench.png")}
-                title="Serenity Bench"
-                address="12 Oxford Road, Manchester"
-                bg="#8888"
-              />
-            </View>
+          <ScrollView style={{ height: 300 }} nestedScrollEnabled={true}>
+            {benches.map((bench) => {
+              return (
+                <>
+                  <BenchSessions
+                    key={bench.benchId}
+                    img={require("../creativeAssets/bench.png")}
+                    title={bench.benchName}
+                    address={bench.benchAddress}
+                    bg={"#fcfef7"}
+                    behaviour={bookingSelect}
+                    sessionTime={sessions}
+                    target={bench}
+                  />
+                </>
+              );
+            })}
           </ScrollView>
         ) : (
           <MapComponent benches={benches} />
         )}
+        <View style={{ paddingHorizontal: 20, alignItems: "center" }}>
+          {clickedBench ? (
+            <>
+              <Text> You have picked {clickedBench.benchName}</Text>
+              <FormButton
+                buttonTitle={"Continue"}
+                onPress={() => navigation.navigate("NewBooking")}
+              />
+            </>
+          ) : null}
+        </View>
+        <View style={{ paddingHorizontal: 20, alignItems: "center" }}>
+          <FormButton
+            buttonTitle={"Create new session"}
+            onPress={() => navigation.navigate("NewSessions")}
+          />
+        </View>
       </ScrollView>
     </View>
   );
@@ -208,3 +252,5 @@ const styles = StyleSheet.create({
 });
 
 export default Sessions;
+
+// {"benchCity": "Liverpool", "benchDescription": "Mysterious bench set aside from Prince Rupert's Tower", "benchId": 10, "benchName": "Whispering Willow Bench", "benchPicture": "https://images.unsplash.com/photo-1573079883023-62fc208b9d75?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80", "latitude": "53.418877980620884", "longitude": "-2.970565414361296"}
