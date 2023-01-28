@@ -137,10 +137,9 @@ function Sessions({ navigation }) {
         <ForecastCard></ForecastCard>
         <Text style={styles.SessionsHeader} > Available sessions {/* {text} current location */}</Text>
         {viewType === "List" ? (
-          <ScrollView style={{ height: 300 }} nestedScrollEnabled={true}>
+          <ScrollView style={styles.SessionsList} nestedScrollEnabled={true}>
             {benches.map((bench) => {
               return (
-                <>
                   <BenchSessions
                     key={bench.benchId}
                     img={require("../creativeAssets/bench.png")}
@@ -151,14 +150,13 @@ function Sessions({ navigation }) {
                     sessionTime={sessions}
                     target={bench}
                   />
-                </>
               );
             })}
           </ScrollView>
         ) : (
           <MapComponent benches={benches} />
         )}
-        <View style={{ paddingHorizontal: 20, alignItems: "center" }}>
+        <View style={styles.SessionsButton}>
           {clickedBench ? (
             <>
               <Text> You have picked {clickedBench.benchName}</Text>
@@ -169,7 +167,7 @@ function Sessions({ navigation }) {
             </>
           ) : null}
         </View>
-        <View style={{ paddingHorizontal: 20, alignItems: "center" }}>
+        <View style={styles.SessionsButton}>
           <FormButton
             buttonTitle={"Create new session"}
             onPress={() => navigation.navigate("NewSessions")}
@@ -226,21 +224,21 @@ const styles = StyleSheet.create({
     color: "#FFF",
     fontSize: 12,
   },
-  ViewToggleCard__direction: { 
-    flexDirection: "row", 
-    height: 35 
+  ViewToggleCard__direction: {
+    flexDirection: "row",
+    height: 35,
   },
-  ViewToggleCard__header: { 
-    fontSize: 20, 
-    width: 200 
+  ViewToggleCard__header: {
+    fontSize: 20,
+    width: 200,
   },
   ViewToggleText__separator: {
     marginTop: 15,
     fontSize: 20,
   },
-  ViewToggleImage: { 
-    marginLeft: -45, 
-    marginTop: 35 
+  ViewToggleImage: {
+    marginLeft: -45,
+    marginTop: 35,
   },
   SessionsHeader: {
     color: "#345c74",
@@ -248,6 +246,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     marginTop: 20,
     marginBottom: 10,
+  },
+  SessionsList: {
+    height: 300,
+  },
+  SessionsButton: { 
+    paddingHorizontal: 20, 
+    alignItems: "center" 
   },
 });
 

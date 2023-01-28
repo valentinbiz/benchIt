@@ -1,8 +1,6 @@
 import AccountSettings from "./pages/AccountSettings";
 import Navbar from "./pages/Navbar";
 import { StyleSheet, View, Text } from "react-native";
-import { UserContext } from "./contexts/UserContext";
-import { useContext } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import NewBooking from "./pages/NewBooking";
@@ -13,12 +11,15 @@ import LogIn from "./pages/LogIn";
 import isLoggedInContext from "./contexts/IsLoggedInContext";
 import userContext from "./contexts/UserContext";
 import { useState } from "react";
+import { LogBox } from "react-native";
 
 const Stack = createNativeStackNavigator();
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
+  // ignore async warning messages in app, still can't remove them from console :(
+  // LogBox.ignoreAllLogs();
 
   return (
     <isLoggedInContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>
