@@ -1,7 +1,4 @@
 import React, { useState, useContext } from "react";
-import userContext from "../contexts/UserContext";
-import InfoCard from "../components/InformationCard";
-
 import {
   Image,
   View,
@@ -13,12 +10,14 @@ import {
   TouchableHighlight,
 } from "react-native";
 import { auth } from "../firebaseConfig";
-import isLoggedInContext from "../contexts/IsLoggedInContext";
 import { AntDesign } from "@expo/vector-icons";
+import isLoggedInContext from "../contexts/IsLoggedInContext";
+import InfoCard from "../components/InformationCard";
 
 export default function Account({ navigation }) {
+  const [ image, setImage ] = useState(image);
   const { setIsLoggedIn } = useContext(isLoggedInContext);
-  const { user } = useContext(userContext);
+
   const handleSignOut = () => {
     auth
       .signOut()
@@ -26,19 +25,12 @@ export default function Account({ navigation }) {
         setIsLoggedIn(false);
         navigation.navigate("Login");
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => console.log(err));
   };
 
-  const [image, setImage] = useState(image);
-
-  const handlePress = () => {
-    navigation.navigate("AccountSettings");
-  };
+  const handlePress = () => navigation.navigate("AccountSettings");
 
   return (
-    <>
       <ScrollView>
         <View style={styles.wrapper}>
           <View style={styles.container}>
@@ -58,12 +50,12 @@ export default function Account({ navigation }) {
         </View>
 
         <View>
-          <Text> You are logged in as {user}! </Text>
+          <Text> You are logged in as Mitch! </Text>
         </View>
         <View>
-          <InfoCard description={`Name: ${user}`}></InfoCard>
+          <InfoCard description={`Name: Mitch`}></InfoCard>
         </View>
-        <View>
+        <View style={styles.buttonContainer}>
           <TouchableOpacity onPress={handlePress}>
             <Text>Go to Account Settings</Text>
           </TouchableOpacity>
@@ -71,11 +63,10 @@ export default function Account({ navigation }) {
             style={styles.button}
             onPress={() => handleSignOut()}
           >
-            <Text>Sign Out</Text>
+            <Text style={styles.buttonText}>Sign Out</Text>
           </TouchableHighlight>
         </View>
       </ScrollView>
-    </>
   );
 }
 const styles = StyleSheet.create({
@@ -98,7 +89,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: 0,
     bottom: 0,
-    backgroundColor: "lightgrey",
+    backgroundColor: "#B85F44",
     width: "100%",
     height: "25%",
   },
@@ -107,12 +98,21 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  buttonContainer: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
   button: {
     alignItems: "center",
-    backgroundColor: "#DDDDDD",
+    backgroundColor: "#B85F44",
     borderRadius: 20,
     padding: 10,
     width: 200,
-    // margin: 20,
+    margin: 10,
   },
+  buttonText: {
+    color: "#FCFEF7",
+    fontWeight: 'bold'
+  }
 });

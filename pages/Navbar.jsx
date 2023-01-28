@@ -8,6 +8,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { StyleSheet } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { fontWeight } from "@mui/system";
 // Lets get together to decide on the icon pack https://oblador.github.io/react-native-vector-icons/
 
 const home = "Home";
@@ -44,8 +45,10 @@ const Navbar = () => {
             iconName = focused ? "add" : "add-outline";
           }
 
-          return <Ionicons name={iconName} size={size} color={"green"} />;
+          return <Ionicons name={iconName} size={32} color={"#B85F44"} />;
         },
+        tabBarLabelStyle: styles.labelStyle,
+        tabBarStyle: styles.tabBar
       })}
     >
       <Tab.Screen name={home} component={HomePage}></Tab.Screen>
@@ -58,6 +61,17 @@ const Navbar = () => {
 };
 
 const styles = StyleSheet.create({
+  labelStyle: {
+    color: "#342C2C",
+    fontWeight: "600",
+    marginBottom: 4
+  },
+  tabBar: {
+    borderTopEndRadius: 20,
+    borderTopLeftRadius: 20,
+    padding: 10,
+    height: 64,
+  },
   container: {
     flex: 1,
     justifyContent: "center",

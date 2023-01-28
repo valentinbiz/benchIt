@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, TouchableOpacity, View, Image } from "react-native";
+import { Text, TouchableOpacity, View, Image, StyleSheet } from "react-native";
 
 function BenchSessions({
   img,
@@ -10,6 +10,10 @@ function BenchSessions({
   sessionTime,
   target,
 }) {
+  const handleBookSession = () => {
+    console.log("Book Session clicked")
+  }
+
   return (
     <TouchableOpacity
       style={{
@@ -61,7 +65,7 @@ function BenchSessions({
       </View>
       <TouchableOpacity
         style={{ backgroundColor: "#888888", borderRadius: 20 }}
-        onPress={() => behaviour(target)}
+        onPress={() => handleBookSession()}
       >
         <Text style={{ padding: 10 }}>Select!</Text>
       </TouchableOpacity>

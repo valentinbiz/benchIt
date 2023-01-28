@@ -6,6 +6,7 @@ import {
   ScrollView,
   TouchableOpacity,
   Image,
+  StyleSheet,
 } from "react-native";
 import { getDocs, collection } from "firebase/firestore";
 import { db, auth } from "../firebaseConfig";

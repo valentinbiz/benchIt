@@ -8,13 +8,11 @@ import {
   Image,
   ScrollView,
 } from "react-native";
-import userContext from "../contexts/UserContext";
 import park from "../creativeAssets/bench.png";
 import isLoggedInContext from "../contexts/IsLoggedInContext";
 
 function HomePage({ navigation }) {
   const { isLoggedIn, setIsLoggedIn } = useContext(isLoggedInContext);
-  const { user, setUser } = useContext(userContext);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -50,7 +48,7 @@ function HomePage({ navigation }) {
           </View>
         ) : (
           <View style={styles.viewContainer}>
-            <Text> Hello there, {user}</Text>
+            <Text> Hello there, Mitch</Text>
           </View>
         )}
       </ScrollView>

@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from "react";
-import userContext from "../contexts/UserContext";
 import InfoCard from "../components/InformationCard";
 import {
   Image,
@@ -14,7 +13,6 @@ import { AntDesign } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 
 export default function AccountSettings() {
-  const { user } = useContext(userContext);
   const [image, setImage] = useState(null);
 
   const checkForCameraRollPermission = async () => {
@@ -66,10 +64,10 @@ export default function AccountSettings() {
         </View>
 
         <View>
-          <Text> You are logged in as {user}! </Text>
+          <Text> You are logged in as Mitch! </Text>
         </View>
         <>
-          <InfoCard description={`Name: ${user}`}></InfoCard>
+          <InfoCard description={`Name: Mitch`}></InfoCard>
           <InfoCard description={"Location:"}></InfoCard>
           <InfoCard description={"Name"}></InfoCard>
           <InfoCard description={"Change Password"}></InfoCard>
