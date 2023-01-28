@@ -9,12 +9,7 @@
         "web": "expo start --web"
     },
     "dependencies": {
-        "@emotion/react": "^11.10.5",
-        "@emotion/styled": "^11.10.5",
         "@expo/webpack-config": "^0.17.2",
-        "@mui/icons-material": "^5.11.0",
-        "@mui/joy": "^5.0.0-alpha.63",
-        "@mui/material": "^5.11.5",
         "@react-navigation/bottom-tabs": "^6.5.3",
         "@react-navigation/native": "^6.1.2",
         "@react-navigation/native-stack": "^6.9.8",
@@ -25,7 +20,6 @@
         "expo-location": "~15.0.1",
         "expo-status-bar": "~1.4.2",
         "firebase": "^9.16.0",
-        "native-base": "^3.4.25",
         "react": "18.1.0",
         "react-dom": "18.1.0",
         "react-native": "0.70.5",

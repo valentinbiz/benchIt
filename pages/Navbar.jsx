@@ -8,7 +8,6 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { StyleSheet } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { fontWeight } from "@mui/system";
 // Lets get together to decide on the icon pack https://oblador.github.io/react-native-vector-icons/
 
 const home = "Home";

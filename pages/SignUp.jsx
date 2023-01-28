@@ -7,12 +7,12 @@ import {
   StyleSheet,
   ScrollView,
 } from "react-native";
-import FormInput from "../components/FormInput";
-import FormButton from "../components/FormButton";
-import SocialButton from "../components/SocialButton";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../firebaseConfig";
 import isLoggedInContext from "../contexts/IsLoggedInContext";
+import FormInput from "../components/FormInput";
+import FormButton from "../components/FormButton";
+import SocialButton from "../components/SocialButton";
 
 function SignUp({ navigation }) {
   const [displayName, setDisplayName] = useState();
@@ -40,7 +40,7 @@ function SignUp({ navigation }) {
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.container}>
-        <Text style={styles.text}>Sign Up </Text>
+        <Text style={styles.header}>Register your account</Text>
 
         <FormInput
           labelValue={displayName}
@@ -80,8 +80,9 @@ function SignUp({ navigation }) {
 
         {Platform.OS === "android" ? (
           <View>
+            <Text style={styles.SocialText}>OR</Text>
             <SocialButton
-              buttonTitle="Sign In with Facebook"
+              buttonTitle="Facebook Sign Up"
               btnType="facebook"
               color="#4867aa"
               backgroundColor="#e6eaf4"
@@ -89,7 +90,7 @@ function SignUp({ navigation }) {
             />
 
             <SocialButton
-              buttonTitle="Sign In with Google"
+              buttonTitle="Google Sign Up"
               btnType="google"
               color="#de4d41"
               backgroundColor="#f5e7ea"
@@ -103,7 +104,7 @@ function SignUp({ navigation }) {
           onPress={() => navigation.navigate("Login")}
         >
           <Text style={styles.navButtonText}>
-            Have an account? Go to Log In page!
+            Already have an account?
           </Text>
         </TouchableOpacity>
       </ScrollView>
@@ -116,11 +117,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 10,
+    backgroundColor: "#FCFEF7",
+    height: "100%",
   },
-  text: {
-    fontSize: 28,
-    marginBottom: 10,
-    color: "#051d5f",
+  header: {
+    fontSize: 30,
+    color: "#342C2C",
   },
   navButton: {
     marginTop: 15,
@@ -131,6 +133,12 @@ const styles = StyleSheet.create({
   navButtonText: {
     fontSize: 18,
     color: "#2e64e5",
+    textAlign: "center",
+    textDecorationLine: "underline",
+  },
+  SocialText: {
+    textAlign: "center",
+    fontWeight: "400",
   },
 });
 
