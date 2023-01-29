@@ -121,8 +121,9 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   header: {
-    fontSize: 30,
+    fontSize: 32,
     color: "#342C2C",
+    fontFamily: "Cabin_Bold",
   },
   navButton: {
     marginTop: 15,
@@ -135,10 +136,11 @@ const styles = StyleSheet.create({
     color: "#2e64e5",
     textAlign: "center",
     textDecorationLine: "underline",
+    fontFamily: "Cabin_400Regular",
   },
   SocialText: {
     textAlign: "center",
-    fontWeight: "400",
+    fontFamily: "Cabin_Bold",
   },
 });
 

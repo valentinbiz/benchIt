@@ -17,17 +17,17 @@ const styles = StyleSheet.create({
     marginTop: 4,
     marginBottom: 12,
     height: btnHeight ? btnHeight : 40,
-    width: "90%",
+    width: "80%",
     backgroundColor: colorScheme ? colorScheme : "#B85F44",
-    padding: 8,
+    padding: 6,
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 10,
   }),
   buttonText: {
-    fontWeight: "600",
     fontSize: 18,
     color: "#FCFEF7",
+    fontFamily: "Cabin_Bold"
   },
 });
 

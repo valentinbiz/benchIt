@@ -62,6 +62,7 @@ const styles = StyleSheet.create({
     color: "#333",
     justifyContent: "center",
     alignItems: "center",
+    fontFamily: "Cabin_400Regular",
   },
   inputField: {
     padding: 10,
@@ -72,6 +73,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     borderRadius: 15,
     borderWidth: 1,
-    borderColor: "#B85F44"
+    borderColor: "#B85F44",
   },
 });

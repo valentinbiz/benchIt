@@ -39,7 +39,7 @@ function LogIn({ navigation }) {
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.container}>
-        <Text style={styles.header}>Login </Text>
+        <Text style={styles.header}>Login</Text>
 
         <FormInput
           labelValue={email}
@@ -89,7 +89,7 @@ function LogIn({ navigation }) {
           style={styles.forgotButton}
           onPress={() => navigation.navigate("SignUp")}
         >
-          <Text style={styles.navButtonText}>Don't have an acount?</Text>
+          <Text style={styles.navButtonText}>Don't have an account?</Text>
         </TouchableOpacity>
         <Text style={[styles.SeparatorText, styles.blueText]}>OR</Text>
         <TouchableOpacity style={styles.forgotButton} onPress={() => {}}>
@@ -111,6 +111,7 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 30,
     color: "#342C2C",
+    fontFamily: "Cabin_Bold",
   },
   navButton: {
     marginTop: 15,
@@ -129,10 +130,12 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
     alignItems: "flex-end",
     textDecorationLine: "underline",
+    fontFamily: "Cabin_400Regular",
   },
   SeparatorText: {
     textAlign: "center",
     fontWeight: "400",
+    fontFamily: "Cabin_Bold",
   },
 });
 

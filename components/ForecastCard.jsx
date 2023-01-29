@@ -44,8 +44,8 @@ function ForecastCard() {
 
   return (
     <View style={styles.ForecastCard}>
-      <Text>
-        Current Condition: The weather in {cityName} is {weatherCondition}. 
+      <Text style={styles.ForecastCardText}>
+        Currently, the weather in {cityName} is {weatherCondition}. 
         The temperature is {temp}°C
         {temp !== tempFeel ? <Text> but it really feels like {tempFeel}°C</Text>: null}.
         Perfect for a bench session.
@@ -56,15 +56,18 @@ function ForecastCard() {
 
 const styles = StyleSheet.create({
   ForecastCard: {
-    flex: 0,
-    justifyContent: "center",
-    alignContent: "center",
-    padding: 10,
-    borderColor: "#20232a",
-    borderWidth: 1,
-    borderRadius: 2,
-    marginHorizontal: 10,
-    marginVertical: 6
+    backgroundColor: "#FCFEF7",
+    marginTop: 20,
+    marginHorizontal: 20,
+    borderRadius: 30,
+    padding: 15,
+    borderWidth: 2,
+    borderColor: "#B85F44",
+  },
+  ForecastCardText: {
+    textAlign: "center",
+    color: "#342C2C",
+    fontFamily: "Cabin_400Regular",
   },
 });
   
