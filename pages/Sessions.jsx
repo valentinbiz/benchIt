@@ -1,6 +1,6 @@
 import { getDocs, collection } from "firebase/firestore";
 import { db, auth } from "../firebaseConfig";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
   View,
   Text,
@@ -14,7 +14,8 @@ import * as Location from "expo-location";
 import BenchSessions from "../components/BenchSessions";
 import FormButton from "../components/FormButton";
 import MapComponent from "../components/MapComponent";
-import ForecastCard from "../components/ForecastCard"
+import ForecastCard from "../components/ForecastCard";
+import UserContext from "../contexts/UserContext";
 
 function Sessions({ navigation }) {
   const [viewType, setViewType] = useState("List");
@@ -53,6 +54,7 @@ function Sessions({ navigation }) {
   const [benches, setBenches] = useState([]);
   const [ errorMsg, setErrorMsg ] = useState(false);
   const [ currLocation, setCurrLocation ] = useState({});
+  const { user } = useContext(UserContext);
 
   const getBenches = () => {
     const docRefCollection = collection(db, "benches");
@@ -95,7 +97,7 @@ function Sessions({ navigation }) {
     <View>
       <ScrollView nestedScrollEnabled={true}>
         <Text style={styles.GreetingMessage}>
-          Welcome back, {auth.currentUser?.displayName}!
+          Welcome back, {auth.currentUser?.displayName || user.displayName}!
         </Text>
         <View style={styles.SearchBar}>
           <TextInput

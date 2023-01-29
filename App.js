@@ -9,7 +9,7 @@ import NewSessions from "./pages/NewSessions";
 import SignUp from "./pages/SignUp";
 import LogIn from "./pages/LogIn";
 import isLoggedInContext from "./contexts/IsLoggedInContext";
-import userContext from "./contexts/UserContext";
+import UserContext from "./contexts/UserContext";
 import React, { useCallback, useEffect, useState } from "react";
 import * as SplashScreen from "expo-splash-screen";
 import * as Font from "expo-font";
@@ -24,7 +24,12 @@ let customFonts = {
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState({
+    displayName: "Guest",
+    email: "",
+    userId: 0,
+    photoUrl: ""
+  });
   const [appIsReady, setAppIsReady] = useState(false);
   // ignore async warning messages in app, still can't remove them from console :(
   // LogBox.ignoreAllLogs();
@@ -51,7 +56,7 @@ const App = () => {
    
   return (
     <isLoggedInContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>
-      <userContext.Provider value={{ user, setUser }}>
+    <UserContext.Provider value={{ user, setUser }}>
         <NavigationContainer onReady={onLayoutRootView}>
           <Stack.Navigator>
             <Stack.Screen
@@ -70,7 +75,7 @@ const App = () => {
             <Stack.Screen name="Login" component={LogIn} />
           </Stack.Navigator>
         </NavigationContainer>
-      </userContext.Provider>
+    </UserContext.Provider>
     </isLoggedInContext.Provider>
   );
 };

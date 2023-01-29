@@ -11,9 +11,11 @@ import {
 import park from "../creativeAssets/bench.png";
 import benchIllustration from "../creativeAssets/bench-illustration.png";
 import isLoggedInContext from "../contexts/IsLoggedInContext";
+import UserContext from "../contexts/UserContext";
 
 function HomePage({ navigation }) {
   const { isLoggedIn, setIsLoggedIn } = useContext(isLoggedInContext);
+  const { user } = useContext(UserContext);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -49,7 +51,7 @@ function HomePage({ navigation }) {
           </View>
         ) : (
           <View style={styles.viewContainer}>
-            <Text> Hello there, Mitch</Text>
+            <Text>Hello there, {user.displayName}</Text>
           </View>
         )}
       </ScrollView>

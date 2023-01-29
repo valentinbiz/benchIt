@@ -13,19 +13,25 @@ import FormInput from "../components/FormInput";
 import FormButton from "../components/FormButton";
 import SocialButton from "../components/SocialButton";
 import isLoggedInContext from "../contexts/IsLoggedInContext";
-
-const handleLogin = (email, password) => {
-  signInWithEmailAndPassword(auth, email, password).then((userCreds) => {
-    const user = userCreds.user;
-    console.log(user.email);
-    console.log(user.displayName);
-  });
-};
+import UserContext from "../contexts/UserContext";
 
 function LogIn({ navigation }) {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const { setIsLoggedIn } = useContext(isLoggedInContext);
+  const { setUser } = useContext(UserContext);
+
+  const handleLogin = (email, password) => {
+    signInWithEmailAndPassword(auth, email, password).then((userCreds) => {
+      const user = userCreds.user;
+      setUser({
+        displayName: user.displayName,
+        email: user.email,
+      });
+      console.log(user);
+      console.log(user.displayName);
+    });
+  };
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
