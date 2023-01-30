@@ -9,7 +9,7 @@ import {
   StyleSheet,
 } from "react-native";
 import { getDocs, collection } from "firebase/firestore";
-import { db, auth } from "../firebaseConfig";
+import { db, auth } from "../firebaseConfigOriginal";
 import BenchSessions from "../components/BenchSessions";
 import FormButton from "../components/FormButton";
 import MapComponent from "../components/MapComponent";
@@ -20,7 +20,6 @@ function NewSessions({ navigation }) {
 
   const bookingSelect = (target) => {
     setClickedBench(target);
-    console.log(clickedBench);
   };
 
   const [benches, setBenches] = useState([]);

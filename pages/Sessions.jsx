@@ -1,6 +1,7 @@
 import { getDocs, collection } from "firebase/firestore";
-import { db, auth } from "../firebaseConfig";
-import React, { useEffect, useState } from "react";
+// import { db, auth } from "../firebaseConfigOriginal";
+import { db, auth } from "../firebase/firebaseConfig";
+import React, { useContext, useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -8,56 +9,30 @@ import {
   ScrollView,
   TouchableOpacity,
   Image,
-  StyleSheet
+  StyleSheet,
 } from "react-native";
 import * as Location from "expo-location";
 import BenchSessions from "../components/BenchSessions";
 import FormButton from "../components/FormButton";
 import MapComponent from "../components/MapComponent";
-import ForecastCard from "../components/ForecastCard"
+import ForecastCard from "../components/ForecastCard";
+import selectedBenchContext from "../contexts/selectedBenchContext";
 
 function Sessions({ navigation }) {
   const [viewType, setViewType] = useState("List");
   const [clickedBench, setClickedBench] = useState(false);
   const [sessions, setSessions] = useState("12th January, 15:00");
-  const [testBenches, setTestBenches] = useState([
-    {
-      benchId: 1,
-      img: "../creativeAssets/bench.png",
-      title: "Serenity Bench",
-      address: "12 Oxford Road, Manchester",
-      bg: "#8888",
-    },
-    {
-      benchId: 2,
-      img: "../creativeAssets/bench.png",
-      title: "Serenity Bench",
-      address: "1 Oxford Road, Manchester",
-      bg: "white",
-    },
-    {
-      benchId: 3,
-      img: "../creativeAssets/bench.png",
-      title: "Serenity Bench",
-      address: "1dd2 Oxford Road, Manchester",
-      bg: "salmon",
-    },
-    {
-      benchId: 4,
-      img: "../creativeAssets/bench.png",
-      title: "Serenity Bench",
-      address: "1a2 Oxford Road, Manchester",
-      bg: "black",
-    },
-  ]);
+  const { selectedBench, setSelectedBench } = useContext(selectedBenchContext);
+
   const [benches, setBenches] = useState([]);
-  const [ errorMsg, setErrorMsg ] = useState(false);
-  const [ currLocation, setCurrLocation ] = useState({});
+  const [errorMsg, setErrorMsg] = useState(false);
+  const [currLocation, setCurrLocation] = useState({});
 
   const getBenches = () => {
     const docRefCollection = collection(db, "benches");
     getDocs(docRefCollection)
       .then((documents) => {
+        console.log(documents);
         const benchesArray = [];
         documents.forEach((doc) => benchesArray.push(doc.data()));
         setBenches(benchesArray);
@@ -82,7 +57,8 @@ function Sessions({ navigation }) {
 
   const bookingSelect = (target) => {
     setClickedBench(target);
-  }
+    setSelectedBench(target);
+  };
 
   let text = "Waiting..";
   if (errorMsg) {
@@ -135,21 +111,24 @@ function Sessions({ navigation }) {
           />
         </View>
         <ForecastCard></ForecastCard>
-        <Text style={styles.SessionsHeader} > Available sessions {/* {text} current location */}</Text>
+        <Text style={styles.SessionsHeader}>
+          {" "}
+          Available sessions {/* {text} current location */}
+        </Text>
         {viewType === "List" ? (
           <ScrollView style={styles.SessionsList} nestedScrollEnabled={true}>
             {benches.map((bench) => {
               return (
-                  <BenchSessions
-                    key={bench.benchId}
-                    img={require("../creativeAssets/bench.png")}
-                    title={bench.benchName}
-                    address={bench.benchAddress}
-                    bg={"#fcfef7"}
-                    behaviour={bookingSelect}
-                    sessionTime={sessions}
-                    target={bench}
-                  />
+                <BenchSessions
+                  key={bench.benchId}
+                  img={require("../creativeAssets/bench.png")}
+                  title={bench.benchName}
+                  address={bench.benchAddress}
+                  bg={"#fcfef7"}
+                  behaviour={bookingSelect}
+                  sessionTime={sessions}
+                  target={bench}
+                />
               );
             })}
           </ScrollView>
@@ -250,9 +229,10 @@ const styles = StyleSheet.create({
   SessionsList: {
     height: 300,
   },
-  SessionsButton: { 
-    paddingHorizontal: 20, 
-    alignItems: "center" 
+  SessionsButton: {
+    paddingHorizontal: 20,
+    alignItems: "center",
+    height: 30,
   },
 });
 

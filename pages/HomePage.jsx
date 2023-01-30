@@ -10,10 +10,12 @@ import {
 } from "react-native";
 import park from "../creativeAssets/bench.png";
 import isLoggedInContext from "../contexts/IsLoggedInContext";
+import bookedBenchContext from "../contexts/bookedBenchContext";
 
 function HomePage({ navigation }) {
   const { isLoggedIn, setIsLoggedIn } = useContext(isLoggedInContext);
-
+  const { bookedBench } = useContext(bookedBenchContext);
+  console.log(bookedBench);
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>

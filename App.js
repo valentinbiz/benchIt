@@ -10,6 +10,8 @@ import SignUp from "./pages/SignUp";
 import LogIn from "./pages/LogIn";
 import isLoggedInContext from "./contexts/IsLoggedInContext";
 import userContext from "./contexts/UserContext";
+import selectedBenchContext from "./contexts/selectedBenchContext";
+import bookedBenchContext from "./contexts/bookedBenchContext";
 import { useState } from "react";
 import { LogBox } from "react-native";
 
@@ -18,28 +20,39 @@ const Stack = createNativeStackNavigator();
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
+  const [selectedBench, setSelectedBench] = useState(null);
+  const [bookedBench, setBookedBench] = useState(null);
   // ignore async warning messages in app, still can't remove them from console :(
   // LogBox.ignoreAllLogs();
 
   return (
     <isLoggedInContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>
-    <userContext.Provider value={{ user, setUser }}>
-        <NavigationContainer>
-          <Stack.Navigator>
-            <Stack.Screen
-              name="NavBar"
-              component={Navbar}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen name="AccountSettings" component={AccountSettings} />
-            <Stack.Screen name="NewBooking" component={NewBooking} />
-            <Stack.Screen name="Camera" component={BenchImageCapture} />
-            <Stack.Screen name="NewSessions" component={NewSessions} />
-            <Stack.Screen name="SignUp" component={SignUp} />
-            <Stack.Screen name="Login" component={LogIn} />
-          </Stack.Navigator>
-        </NavigationContainer>
-    </userContext.Provider>
+      <userContext.Provider value={{ user, setUser }}>
+        <selectedBenchContext.Provider
+          value={{ selectedBench, setSelectedBench }}
+        >
+          <bookedBenchContext.Provider value={{ bookedBench, setBookedBench }}>
+            <NavigationContainer>
+              <Stack.Navigator>
+                <Stack.Screen
+                  name="NavBar"
+                  component={Navbar}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="AccountSettings"
+                  component={AccountSettings}
+                />
+                <Stack.Screen name="NewBooking" component={NewBooking} />
+                <Stack.Screen name="NewSessions" component={NewSessions} />
+                <Stack.Screen name="Camera" component={BenchImageCapture} />
+                <Stack.Screen name="SignUp" component={SignUp} />
+                <Stack.Screen name="Login" component={LogIn} />
+              </Stack.Navigator>
+            </NavigationContainer>
+          </bookedBenchContext.Provider>
+        </selectedBenchContext.Provider>
+      </userContext.Provider>
     </isLoggedInContext.Provider>
   );
 };

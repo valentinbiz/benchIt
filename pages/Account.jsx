@@ -9,13 +9,13 @@ import {
   ScrollView,
   TouchableHighlight,
 } from "react-native";
-import { auth } from "../firebaseConfig";
+import { auth } from "../firebaseConfigOriginal";
 import { AntDesign } from "@expo/vector-icons";
 import isLoggedInContext from "../contexts/IsLoggedInContext";
 import InfoCard from "../components/InformationCard";
 
 export default function Account({ navigation }) {
-  const [ image, setImage ] = useState(image);
+  const [image, setImage] = useState(image);
   const { setIsLoggedIn } = useContext(isLoggedInContext);
 
   const handleSignOut = () => {
@@ -31,42 +31,42 @@ export default function Account({ navigation }) {
   const handlePress = () => navigation.navigate("AccountSettings");
 
   return (
-      <ScrollView>
-        <View style={styles.wrapper}>
-          <View style={styles.container}>
-            {image && (
-              <Image
-                source={{ uri: image }}
-                style={{ width: 200, height: 200 }}
-              />
-            )}
-            <View>
-              <TouchableOpacity>
-                <Text></Text>
-                <AntDesign name="camera" size={20} color="black" />
-              </TouchableOpacity>
-            </View>
+    <ScrollView>
+      <View style={styles.wrapper}>
+        <View style={styles.container}>
+          {image && (
+            <Image
+              source={{ uri: image }}
+              style={{ width: 200, height: 200 }}
+            />
+          )}
+          <View>
+            <TouchableOpacity>
+              <Text></Text>
+              <AntDesign name="camera" size={20} color="black" />
+            </TouchableOpacity>
           </View>
         </View>
+      </View>
 
-        <View>
-          <Text> You are logged in as Mitch! </Text>
-        </View>
-        <View>
-          <InfoCard description={`Name: Mitch`}></InfoCard>
-        </View>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity onPress={handlePress}>
-            <Text>Go to Account Settings</Text>
-          </TouchableOpacity>
-          <TouchableHighlight
-            style={styles.button}
-            onPress={() => handleSignOut()}
-          >
-            <Text style={styles.buttonText}>Sign Out</Text>
-          </TouchableHighlight>
-        </View>
-      </ScrollView>
+      <View>
+        <Text> You are logged in as Mitch! </Text>
+      </View>
+      <View>
+        <InfoCard description={`Name: Mitch`}></InfoCard>
+      </View>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity onPress={handlePress}>
+          <Text>Go to Account Settings</Text>
+        </TouchableOpacity>
+        <TouchableHighlight
+          style={styles.button}
+          onPress={() => handleSignOut()}
+        >
+          <Text style={styles.buttonText}>Sign Out</Text>
+        </TouchableHighlight>
+      </View>
+    </ScrollView>
   );
 }
 const styles = StyleSheet.create({
@@ -113,6 +113,6 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: "#FCFEF7",
-    fontWeight: 'bold'
-  }
+    fontWeight: "bold",
+  },
 });

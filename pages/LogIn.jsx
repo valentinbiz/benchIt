@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebaseConfig";
+// import { auth } from "../firebaseConfigOriginal";
+import { auth } from "../firebase/firebaseConfig";
 import {
   View,
   Text,
@@ -13,6 +14,7 @@ import FormInput from "../components/FormInput";
 import FormButton from "../components/FormButton";
 import SocialButton from "../components/SocialButton";
 import isLoggedInContext from "../contexts/IsLoggedInContext";
+import { collection } from "firebase/firestore";
 
 const handleLogin = (email, password) => {
   signInWithEmailAndPassword(auth, email, password).then((userCreds) => {

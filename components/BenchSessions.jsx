@@ -11,8 +11,9 @@ function BenchSessions({
   target,
 }) {
   const handleBookSession = () => {
-    console.log("Book Session clicked")
-  }
+    console.log("Book Session clicked");
+    behaviour(target);
+  };
 
   return (
     <TouchableOpacity

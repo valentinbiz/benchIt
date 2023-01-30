@@ -1,25 +1,26 @@
-import React from "react";
-import {
-  StyleSheet,
-  SafeAreaView,
-  View,
-  Text,
-  TextInput,
-  TouchableHighlight,
-  Alert,
-} from "react-native";
+import React, { useContext } from "react";
+import { StyleSheet, SafeAreaView, View, Text } from "react-native";
 import BenchSessions from "../components/BenchSessions";
+import bookedBenchContext from "../contexts/bookedBenchContext";
 
 function Schedule() {
+  const { bookedBench } = useContext(bookedBenchContext);
   return (
     <SafeAreaView style={styles.container}>
       <View>
         <Text>Schedule Page</Text>
-        <Text> You currently have 2 sessions booked</Text>
-        <BenchSessions bg={"black"} />
+        {bookedBench ? (
+          <>
+            <Text> You currently have 2 sessions booked</Text>
+            <BenchSessions
+              img={bookedBench.benchPicture}
+              title={bookedBench.benchName}
+            />
+          </>
+        ) : null}
+
         <BenchSessions bg={"black"} />
       </View>
-
       <View></View>
       <View></View>
     </SafeAreaView>
