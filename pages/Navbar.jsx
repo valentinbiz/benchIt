@@ -12,11 +12,11 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 const home = "Home";
 const login = "Login";
-const signUp = "SignUp";
+const signUp = "Sign Up";
 const account = "Account";
 const sessions = "Sessions";
 const schedule = "Schedule";
-const benchUpload = "BenchUpload";
+const benchUpload = "Upload Bench";
 
 const Tab = createBottomTabNavigator();
 
@@ -37,11 +37,13 @@ const Navbar = () => {
           } else if (routeName === signUp) {
             iconName = focused ? "person-add" : "person-add-outline";
           } else if (routeName === sessions) {
-            iconName = focused ? "person" : "person-outline";
+            iconName = focused ? "book" : "book-outline";
+            // iconName = focused ? "bookmark" : "bookmark-outline";
           } else if (routeName === schedule) {
-            iconName = focused ? "alarm" : "alarm-outline";
+            // iconName = focused ? "time" : "time-outline";
+            iconName = focused ? "today" : "today-outline";
           } else if (routeName === benchUpload) {
-            iconName = focused ? "add" : "add-outline";
+            iconName = focused ? "md-add-circle" : "md-add-circle-outline";
           }
 
           return <Ionicons name={iconName} size={32} color={"#B85F44"} />;
@@ -84,7 +86,7 @@ const styles = StyleSheet.create({
     color: "#342C2C",
     fontWeight: "600",
     marginBottom: 4,
-    fontFamily: "Cabin_Bold"
+    fontFamily: "Cabin_Bold",
   },
   tabBar: {
     //borderTopEndRadius: 20,
