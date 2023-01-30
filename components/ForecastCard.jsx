@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet } from "react-native";
+import { Image, View, Text, StyleSheet } from "react-native";
 
 /* ====================== API functions ====================== */
 const api = axios.create({ baseUrl: "" });
@@ -25,8 +25,36 @@ const getCurrConditions = (locationKey) => {
 function ForecastCard() {
   const [weatherCondition, setWeatherCondition] = useState(null);
   const [temp, setTemp] = useState(null);
-  const [tempFeel, setTempFeel] = useState(null);
   const [cityName, setCityName] = useState(null);
+  const [dateMessage, setDateMessage] = useState("Monday 30 January,");
+  const [recommendationMsg, setRecommendationMsg] = useState("Perfect for a bench session"); 
+  const [icon, setIcon] = useState(require("../assets/weather-icon-images/dummy-icon.png"));
+  const [iconId, setIconId] = useState(1);
+  const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  
+
+  const formatForecastMessage = (iconId) => {
+    const currentDate = new Date();
+    setDateMessage(`${dayNames[currentDate.getDay()]} ${currentDate.getDate()} ${monthNames[currentDate.getMonth()]},`);
+    if (iconId >= 1 && iconId <= 5) setIcon(require("../assets/weather-icon-images/sun-icon.png"));
+    else if (iconId >= 6 && iconId <= 11) setIcon(require("../assets/weather-icon-images/cloud-icon.png"));
+    else if (iconId >= 12 && iconId <= 18) setIcon(require("../assets/weather-icon-images/rain-icon.png"));
+    else setIcon(require("../assets/weather-icon-images/dummy-icon.png")); 
+  };
 
   useEffect(() => {
     getGeoPosition()
@@ -37,7 +65,7 @@ function ForecastCard() {
       .then((result) => {
         setWeatherCondition(result.data[0].WeatherText.toLowerCase());
         setTemp(result.data[0].Temperature.Metric.Value);
-        setTempFeel(result.data[0].RealFeelTemperature.Metric.Value);
+        formatForecastMessage(result.data[0].WeatherIcon);
       })
       .catch((error) => console.log(error));
   }, [])
@@ -45,11 +73,12 @@ function ForecastCard() {
   return (
     <View style={styles.ForecastCard}>
       <Text style={styles.ForecastCardText}>
-        Currently, the weather in {cityName} is {weatherCondition}. 
-        The temperature is {temp}°C
-        {temp !== tempFeel ? <Text> but it really feels like {tempFeel}°C</Text>: null}.
-        Perfect for a bench session.
+        {dateMessage} {cityName} {weatherCondition}. {temp}°C. {recommendationMsg}.
       </Text>
+      <Image
+        source={icon}
+        style={{ width: 72, height: 72 }}
+      ></Image>
     </View>
   );
 }
