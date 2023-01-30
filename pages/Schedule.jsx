@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   SafeAreaView,
@@ -11,13 +11,40 @@ import {
 import BenchSessions from "../components/BenchSessions";
 
 function Schedule() {
+  const [benches, setBenches] = useState([
+    {
+      benchId: 1,
+      img: "../creativeAssets/bench.png",
+      benchName: "Serenity Bench",
+      benchAddress: "12 Oxford Road, Manchester",
+    },
+    {
+      benchId: 2,
+      img: "../creativeAssets/bench.png",
+      benchName: "Serenity Bench",
+      benchAddress: "1 Oxford Road, Manchester",
+    },
+  ]);
   return (
-    <SafeAreaView style={styles.container}>
-      <View>
-        <Text>Schedule Page</Text>
-        <Text> You currently have 2 sessions booked</Text>
-        <BenchSessions bg={"black"} />
-        <BenchSessions bg={"black"} />
+    <SafeAreaView>
+      <View style={styles.container}>
+        <Text style={styles.header}>Schedule Page</Text>
+        <Text style={styles.message}>
+          {" "}
+          You currently have <Text style={styles.accentColor}>2</Text> sessions
+          booked
+        </Text>
+        {benches.map((bench) => {
+          return (
+            <BenchSessions
+              key={bench.benchId}
+              img={require("../creativeAssets/bench-illustration-2.png")}
+              title={bench.benchName}
+              address={bench.benchAddress}
+              bg={"#fcfef7"}
+            />
+          );
+        })}
       </View>
 
       <View></View>
@@ -28,11 +55,26 @@ function Schedule() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     justifyContent: "center",
     alignContent: "center",
     marginHorizontal: 16,
   },
+  header: {
+    marginTop: 50,
+    fontSize: 32,
+    color: "#342C2C",
+    textAlign: "center",
+    fontFamily: "Cabin_Bold",
+  },
+  message: {
+    color: "#342C2C",
+    textAlign: "center",
+    fontFamily: "Cabin_400Regular",
+    marginBottom: 10
+  },
+  accentColor: {
+    color: "#B85F44"
+  }
 });
 
 export default Schedule;

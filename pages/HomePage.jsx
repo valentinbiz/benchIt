@@ -23,9 +23,11 @@ function HomePage({ navigation }) {
         <View style={styles.viewContainer}>
           <Text style={styles.title}>BenchIt</Text>
           <Text style={styles.missionText}>
-            Our mission is to combat loneliness by connecting individuals in
-            their local community through the shared experience of sitting on a
-            bench.
+            Our mission is to{" "}
+            <Text style={styles.accentColor}>combat loneliness</Text> by{" "}
+            <Text style={styles.accentColor}>connecting individuals</Text> in
+            their local community through the shared experience of{" "}
+            <Text style={styles.accentColor}>sitting on a bench</Text>.
           </Text>
         </View>
 
@@ -103,6 +105,10 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontFamily: "Cabin_400Regular",
     marginHorizontal: 5,
+  },
+  accentColor: {
+    color: "#B85F44",
+    fontFamily: "Cabin_Bold"
   },
 });
 

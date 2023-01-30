@@ -9,10 +9,8 @@ import {
   Image,
 } from "react-native";
 import FormButton from "../components/FormButton";
-
 import { Agenda } from "react-native-calendars";
 import { useState } from "react";
-
 export default function NewBooking() {
   const [modalVisible, setModalVisible] = useState(false);
   const [sessionData, setSessionData] = useState(null);
@@ -27,7 +25,13 @@ export default function NewBooking() {
         <View style={styles.calendarContainer}>
           <View style={styles.infoContainer}>
             <Text style={styles.text}>Finalise your booking</Text>
-            <View style={{ widht: 400 }}>
+            <View
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
               <Image
                 source={require("../creativeAssets/undrawBooking.png")}
                 style={{
@@ -35,15 +39,20 @@ export default function NewBooking() {
                   width: 150,
                   alignItems: "center",
                   justifyContent: "center",
-                  marginLeft: 100,
                 }}
               />
             </View>
-            <Text style={{ fontSize: 30, padding: 20 }}>
+            <Text
+              style={{
+                fontSize: 20,
+                padding: 20,
+                fontFamily: "Cabin_400Regular",
+                textAlign: "center",
+              }}
+            >
               Please select one available session for Serenity Bench!
             </Text>
           </View>
-
           <View style={styles.centeredView}>
             <Modal
               animationType="slide"
@@ -147,15 +156,17 @@ export default function NewBooking() {
           >
             <Text style={styles.textStyle}>Select an available session</Text>
           </Pressable>
-          <View style={{ paddingHorizontal: 20, alignItems: "center" }}>
-            <FormButton buttonTitle="Book this session" />
+          <View style={styles.bookSessionButton}>
+            <FormButton
+              colorScheme={"#342C2C"}
+              buttonTitle="Book this session"
+            />
           </View>
         </View>
       </View>
     </>
   );
 }
-
 const styles = StyleSheet.create({
   centeredView: {
     flex: 1,
@@ -177,12 +188,13 @@ const styles = StyleSheet.create({
   },
   calendar: {
     borderWidth: 1,
-    borderColor: "#b6c1cd",
+    borderColor: "#B6C1CD",
   },
   text: {
     alignSelf: "center",
     padding: 20,
-    fontSize: 40,
+    fontSize: 28,
+    fontFamily: "Cabin_Bold",
   },
   container: {
     flex: 1,
@@ -230,21 +242,42 @@ const styles = StyleSheet.create({
   button: {
     borderRadius: 20,
     padding: 10,
+    backgroundColor: "#342C2C",
+    marginVertical: 10,
     // elevation: 2,
   },
+  bookSessionButton: {
+    fontFamily: "Cabin_Bold",
+    width: "80%",
+    paddingHorizontal: 20,
+    alignItems: "center",
+  },
   buttonOpen: {
-    backgroundColor: "#F194FF",
+    // select ava session
+    borderRadius: 10,
+    padding: 2,
+    backgroundColor: "#B85F44",
+    fontFamily: "Cabin_Bold",
   },
   buttonClose: {
-    backgroundColor: "#2196F3",
+    backgroundColor: "#342C2C",
+    borderRadius: 20,
+    padding: 10,
+    fontFamily: "Cabin_Bold",
   },
   textStyle: {
-    color: "white",
+    fontFamily: "Cabin_Bold",
+    color: "#FCFEF7",
     fontWeight: "bold",
     textAlign: "center",
+    fontSize: 16,
+    padding: 8,
   },
   modalText: {
     marginBottom: 15,
     textAlign: "center",
   },
 });
+
+
+
