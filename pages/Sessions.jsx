@@ -266,6 +266,7 @@ const styles = StyleSheet.create({
     height: 300,
   },
   SessionsButton: {
+    marginVertical: 2,
     paddingHorizontal: 20,
     alignItems: "center",
   },

@@ -10,6 +10,7 @@ import {
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../firebaseConfig";
 import isLoggedInContext from "../contexts/IsLoggedInContext";
+import UserContext from "../contexts/UserContext";
 import FormInput from "../components/FormInput";
 import FormButton from "../components/FormButton";
 import SocialButton from "../components/SocialButton";
@@ -20,6 +21,7 @@ function SignUp({ navigation }) {
   const [password, setPassword] = useState();
   const [repeatPassword, setRepeatPassword] = useState();
   const { setIsLoggedIn } = useContext(isLoggedInContext);
+  const { setUser } = useContext(UserContext);
 
   const handleSignUp = () => {
     if (password !== repeatPassword) {
@@ -29,7 +31,8 @@ function SignUp({ navigation }) {
         .then(() => {
           return updateProfile(auth.currentUser, { displayName: displayName });
         })
-        .then(() => {
+        .then((result) => {
+          console.log(result)
           setIsLoggedIn(true);
           navigation.navigate("Home");
         })
