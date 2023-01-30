@@ -13,19 +13,25 @@ import FormInput from "../components/FormInput";
 import FormButton from "../components/FormButton";
 import SocialButton from "../components/SocialButton";
 import isLoggedInContext from "../contexts/IsLoggedInContext";
-
-const handleLogin = (email, password) => {
-  signInWithEmailAndPassword(auth, email, password).then((userCreds) => {
-    const user = userCreds.user;
-    console.log(user.email);
-    console.log(user.displayName);
-  });
-};
+import UserContext from "../contexts/UserContext";
 
 function LogIn({ navigation }) {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const { setIsLoggedIn } = useContext(isLoggedInContext);
+  const { setUser } = useContext(UserContext);
+
+  const handleLogin = (email, password) => {
+    signInWithEmailAndPassword(auth, email, password).then((userCreds) => {
+      const user = userCreds.user;
+      setUser({
+        displayName: user.displayName,
+        email: user.email,
+      });
+      console.log(user);
+      console.log(user.displayName);
+    });
+  };
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -39,7 +45,7 @@ function LogIn({ navigation }) {
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.container}>
-        <Text style={styles.text}>Login </Text>
+        <Text style={styles.header}>Login</Text>
 
         <FormInput
           labelValue={email}
@@ -64,12 +70,9 @@ function LogIn({ navigation }) {
           onPress={() => handleLogin(email, password)}
         />
 
-        <TouchableOpacity style={styles.forgotButton} onPress={() => {}}>
-          <Text style={styles.navButtonText}>Forgot Password?</Text>
-        </TouchableOpacity>
-
         {Platform.OS === "android" ? (
           <View>
+            <Text style={styles.SeparatorText}>OR</Text>
             <SocialButton
               buttonTitle="Sign In with Facebook"
               btnType="facebook"
@@ -92,9 +95,11 @@ function LogIn({ navigation }) {
           style={styles.forgotButton}
           onPress={() => navigation.navigate("SignUp")}
         >
-          <Text style={styles.navButtonText}>
-            Don't have an acount? Create here
-          </Text>
+          <Text style={styles.navButtonText}>Don't have an account?</Text>
+        </TouchableOpacity>
+        <Text style={[styles.SeparatorText, styles.blueText]}>OR</Text>
+        <TouchableOpacity style={styles.forgotButton} onPress={() => {}}>
+          <Text style={styles.navButtonText}>Forgot Password?</Text>
         </TouchableOpacity>
       </ScrollView>
     </View>
@@ -106,22 +111,37 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 10,
+    backgroundColor: "#FCFEF7",
+    height: "100%",
   },
-  text: {
-    fontSize: 28,
-    marginBottom: 10,
-    color: "#051d5f",
+  header: {
+    fontSize: 30,
+    color: "#342C2C",
+    fontFamily: "Cabin_Bold",
   },
   navButton: {
     marginTop: 15,
   },
   forgotButton: {
-    marginVertical: 35,
+    display: "flex",
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
+    marginVertical: 8,
   },
   navButtonText: {
     fontSize: 18,
-    fontWeight: "500",
+    fontWeight: "400",
     color: "#2e64e5",
+    textAlign: "right",
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
+    textDecorationLine: "underline",
+    fontFamily: "Cabin_400Regular",
+  },
+  SeparatorText: {
+    textAlign: "center",
+    fontWeight: "400",
+    fontFamily: "Cabin_Bold",
   },
 });
 

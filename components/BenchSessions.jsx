@@ -11,66 +11,82 @@ function BenchSessions({
   target,
 }) {
   const handleBookSession = () => {
-    console.log("Book Session clicked")
+    console.log("Book Session clicked");
+    behaviour(target)
   }
 
   return (
     <TouchableOpacity
-      style={{
-        flexDirection: "row",
-        backgroundColor: bg,
-        padding: 20,
-        marginHorizontal: 20,
-        borderRadius: 20,
-        alignItems: "center",
-        marginTop: 10,
-      }}
+      style={[styles.BenchCard, {backgroundColor: bg}]}
     >
-      <Image source={img} style={{ width: 40, height: 40, borderRadius: 15 }} />
+      <Image source={img} style={styles.Image} />
 
       <View style={{ width: 180 }}>
-        <Text
-          style={{
-            color: "#345c74",
-            fontSize: 15,
-            paddingHorizontal: 20,
-            width: 170,
-          }}
-        >
+        <Text style={styles.Title}>
           {title}
         </Text>
         {sessionTime ? (
           <View>
-            <Text
-              style={{
-                color: "#345c74",
-                fontSize: 13,
-                paddingLeft: 20,
-                paddingRight: 10,
-              }}
-            >
-              {sessionTime}
-            </Text>
+            <Text style={styles.SessionTimeText}>{sessionTime}</Text>
           </View>
         ) : null}
-        <Text
-          style={{
-            color: "#0000000",
-            fontSize: 12,
-            paddingHorizontal: 20,
-          }}
-        >
-          {address}
-        </Text>
+        <Text style={styles.AddressText}>{address} </Text>
       </View>
       <TouchableOpacity
-        style={{ backgroundColor: "#888888", borderRadius: 20 }}
+        style={styles.SelectButton}
         onPress={() => handleBookSession()}
       >
-        <Text style={{ padding: 10 }}>Select!</Text>
+        <Text style={styles.SelectButtonText}>Select</Text>
       </TouchableOpacity>
     </TouchableOpacity>
   );
 }
 
+const styles = StyleSheet.create({
+  BenchCard: {
+    flexDirection: "row",
+    padding: 20,
+    marginHorizontal: 20,
+    borderRadius: 20,
+    alignItems: "center",
+    marginVertical: 5,
+    borderColor: "#342C2C",
+    borderWidth: 1,
+  },
+  Image: {
+    width: 40,
+    height: 40,
+    borderRadius: 15,
+  },
+  Title: {
+    color: "#B85F44",
+    fontSize: 15,
+    paddingHorizontal: 20,
+    width: 170,
+    fontFamily: "Cabin_400Regular",
+  },
+  SessionTimeText: {
+    color: "#342C2C",
+    fontSize: 13,
+    paddingLeft: 20,
+    paddingRight: 10,
+    fontFamily: "Cabin_400Regular",
+  },
+  AddressText: {
+    color: "#342C2C",
+    fontSize: 12,
+    paddingHorizontal: 20,
+    fontFamily: "Cabin_400Regular",
+  },
+  SelectButton: {
+    backgroundColor: "#342C2C",
+    borderRadius: 20,
+  },
+  SelectButtonText: {
+    color: "#FCFEF7",
+    fontWeight: "600",
+    padding: 10,
+    fontFamily: "Cabin_400Regular",
+  },
+});
 export default BenchSessions;

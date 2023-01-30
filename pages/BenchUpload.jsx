@@ -5,7 +5,9 @@ import FormInput from "../components/FormInput";
 import FormButton from "../components/FormButton";
 
 function BenchUpload({ navigation }) {
-  const [address, setaddress] = useState();
+  const [address, setaddress] = useState("");
+  const [benchName, setBenchName] = useState("");
+  const [benchDescription, setBenchDescription] = useState("");
   const [password, setPassword] = useState();
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -16,7 +18,7 @@ function BenchUpload({ navigation }) {
 
         <FormInput
           labelValue={address}
-          onChangeText={(userEmail) => setEmail(userEmail)}
+          onChangeText={(address) => setaddress(address)}
           placeholderText="Address"
           iconType="location-arrow"
           keyboardType="email-address"
@@ -24,8 +26,8 @@ function BenchUpload({ navigation }) {
           autoCorrect={false}
         />
         <FormInput
-          labelValue={address}
-          onChangeText={(userEmail) => setEmail(userEmail)}
+          labelValue={benchName}
+          onChangeText={(benchName) => setBenchName(benchName)}
           placeholderText="Bench Name"
           iconType="edit"
           keyboardType="email-address"
@@ -33,31 +35,32 @@ function BenchUpload({ navigation }) {
           autoCorrect={false}
         />
         <FormInput
-          labelValue={address}
-          onChangeText={(userEmail) => setEmail(userEmail)}
+          labelValue={benchDescription}
+          onChangeText={(benchDescription) => setBenchDescription(benchDescription)}
           placeholderText="Bench Description"
           iconType="info"
           keyboardType="email-address"
           autoCapitalize="none"
           autoCorrect={false}
         />
-        <Text>
-          In order to be able to publish a bench we require the accurate
-          location and a picture of the said bench
+        <Text
+          style={styles.message}
+        >
+          Registering a bench requires the accurate location and a good picture of the bench
         </Text>
-        <View style={{ width: 300 }}>
-          <FormButton
-            buttonTitle="Capture Bench Image"
-            onPress={() => navigation.navigate("Camera")}
-          />
-          <FormButton
-            buttonTitle="Use GPS location"
-            onPress={() => navigation.navigate("Camera")}
-          />
-        </View>
+
+        <FormButton
+          buttonTitle="Capture Bench Image"
+          onPress={() => navigation.navigate("Camera")}
+        />
+        <FormButton
+          buttonTitle="Use GPS location"
+          onPress={() => navigation.navigate("Camera")}
+        />
+
         <FormButton
           buttonTitle="Submit bench"
-          colorScheme="#808080"
+          colorScheme="#342C2C"
           onPress={() => {}}
         />
       </ScrollView>
@@ -72,20 +75,18 @@ const styles = StyleSheet.create({
     paddingTop: 50,
   },
   text: {
-    fontSize: 28,
-    marginBottom: 10,
-    color: "#051d5f",
+    fontSize: 32,
+    color: "#342C2C",
+    fontFamily: "Cabin_Bold",
   },
-  navButton: {
-    marginTop: 15,
+  message: {
+    textAlign: "center",
+    marginHorizontal: 20,
+    marginBottom: 10,
+    fontFamily: "Cabin_400Regular"
   },
   forgotButton: {
     marginVertical: 35,
-  },
-  navButtonText: {
-    fontSize: 18,
-    fontWeight: "500",
-    color: "#2e64e5",
   },
   centeredView: {
     flex: 1,

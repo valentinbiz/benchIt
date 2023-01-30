@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from "react-native";
 const InfoCard = ({ description }) => {
   return (
     <View style={styles.infoContainer}>
-      <Text> {description} </Text>
+      <Text style={styles.description}> {description} </Text>
     </View>
   );
 };
@@ -22,6 +22,9 @@ const styles = StyleSheet.create({
     elevation: 15,
     marginTop: 20,
   },
+  description: {
+    fontFamily: "Cabin_400Regular"
+  }
 });
 
 export default InfoCard;

@@ -8,7 +8,6 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { StyleSheet } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { fontWeight } from "@mui/system";
 // Lets get together to decide on the icon pack https://oblador.github.io/react-native-vector-icons/
 
 const home = "Home";
@@ -48,14 +47,34 @@ const Navbar = () => {
           return <Ionicons name={iconName} size={32} color={"#B85F44"} />;
         },
         tabBarLabelStyle: styles.labelStyle,
-        tabBarStyle: styles.tabBar
+        tabBarStyle: styles.tabBar,
       })}
     >
-      <Tab.Screen name={home} component={HomePage}></Tab.Screen>
-      <Tab.Screen name={sessions} component={Sessions}></Tab.Screen>
-      <Tab.Screen name={benchUpload} component={BenchUpload}></Tab.Screen>
-      <Tab.Screen name={schedule} component={Schedule}></Tab.Screen>
-      <Tab.Screen name={account} component={Account}></Tab.Screen>
+      <Tab.Screen
+        name={home}
+        component={HomePage}
+        options={{ headerShown: false }}
+      ></Tab.Screen>
+      <Tab.Screen
+        name={sessions}
+        component={Sessions}
+        options={{ headerShown: false }}
+      ></Tab.Screen>
+      <Tab.Screen
+        name={benchUpload}
+        component={BenchUpload}
+        options={{ headerShown: false }}
+      ></Tab.Screen>
+      <Tab.Screen
+        name={schedule}
+        component={Schedule}
+        options={{ headerShown: false }}
+      ></Tab.Screen>
+      <Tab.Screen
+        name={account}
+        component={Account}
+        options={{ headerShown: false }}
+      ></Tab.Screen>
     </Tab.Navigator>
   );
 };
@@ -64,11 +83,14 @@ const styles = StyleSheet.create({
   labelStyle: {
     color: "#342C2C",
     fontWeight: "600",
-    marginBottom: 4
+    marginBottom: 4,
+    fontFamily: "Cabin_Bold"
   },
   tabBar: {
-    borderTopEndRadius: 20,
-    borderTopLeftRadius: 20,
+    //borderTopEndRadius: 20,
+    //borderTopLeftRadius: 20,
+    borderTopColor: "#342C2C",
+    borderTopWidth: 1,
     padding: 10,
     height: 64,
   },

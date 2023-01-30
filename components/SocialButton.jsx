@@ -34,11 +34,13 @@ const SocialButton = ({
 const styles = StyleSheet.create({
   buttonContainer: {
     marginTop: 10,
-    width: "100%",
+    width: "80%",
     height: 40,
     padding: 10,
     flexDirection: "row",
-    borderRadius: 15,
+    borderRadius: 10,
+    padding: 8,
+    alignContent: "center",
   },
   iconWrapper: {
     width: 30,
@@ -55,6 +57,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 18,
+    fontWeight: "600"
   },
 });
 
