@@ -8,6 +8,7 @@ import {
   Platform,
   StyleSheet,
   ScrollView,
+  KeyboardAvoidingView
 } from "react-native";
 import FormInput from "../components/FormInput";
 import FormButton from "../components/FormButton";
@@ -28,8 +29,6 @@ function LogIn({ navigation }) {
         displayName: user.displayName,
         email: user.email,
       });
-      console.log(user);
-      console.log(user.displayName);
     });
   };
 
@@ -43,32 +42,31 @@ function LogIn({ navigation }) {
     return unsubscribe;
   }, []);
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView style={styles.mainContent}>
       <ScrollView contentContainerStyle={styles.container}>
-        <Text style={styles.header}>Login</Text>
-
-        <FormInput
-          labelValue={email}
-          onChangeText={(userEmail) => setEmail(userEmail)}
-          placeholderText="Email"
-          iconType="user"
-          keyboardType="email-address"
-          autoCapitalize="none"
-          autoCorrect={false}
-        />
-
-        <FormInput
-          labelValue={password}
-          onChangeText={(userPassword) => setPassword(userPassword)}
-          placeholderText="Password"
-          iconType="lock"
-          secureTextEntry={true}
-        />
-
-        <FormButton
-          buttonTitle="Log in"
-          onPress={() => handleLogin(email, password)}
-        />
+        <View style={styles.formCard}>
+          <Text style={styles.header}>Account Login</Text>
+          <FormInput
+            labelValue={email}
+            onChangeText={(userEmail) => setEmail(userEmail)}
+            placeholderText="Email"
+            iconType="user"
+            keyboardType="email-address"
+            autoCapitalize="none"
+            autoCorrect={false}
+          />
+          <FormInput
+            labelValue={password}
+            onChangeText={(userPassword) => setPassword(userPassword)}
+            placeholderText="Password"
+            iconType="lock"
+            secureTextEntry={true}
+          />
+          <FormButton
+            buttonTitle="Log in"
+            onPress={() => handleLogin(email, password)}
+          />
+        </View>
 
         {Platform.OS === "android" ? (
           <View>
@@ -102,21 +100,35 @@ function LogIn({ navigation }) {
           <Text style={styles.navButtonText}>Forgot Password?</Text>
         </TouchableOpacity>
       </ScrollView>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
+  mainContent: {
+    height: "100%",
+    backgroundColor: "#FCFEF7",
+  },
+  formCard: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#342C2C",
+    width: "100%",
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    marginBottom: 5,
+  },
   container: {
     justifyContent: "center",
     alignItems: "center",
     padding: 10,
     backgroundColor: "#FCFEF7",
-    height: "100%",
   },
   header: {
     fontSize: 30,
-    color: "#342C2C",
+    color: "#FCFEF7",
     fontFamily: "Cabin_Bold",
   },
   navButton: {

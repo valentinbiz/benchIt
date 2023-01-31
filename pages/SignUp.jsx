@@ -6,6 +6,7 @@ import {
   Platform,
   StyleSheet,
   ScrollView,
+  KeyboardAvoidingView,
 } from "react-native";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../firebaseConfig";
@@ -41,91 +42,105 @@ function SignUp({ navigation }) {
   };
 
   return (
-    <View style={styles.container}>
-      <ScrollView contentContainerStyle={styles.container}>
-        <Text style={styles.header}>Register your account</Text>
+    <KeyboardAvoidingView style={styles.mainContent}>
+      <ScrollView>
+        <View style={styles.container}>
+          <View style={styles.formCard}>
+            <Text style={styles.header}>Register your account</Text>
 
-        <FormInput
-          labelValue={displayName}
-          onChangeText={(userName) => setDisplayName(userName)}
-          placeholderText="Name"
-          iconType="user"
-          keyboardType="text"
-          autoCapitalize="words"
-          autoCorrect={false}
-        />
-        <FormInput
-          labelValue={email}
-          onChangeText={(userEmail) => setEmail(userEmail)}
-          placeholderText="Email"
-          iconType="user"
-          keyboardType="email-address"
-          autoCapitalize="none"
-          autoCorrect={false}
-        />
-
-        <FormInput
-          labelValue={password}
-          onChangeText={(userPassword) => setPassword(userPassword)}
-          placeholderText="Password"
-          iconType="lock"
-          secureTextEntry={true}
-        />
-        <FormInput
-          labelValue={repeatPassword}
-          onChangeText={(userPassword) => setRepeatPassword(userPassword)}
-          placeholderText="Confirm Password"
-          iconType="lock"
-          secureTextEntry={true}
-        />
-
-        <FormButton buttonTitle="Sign up" onPress={() => handleSignUp()} />
-
-        {Platform.OS === "android" ? (
-          <View>
-            <Text style={styles.SocialText}>OR</Text>
-            <SocialButton
-              buttonTitle="Facebook Sign Up"
-              btnType="facebook"
-              color="#4867aa"
-              backgroundColor="#e6eaf4"
-              onPress={() => {}}
+            <FormInput
+              labelValue={displayName}
+              onChangeText={(userName) => setDisplayName(userName)}
+              placeholderText="Name"
+              iconType="user"
+              keyboardType="text"
+              autoCapitalize="words"
+              autoCorrect={false}
+            />
+            <FormInput
+              labelValue={email}
+              onChangeText={(userEmail) => setEmail(userEmail)}
+              placeholderText="Email"
+              iconType="user"
+              keyboardType="email-address"
+              autoCapitalize="none"
+              autoCorrect={false}
             />
 
-            <SocialButton
-              buttonTitle="Google Sign Up"
-              btnType="google"
-              color="#de4d41"
-              backgroundColor="#f5e7ea"
-              onPress={() => {}}
+            <FormInput
+              labelValue={password}
+              onChangeText={(userPassword) => setPassword(userPassword)}
+              placeholderText="Password"
+              iconType="lock"
+              secureTextEntry={true}
             />
+            <FormInput
+              labelValue={repeatPassword}
+              onChangeText={(userPassword) => setRepeatPassword(userPassword)}
+              placeholderText="Confirm Password"
+              iconType="lock"
+              secureTextEntry={true}
+            />
+            <FormButton buttonTitle="Sign up" onPress={() => handleSignUp()} />
           </View>
-        ) : null}
 
-        <TouchableOpacity
-          style={styles.forgotButton}
-          onPress={() => navigation.navigate("Login")}
-        >
-          <Text style={styles.navButtonText}>
-            Already have an account?
-          </Text>
-        </TouchableOpacity>
+          {Platform.OS === "android" ? (
+            <View>
+              <Text style={styles.SocialText}>OR</Text>
+              <SocialButton
+                buttonTitle="Facebook Sign Up"
+                btnType="facebook"
+                color="#4867aa"
+                backgroundColor="#e6eaf4"
+                onPress={() => {}}
+              />
+
+              <SocialButton
+                buttonTitle="Google Sign Up"
+                btnType="google"
+                color="#de4d41"
+                backgroundColor="#f5e7ea"
+                onPress={() => {}}
+              />
+            </View>
+          ) : null}
+          <TouchableOpacity
+            style={styles.forgotButton}
+            onPress={() => navigation.navigate("Login")}
+          >
+            <Text style={styles.navButtonText}>Already have an account?</Text>
+          </TouchableOpacity>
+        </View>
       </ScrollView>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
+  mainContent: {
+    height: "100%",
+    backgroundColor: "#FCFEF7"
+  },
+  formCard: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#342C2C",
+    width: "100%",
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    marginBottom: 5
+  },
   container: {
     justifyContent: "center",
     alignItems: "center",
     padding: 10,
     backgroundColor: "#FCFEF7",
-    height: "100%",
   },
   header: {
     fontSize: 32,
-    color: "#342C2C",
+    color: "#FCFEF7",
     fontFamily: "Cabin_Bold",
   },
   navButton: {

@@ -26,7 +26,7 @@ function Schedule() {
     },
   ]);
   return (
-    <SafeAreaView>
+    <View style={styles.mainContent}>
       <View style={styles.container}>
         <Text style={styles.header}>Schedule Page</Text>
         <Text style={styles.message}>
@@ -49,15 +49,20 @@ function Schedule() {
 
       <View></View>
       <View></View>
-    </SafeAreaView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  mainContent: {
+    backgroundColor: "#FCFEF7",
+    height: "100%"
+  },
   container: {
     justifyContent: "center",
     alignContent: "center",
     marginHorizontal: 16,
+    
   },
   header: {
     marginTop: 50,

@@ -6,7 +6,9 @@ import { Image, View, Text, StyleSheet } from "react-native";
 const api = axios.create({ baseUrl: "" });
 
 const getGeoPosition = () => {
-  const params = { params: { apikey: "azevzStu0Se4qcapDPLKjNCs5JVONnVL", q: "53.5,-2.24" } };
+  const params = {
+    params: { apikey: "azevzStu0Se4qcapDPLKjNCs5JVONnVL", q: "53.5,-2.24" },
+  };
   return api.get(
     "http://dataservice.accuweather.com/locations/v1/cities/geoposition/search",
     params
@@ -14,7 +16,9 @@ const getGeoPosition = () => {
 };
 
 const getCurrConditions = (locationKey) => {
-  const params = { params: { apikey: "azevzStu0Se4qcapDPLKjNCs5JVONnVL", details: true } };
+  const params = {
+    params: { apikey: "azevzStu0Se4qcapDPLKjNCs5JVONnVL", details: true },
+  };
   return axios.get(
     `http://dataservice.accuweather.com/currentconditions/v1/${locationKey}`,
     params
@@ -23,13 +27,12 @@ const getCurrConditions = (locationKey) => {
 
 
 function ForecastCard() {
-  const [weatherCondition, setWeatherCondition] = useState(null);
-  const [temp, setTemp] = useState(null);
-  const [cityName, setCityName] = useState(null);
-  const [dateMessage, setDateMessage] = useState("Monday 30 January,");
+  const [weatherCondition, setWeatherCondition] = useState("Sunny");
+  const [temp, setTemp] = useState("7.5 \n");
+  const [cityName, setCityName] = useState("Manchester \n");
+  const [dateMessage, setDateMessage] = useState("Monday 30 January \n");
   const [recommendationMsg, setRecommendationMsg] = useState("Perfect for a bench session"); 
   const [icon, setIcon] = useState(require("../assets/weather-icon-images/dummy-icon.png"));
-  const [iconId, setIconId] = useState(1);
   const monthNames = [
     "January",
     "February",
@@ -57,44 +60,56 @@ function ForecastCard() {
   };
 
   useEffect(() => {
-    getGeoPosition()
-      .then((result) => {
-        setCityName(result.data.EnglishName);
-        return getCurrConditions(result.data.Key);
-      })
-      .then((result) => {
-        setWeatherCondition(result.data[0].WeatherText.toLowerCase());
-        setTemp(result.data[0].Temperature.Metric.Value);
-        formatForecastMessage(result.data[0].WeatherIcon);
-      })
-      .catch((error) => console.log(error));
+    // getGeoPosition()
+    //   .then((result) => {
+    //     setCityName(result.data.EnglishName);
+    //     return getCurrConditions(result.data.Key);
+    //   })
+    //   .then((result) => {
+    //     setWeatherCondition(result.data[0].WeatherText.toLowerCase());
+    //     setTemp(result.data[0].Temperature.Metric.Value);
+    //     formatForecastMessage(result.data[0].WeatherIcon);
+    //   });
   }, [])
 
   return (
     <View style={styles.ForecastCard}>
       <Text style={styles.ForecastCardText}>
-        {dateMessage} {cityName} {weatherCondition}. {temp}°C. {recommendationMsg}.
+        <Text style={styles.cityName}>{cityName}</Text>{" "}
+        <Text style={styles.dateMessage}>{dateMessage}</Text>{" "}
+        <Text style={styles.weatherCondition}>{weatherCondition}</Text>
+        <Image source={icon} style={{ width: 32, height: 32 }}></Image>
+        <Text style={styles.temp}>{temp}°C.</Text>{" "}
+        <Text style={styles.recommendationMsg}>{recommendationMsg}.</Text>{" "}
       </Text>
-      <Image
-        source={icon}
-        style={{ width: 72, height: 72 }}
-      ></Image>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  dateMessage: {
+    fontSize: 16,
+  },
+  cityName: {
+    fontSize: 18,
+    fontFamily: "Cabin_Bold",
+    color: "#B85F44",
+  },
   ForecastCard: {
+    flex: 1,
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
     backgroundColor: "#FCFEF7",
-    marginTop: 20,
+    // marginTop: 20,
     marginHorizontal: 20,
     borderRadius: 30,
     padding: 15,
-    borderWidth: 2,
-    borderColor: "#B85F44",
+    width: 300,
+    // borderWidth: 2,
+    // borderColor: "#B85F44",
   },
   ForecastCardText: {
-    textAlign: "center",
+    textAlign: "right",
     color: "#342C2C",
     fontFamily: "Cabin_400Regular",
   },
