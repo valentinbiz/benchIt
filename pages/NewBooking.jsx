@@ -41,7 +41,6 @@ export default function NewBooking() {
       .catch((error) => console.log(error));
   };
 
-  console.log(sessionsForSpecificBench[0].result.day_0);
   const processData = () => {
     const formatDataObj = {};
     const sessions = sessionsForSpecificBench;
@@ -78,7 +77,6 @@ export default function NewBooking() {
     getDoc(docRefCollection)
       .then((doc) => {
         const sessions = doc.data().result;
-        // Find the desired session in the result object and modify it as needed
         const desiredDay = sessionData.sessionDay;
         const sessionArray = sessions[desiredDay];
         for (let i = 0; i < sessionArray.length; i++) {

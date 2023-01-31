@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   StyleSheet,
   SafeAreaView,
@@ -29,22 +29,16 @@ function Schedule() {
 
         <BenchSessions bg={"black"} />
       </View>
-      <View></View>
-      <View></View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  mainContent: {
-    backgroundColor: "#FCFEF7",
-    height: "100%"
-  },
   container: {
     justifyContent: "center",
     alignContent: "center",
     marginHorizontal: 16,
-    
+    height: "100%",
   },
   header: {
     marginTop: 50,
@@ -57,11 +51,11 @@ const styles = StyleSheet.create({
     color: "#342C2C",
     textAlign: "center",
     fontFamily: "Cabin_400Regular",
-    marginBottom: 10
+    marginBottom: 10,
   },
   accentColor: {
-    color: "#B85F44"
-  }
+    color: "#B85F44",
+  },
 });
 
 export default Schedule;

@@ -33,7 +33,6 @@ function SignUp({ navigation }) {
         .then(() => {
           return updateProfile(auth.currentUser, { displayName: displayName });
         })
-<<<<<<< HEAD
         .then(() => {
           const user = {
             user_id: auth.currentUser.uid,
@@ -46,10 +45,6 @@ function SignUp({ navigation }) {
         })
 
         .then(() => {
-=======
-        .then((result) => {
-          console.log(result)
->>>>>>> 023dd9de09fe526bb823a0a563e136c5385bddb6
           setIsLoggedIn(true);
           navigation.navigate("Home");
         })
@@ -134,7 +129,7 @@ function SignUp({ navigation }) {
 const styles = StyleSheet.create({
   mainContent: {
     height: "100%",
-    backgroundColor: "#FCFEF7"
+    backgroundColor: "#FCFEF7",
   },
   formCard: {
     display: "flex",
@@ -145,7 +140,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 15,
-    marginBottom: 5
+    marginBottom: 5,
   },
   container: {
     justifyContent: "center",

@@ -1,12 +1,7 @@
 import { getDocs, collection } from "firebase/firestore";
-<<<<<<< HEAD
 // import { db, auth } from "../firebaseConfigOriginal";
 import { db, auth } from "../firebase/firebaseConfig";
 import React, { useContext, useEffect, useState } from "react";
-=======
-import { db, auth } from "../firebaseConfig";
-import React, { useEffect, useState, useContext } from "react";
->>>>>>> 023dd9de09fe526bb823a0a563e136c5385bddb6
 import {
   View,
   Text,
@@ -21,11 +16,8 @@ import BenchSessions from "../components/BenchSessions";
 import FormButton from "../components/FormButton";
 import MapComponent from "../components/MapComponent";
 import ForecastCard from "../components/ForecastCard";
-<<<<<<< HEAD
 import selectedBenchContext from "../contexts/selectedBenchContext";
-=======
 import UserContext from "../contexts/UserContext";
->>>>>>> 023dd9de09fe526bb823a0a563e136c5385bddb6
 
 function Sessions({ navigation }) {
   const [viewType, setViewType] = useState("List");
@@ -34,14 +26,9 @@ function Sessions({ navigation }) {
   const { selectedBench, setSelectedBench } = useContext(selectedBenchContext);
 
   const [benches, setBenches] = useState([]);
-<<<<<<< HEAD
   const [errorMsg, setErrorMsg] = useState(false);
   const [currLocation, setCurrLocation] = useState({});
-=======
-  const [ errorMsg, setErrorMsg ] = useState(false);
-  const [ currLocation, setCurrLocation ] = useState({});
   const { user } = useContext(UserContext);
->>>>>>> 023dd9de09fe526bb823a0a563e136c5385bddb6
 
   const getBenches = () => {
     const docRefCollection = collection(db, "benches");
@@ -126,11 +113,6 @@ function Sessions({ navigation }) {
             style={styles.ViewToggleImage}
           />
         </View>
-<<<<<<< HEAD
-        <ForecastCard></ForecastCard>
-=======
-
->>>>>>> 023dd9de09fe526bb823a0a563e136c5385bddb6
         <Text style={styles.SessionsHeader}>
           {" "}
           Available sessions {/* {text} current location */}
@@ -141,11 +123,7 @@ function Sessions({ navigation }) {
               return (
                 <BenchSessions
                   key={bench.benchId}
-<<<<<<< HEAD
-                  img={require("../creativeAssets/bench.png")}
-=======
                   img={require("../creativeAssets/bench-illustration-2.png")}
->>>>>>> 023dd9de09fe526bb823a0a563e136c5385bddb6
                   title={bench.benchName}
                   address={bench.benchAddress}
                   bg={"#fcfef7"}
@@ -278,15 +256,9 @@ const styles = StyleSheet.create({
     height: 300,
   },
   SessionsButton: {
-<<<<<<< HEAD
-    paddingHorizontal: 20,
-    alignItems: "center",
-    height: 30,
-=======
     marginVertical: 2,
     paddingHorizontal: 20,
     alignItems: "center",
->>>>>>> 023dd9de09fe526bb823a0a563e136c5385bddb6
   },
 });
 
