@@ -34,14 +34,14 @@ export default function NewBooking() {
     const docRefCollection = doc(db, "sessions", `${selectedBench.benchId}`);
     getDoc(docRefCollection)
       .then((doc) => {
-        console.log(auth.currentUser.uid);
         const sessionsArray = [];
         sessionsArray.push(doc.data());
         setSessionsForSpecificBench(sessionsArray);
-        // console.log(sessionsForSpecificBench[0].result.day_1);
       })
       .catch((error) => console.log(error));
   };
+
+  console.log(sessionsForSpecificBench[0].result.day_0);
   const processData = () => {
     const formatDataObj = {};
     const sessions = sessionsForSpecificBench;
