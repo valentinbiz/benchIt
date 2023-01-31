@@ -1,7 +1,12 @@
 import { getDocs, collection } from "firebase/firestore";
+<<<<<<< HEAD
 // import { db, auth } from "../firebaseConfigOriginal";
 import { db, auth } from "../firebase/firebaseConfig";
 import React, { useContext, useEffect, useState } from "react";
+=======
+import { db, auth } from "../firebaseConfig";
+import React, { useEffect, useState, useContext } from "react";
+>>>>>>> 023dd9de09fe526bb823a0a563e136c5385bddb6
 import {
   View,
   Text,
@@ -16,7 +21,11 @@ import BenchSessions from "../components/BenchSessions";
 import FormButton from "../components/FormButton";
 import MapComponent from "../components/MapComponent";
 import ForecastCard from "../components/ForecastCard";
+<<<<<<< HEAD
 import selectedBenchContext from "../contexts/selectedBenchContext";
+=======
+import UserContext from "../contexts/UserContext";
+>>>>>>> 023dd9de09fe526bb823a0a563e136c5385bddb6
 
 function Sessions({ navigation }) {
   const [viewType, setViewType] = useState("List");
@@ -25,8 +34,14 @@ function Sessions({ navigation }) {
   const { selectedBench, setSelectedBench } = useContext(selectedBenchContext);
 
   const [benches, setBenches] = useState([]);
+<<<<<<< HEAD
   const [errorMsg, setErrorMsg] = useState(false);
   const [currLocation, setCurrLocation] = useState({});
+=======
+  const [ errorMsg, setErrorMsg ] = useState(false);
+  const [ currLocation, setCurrLocation ] = useState({});
+  const { user } = useContext(UserContext);
+>>>>>>> 023dd9de09fe526bb823a0a563e136c5385bddb6
 
   const getBenches = () => {
     const docRefCollection = collection(db, "benches");
@@ -68,22 +83,23 @@ function Sessions({ navigation }) {
   }
 
   return (
-    <View>
+    <View style={styles.mainContent}>
       <ScrollView nestedScrollEnabled={true}>
         <Text style={styles.GreetingMessage}>
-          Welcome back, {auth.currentUser?.displayName}!
+          Welcome back, {auth.currentUser?.displayName || user.displayName}!
         </Text>
         <View style={styles.SearchBar}>
           <TextInput
-            placeholder="Search for sessions!"
-            placeholderTextColor="#345c74"
+            placeholder="Search for sessions..."
+            placeholderTextColor="#6C5B5B"
             style={styles.SearchInput}
           />
           <Image
-            source={require("../creativeAssets/sear.png")}
+            source={require("../creativeAssets/search-icon.png")}
             style={styles.SearchIcon}
           />
         </View>
+        <ForecastCard></ForecastCard>
         <View style={styles.ViewToggleCard}>
           <View>
             <Text style={styles.ViewToggleCard__header}>
@@ -110,7 +126,11 @@ function Sessions({ navigation }) {
             style={styles.ViewToggleImage}
           />
         </View>
+<<<<<<< HEAD
         <ForecastCard></ForecastCard>
+=======
+
+>>>>>>> 023dd9de09fe526bb823a0a563e136c5385bddb6
         <Text style={styles.SessionsHeader}>
           {" "}
           Available sessions {/* {text} current location */}
@@ -121,7 +141,11 @@ function Sessions({ navigation }) {
               return (
                 <BenchSessions
                   key={bench.benchId}
+<<<<<<< HEAD
                   img={require("../creativeAssets/bench.png")}
+=======
+                  img={require("../creativeAssets/bench-illustration-2.png")}
+>>>>>>> 023dd9de09fe526bb823a0a563e136c5385bddb6
                   title={bench.benchName}
                   address={bench.benchAddress}
                   bg={"#fcfef7"}
@@ -138,7 +162,10 @@ function Sessions({ navigation }) {
         <View style={styles.SessionsButton}>
           {clickedBench ? (
             <>
-              <Text> You have picked {clickedBench.benchName}</Text>
+              <Text style={styles.pickedBench}>
+                {" "}
+                You have picked {clickedBench.benchName}
+              </Text>
               <FormButton
                 buttonTitle={"Continue"}
                 onPress={() => navigation.navigate("NewBooking")}
@@ -158,33 +185,47 @@ function Sessions({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+  mainContent: {
+    backgroundColor: "#FCFEF7",
+  },
+  pickedBench: {
+    fontFamily: "Cabin_400Regular",
+  },
   GreetingMessage: {
-    paddingHorizontal: 20,
     fontSize: 30,
-    paddingTop: 30,
+    paddingTop: 50,
+    fontFamily: "Cabin_400Regular",
+    textAlign: "center",
   },
   SearchBar: {
+    flex: 1,
     flexDirection: "row",
+    justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#FFF",
-    padding: 10,
+    padding: 5,
     borderRadius: 10,
+    borderWidth: 1,
+    borderColor: "#342C2C",
     marginHorizontal: 20,
-    marginTop: 20,
+    marginTop: 10,
   },
   SearchInput: {
-    fontSize: 12,
+    fontSize: 16,
     width: 280,
-    paddingHorizontal: 12,
+    paddingLeft: 12,
+    fontFamily: "Cabin_400Regular",
+    color: "#342C2C",
   },
   SearchIcon: {
-    height: 14,
-    width: 14,
+    marginHorizontal: 12,
+    height: 24,
+    width: 24,
   },
   ViewToggleCard: {
     flexDirection: "row",
-    backgroundColor: "#808080",
-    marginTop: 20,
+    backgroundColor: "#342C2C",
+    // marginTop: 20,
     marginHorizontal: 20,
     borderRadius: 30,
     paddingVertical: 20,
@@ -192,7 +233,7 @@ const styles = StyleSheet.create({
   },
   ViewToggleButton: {
     flexDirection: "row",
-    backgroundColor: "#f58084",
+    backgroundColor: "#B85F44",
     alignItems: "center",
     marginTop: 15,
     width: 66,
@@ -200,39 +241,52 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   ViewToggleText: {
-    color: "#FFF",
+    textAlign: "center",
+    color: "#FCFEF7",
     fontSize: 12,
+    fontWeight: "600",
+    fontFamily: "Cabin_Bold",
   },
   ViewToggleCard__direction: {
     flexDirection: "row",
     height: 35,
   },
   ViewToggleCard__header: {
+    color: "#FCFEF7",
     fontSize: 20,
     width: 200,
+    fontFamily: "Cabin_400Regular",
   },
   ViewToggleText__separator: {
-    marginTop: 15,
-    fontSize: 20,
+    color: "#FCFEF7",
+    marginTop: 8,
+    fontSize: 24,
+    fontFamily: "Cabin_400Regular",
   },
   ViewToggleImage: {
     marginLeft: -45,
-    marginTop: 35,
+    marginTop: 20,
   },
   SessionsHeader: {
-    color: "#345c74",
-    fontSize: 20,
-    paddingHorizontal: 20,
-    marginTop: 20,
-    marginBottom: 10,
+    color: "#342C2C",
+    fontSize: 24,
+    marginTop: 16,
+    textAlign: "center",
+    fontFamily: "Cabin_Bold",
   },
   SessionsList: {
     height: 300,
   },
   SessionsButton: {
+<<<<<<< HEAD
     paddingHorizontal: 20,
     alignItems: "center",
     height: 30,
+=======
+    marginVertical: 2,
+    paddingHorizontal: 20,
+    alignItems: "center",
+>>>>>>> 023dd9de09fe526bb823a0a563e136c5385bddb6
   },
 });
 

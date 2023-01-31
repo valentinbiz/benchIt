@@ -15,9 +15,9 @@ const FormInput = ({
     <View style={styles.inputContainer}>
       <View style={styles.iconStyle}>
         {iconPack === "AntDesign" ? (
-          <AntDesign name={iconType} size={20} color="#666" />
+          <AntDesign name={iconType} size={24} color="#342C2C" />
         ) : (
-          <FontAwesome name={iconType} size={20} color="#666" />
+          <FontAwesome name={iconType} size={24} color="#342C2C" />
         )}
       </View>
       <TextInput
@@ -25,7 +25,7 @@ const FormInput = ({
         style={styles.input}
         numberOfLines={1}
         placeholder={placeholderText}
-        placeholderTextColor="#666"
+        placeholderTextColor="#6C5B5B"
         {...rest}
       />
     </View>
@@ -36,8 +36,8 @@ export default FormInput;
 
 const styles = StyleSheet.create({
   inputContainer: {
-    marginTop: 5,
-    marginBottom: 10,
+    marginTop: 10,
+    marginBottom: 5,
     width: 300,
     height: 50,
     borderRadius: 15,
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     height: "100%",
     justifyContent: "center",
     alignItems: "center",
-    borderRightColor: "#ccc",
+    borderRightColor: "#826E6E",
     borderRightWidth: 1,
     width: 50,
   },
@@ -62,6 +62,7 @@ const styles = StyleSheet.create({
     color: "#333",
     justifyContent: "center",
     alignItems: "center",
+    fontFamily: "Cabin_400Regular",
   },
   inputField: {
     padding: 10,
@@ -72,5 +73,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     borderRadius: 15,
     borderWidth: 1,
+    borderColor: "#342C2C",
   },
 });

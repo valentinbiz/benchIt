@@ -14,18 +14,20 @@ const FormButton = ({ buttonTitle, colorScheme, btnHeight, ...rest }) => {
 
 const styles = StyleSheet.create({
   buttonContainer: (colorScheme, btnHeight) => ({
-    marginTop: 10,
+    marginTop: 4,
+    marginBottom: 12,
     height: btnHeight ? btnHeight : 40,
-    width: "100%",
-    backgroundColor: colorScheme ? colorScheme : "#A3b18A",
-    padding: 8,
+    width: "80%",
+    backgroundColor: colorScheme ? colorScheme : "#B85F44",
+    padding: 6,
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 10,
   }),
   buttonText: {
-    fontSize: 12,
-    color: "#ffffff",
+    fontSize: 18,
+    color: "#FCFEF7",
+    fontFamily: "Cabin_Bold"
   },
 });
 
