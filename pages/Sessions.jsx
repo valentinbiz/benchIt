@@ -34,7 +34,6 @@ function Sessions({ navigation }) {
     const docRefCollection = collection(db, "benches");
     getDocs(docRefCollection)
       .then((documents) => {
-        console.log(documents);
         const benchesArray = [];
         documents.forEach((doc) => benchesArray.push(doc.data()));
         setBenches(benchesArray);

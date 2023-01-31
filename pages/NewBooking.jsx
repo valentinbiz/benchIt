@@ -16,18 +16,22 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 import { auth, db } from "../firebase/firebaseConfig";
 import selectedBenchContext from "../contexts/selectedBenchContext";
 import bookedBenchContext from "../contexts/bookedBenchContext";
+import bookedSessionContext from "../contexts/bookedSessionsContext";
+import { NavigationHelpersContext } from "@react-navigation/native";
 
-export default function NewBooking() {
+export default function NewBooking({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [sessionData, setSessionData] = useState(null);
   const [sessionsForSpecificBench, setSessionsForSpecificBench] = useState();
   const [structuredData, setSctructuredData] = useState({});
   const { selectedBench } = useContext(selectedBenchContext);
   const { setBookedBench } = useContext(bookedBenchContext);
+  const { setBookedSession } = useContext(bookedSessionContext);
 
   const handleSessionSelect = (session) => {
     setModalVisible(false);
     setSessionData(session);
+    setBookedSession(session);
   };
 
   const getSessions = () => {
@@ -40,7 +44,6 @@ export default function NewBooking() {
       })
       .catch((error) => console.log(error));
   };
-
   const processData = () => {
     const formatDataObj = {};
     const sessions = sessionsForSpecificBench;
@@ -94,6 +97,7 @@ export default function NewBooking() {
       })
       .then(() => {
         setBookedBench(selectedBench);
+        navigation.navigate("Schedule");
         console.log("Session updated successfully");
       })
       .catch((error) => console.log(error));
