@@ -94,19 +94,19 @@ function Sessions({ navigation }) {
   }
 
   return (
-    <View>
+    <View style={styles.mainContent}>
       <ScrollView nestedScrollEnabled={true}>
         <Text style={styles.GreetingMessage}>
           Welcome back, {auth.currentUser?.displayName || user.displayName}!
         </Text>
         <View style={styles.SearchBar}>
           <TextInput
-            placeholder="Search for sessions!"
-            placeholderTextColor="#345c74"
+            placeholder="Search for sessions..."
+            placeholderTextColor="#6C5B5B"
             style={styles.SearchInput}
           />
           <Image
-            source={require("../creativeAssets/sear.png")}
+            source={require("../creativeAssets/search-icon.png")}
             style={styles.SearchIcon}
           />
         </View>
@@ -165,7 +165,10 @@ function Sessions({ navigation }) {
         <View style={styles.SessionsButton}>
           {clickedBench ? (
             <>
-              <Text> You have picked {clickedBench.benchName}</Text>
+              <Text style={styles.pickedBench}>
+                {" "}
+                You have picked {clickedBench.benchName}
+              </Text>
               <FormButton
                 buttonTitle={"Continue"}
                 onPress={() => navigation.navigate("NewBooking")}
@@ -185,35 +188,47 @@ function Sessions({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+  mainContent: {
+    backgroundColor: "#FCFEF7",
+  },
+  pickedBench: {
+    fontFamily: "Cabin_400Regular",
+  },
   GreetingMessage: {
     fontSize: 30,
     paddingTop: 50,
     fontFamily: "Cabin_400Regular",
-    textAlign: "center"
+    textAlign: "center",
   },
   SearchBar: {
+    flex: 1,
     flexDirection: "row",
+    justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#FFF",
-    padding: 10,
+    padding: 5,
     borderRadius: 10,
+    borderWidth: 1,
+    borderColor: "#342C2C",
     marginHorizontal: 20,
     marginTop: 10,
   },
   SearchInput: {
-    fontSize: 12,
+    fontSize: 16,
     width: 280,
-    paddingHorizontal: 12,
+    paddingLeft: 12,
     fontFamily: "Cabin_400Regular",
+    color: "#342C2C",
   },
   SearchIcon: {
-    height: 14,
-    width: 14,
+    marginHorizontal: 12,
+    height: 24,
+    width: 24,
   },
   ViewToggleCard: {
     flexDirection: "row",
     backgroundColor: "#342C2C",
-    marginTop: 20,
+    // marginTop: 20,
     marginHorizontal: 20,
     borderRadius: 30,
     paddingVertical: 20,
@@ -253,7 +268,7 @@ const styles = StyleSheet.create({
   },
   ViewToggleImage: {
     marginLeft: -45,
-    marginTop: 20
+    marginTop: 20,
   },
   SessionsHeader: {
     color: "#342C2C",
@@ -266,6 +281,7 @@ const styles = StyleSheet.create({
     height: 300,
   },
   SessionsButton: {
+    marginVertical: 2,
     paddingHorizontal: 20,
     alignItems: "center",
   },

@@ -50,6 +50,7 @@ const Navbar = () => {
         },
         tabBarLabelStyle: styles.labelStyle,
         tabBarStyle: styles.tabBar,
+        tabBarHideOnKeyboard: true, 
       })}
     >
       <Tab.Screen
@@ -91,8 +92,7 @@ const styles = StyleSheet.create({
   tabBar: {
     //borderTopEndRadius: 20,
     //borderTopLeftRadius: 20,
-    borderTopColor: "#342C2C",
-    borderTopWidth: 1,
+    backgroundColor: "#FCFEF7",
     padding: 10,
     height: 64,
   },

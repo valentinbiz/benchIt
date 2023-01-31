@@ -73,6 +73,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     borderRadius: 15,
     borderWidth: 1,
-    borderColor: "#B85F44",
+    borderColor: "#342C2C",
   },
 });
