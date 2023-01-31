@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import FormButton from "../components/FormButton";
 import InfoCard from "../components/InformationCard";
 import {
   Image,
@@ -63,26 +64,41 @@ export default function AccountSettings() {
           </View>
         </View>
 
-        <View>
+        <View style={styles.wrapper}>
           <Text> You are logged in as Mitch! </Text>
+
+          <FormButton
+            buttonTitle={`Name: ${"Mitch!! 🙋🏼‍♂️"}`}
+            onPress={() => navigation.navigate("Camera")}
+          />
+          <FormButton
+            buttonTitle={`Location: ${"Manchester"}`}
+            onPress={() => navigation.navigate("Camera")}
+          />
+          <FormButton
+            buttonTitle="Change Password"
+            onPress={() => navigation.navigate("Camera")}
+          />
+          <FormButton
+            buttonTitle="Change Email"
+            onPress={() => navigation.navigate("Camera")}
+          />
+          <FormButton
+            buttonTitle={`Log out`}
+            onPress={() => navigation.navigate("Camera")}
+          />
         </View>
-        <>
-          <InfoCard description={`Name: Mitch`}></InfoCard>
-          <InfoCard description={"Location:"}></InfoCard>
-          <InfoCard description={"Name"}></InfoCard>
-          <InfoCard description={"Change Password"}></InfoCard>
-          <InfoCard description={"Change Email"}></InfoCard>
-          <InfoCard description={"Log out"}></InfoCard>
-        </>
       </ScrollView>
     </>
   );
 }
+
 const styles = StyleSheet.create({
   wrapper: {
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
+    paddingTop: 30,
   },
   container: {
     elevation: 2,
