@@ -47,8 +47,8 @@ let headerStyling = {
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [selectedBench, setSelectedBench] = useState(null);
-  const [bookedBench, setBookedBench] = useState(null);
-  const [bookedSession, setBookedSession] = useState(null);
+  const [bookedBench, setBookedBench] = useState([]);
+  const [bookedSessions, setBookedSessions] = useState([]);
   const [user, setUser] = useState({
     displayName: "Guest",
     email: "",
@@ -86,62 +86,66 @@ const App = () => {
           value={{ selectedBench, setSelectedBench }}
         >
           <bookedBenchContext.Provider value={{ bookedBench, setBookedBench }}>
-            <AvailableSessionsContext.Provider
-              value={{ currAvailableSessions, setCurrAvailableSessions }}
+            <bookedSessionContext.Provider
+              value={{ bookedSessions, setBookedSessions }}
             >
-              <NavigationContainer onReady={onLayoutRootView}>
-                <Stack.Navigator
-                  initialRouteName={"Home"}
-                  screenOptions={headerStyling}
-                >
-                  <Stack.Screen
-                    name="NavBar"
-                    component={Navbar}
-                    options={{ headerShown: false }}
-                  />
-                  {isLoggedIn ? null : (
+              <AvailableSessionsContext.Provider
+                value={{ currAvailableSessions, setCurrAvailableSessions }}
+              >
+                <NavigationContainer onReady={onLayoutRootView}>
+                  <Stack.Navigator
+                    initialRouteName={"Home"}
+                    screenOptions={headerStyling}
+                  >
                     <Stack.Screen
-                      name="Home"
-                      component={HomePage}
+                      name="NavBar"
+                      component={Navbar}
                       options={{ headerShown: false }}
                     />
-                  )}
+                    {isLoggedIn ? null : (
+                      <Stack.Screen
+                        name="Home"
+                        component={HomePage}
+                        options={{ headerShown: false }}
+                      />
+                    )}
 
-                  <Stack.Screen
-                    name="AccountSettings"
-                    component={AccountSettings}
-                    options={{ title: "Account Settings" }}
-                  />
-                  <Stack.Screen
-                    name="NewBooking"
-                    component={NewBooking}
-                    options={{ title: "New Booking" }}
-                  />
-                  <Stack.Screen
-                    name="Camera"
-                    component={BenchImageCapture}
-                    options={{ title: "Camera" }}
-                  />
-                  <Stack.Screen
-                    name="NewSessions"
-                    component={NewSessions}
-                    options={{ title: "New Sessions" }}
-                  />
-                  <Stack.Screen
-                    name="SignUp"
-                    component={SignUp}
-                    options={{
-                      title: "Sign Up",
-                    }}
-                  />
-                  <Stack.Screen
-                    name="Login"
-                    component={LogIn}
-                    options={{ title: "Log In" }}
-                  />
-                </Stack.Navigator>
-              </NavigationContainer>
-            </AvailableSessionsContext.Provider>
+                    <Stack.Screen
+                      name="AccountSettings"
+                      component={AccountSettings}
+                      options={{ title: "Account Settings" }}
+                    />
+                    <Stack.Screen
+                      name="NewBooking"
+                      component={NewBooking}
+                      options={{ title: "New Booking" }}
+                    />
+                    <Stack.Screen
+                      name="Camera"
+                      component={BenchImageCapture}
+                      options={{ title: "Camera" }}
+                    />
+                    <Stack.Screen
+                      name="NewSessions"
+                      component={NewSessions}
+                      options={{ title: "New Sessions" }}
+                    />
+                    <Stack.Screen
+                      name="SignUp"
+                      component={SignUp}
+                      options={{
+                        title: "Sign Up",
+                      }}
+                    />
+                    <Stack.Screen
+                      name="Login"
+                      component={LogIn}
+                      options={{ title: "Log In" }}
+                    />
+                  </Stack.Navigator>
+                </NavigationContainer>
+              </AvailableSessionsContext.Provider>
+            </bookedSessionContext.Provider>
           </bookedBenchContext.Provider>
         </selectedBenchContext.Provider>
       </UserContext.Provider>

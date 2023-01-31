@@ -10,32 +10,61 @@ import selectedBenchContext from "../contexts/selectedBenchContext";
 
 function Schedule() {
   const { bookedBench, setBookedBench } = useContext(bookedBenchContext);
-  const { bookedSession, setBookedSession } = useContext(bookedSessionContext);
+  const { bookedSessions, setBookedSessions } =
+    useContext(bookedSessionContext);
   const { selectedBench } = useContext(selectedBenchContext);
 
-  const handleCancelFirebase = () => {
-    const docRefCollection = doc(db, "sessions", `${bookedBench.benchId}`);
+  const createAlert = (sessionToBeCancelled) =>
+    Alert.alert(
+      "Session cancellation",
+      "Are you sure you want to cancel your session?",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel",
+        },
+        {
+          text: "OK",
+          onPress: () => handleCancelFirebase(sessionToBeCancelled),
+        },
+      ]
+    );
+
+  const handleCancelFirebase = (bookedSession) => {
+    const docRefCollection = doc(db, "sessions", `${bookedSession.benchId}`);
     getDoc(docRefCollection)
       .then((doc) => {
         const sessions = doc.data().result;
         const desiredDay = bookedSession.sessionDay;
-        console.log(desiredDay);
-        const sessionArray = sessions[desiredDay];
+        const sessionArray = sessions[desiredDay]
+          ? sessions[desiredDay]
+          : sessions;
         for (let i = 0; i < sessionArray.length; i++) {
           if (
             sessionArray[i].startTime.seconds ===
-            bookedSession.session.startTime.seconds
+            sessionData.session.startTime.seconds
           ) {
-            sessionArray[i].user_1 = null;
+            if (sessionArray[i].user_1 === auth.currentUser.uid) {
+              sessionArray[i].user_1 = null;
+            } else if (sessionArray[i].user_2 === auth.currentUser.uid) {
+              sessionArray[i].user_2 = null;
+            }
             sessionArray[i].capacity += 1;
-            console.log("found it");
             break;
           }
         }
         return setDoc(docRefCollection, { result: sessions });
       })
       .then(() => {
-        setBookedBench(null);
+        const newBookedBench = bookedBench.filter(
+          (session) => session.benchName !== bookedSession.benchName
+        );
+        setBookedBench(newBookedBench);
+        const newBookedSessions = bookedSessions.filter(
+          (session) => session !== bookedSession
+        );
+        setBookedSessions(newBookedSessions);
         console.log("Session deleted successfully");
       })
       .catch((error) => console.log(error));
@@ -44,20 +73,24 @@ function Schedule() {
     <View style={styles.container}>
       <View>
         <Text>Schedule Page</Text>
-        {bookedBench ? (
+        {bookedSessions.length > 0 ? (
           <>
-            <Text> You currently have 2 sessions booked</Text>
-            <BenchSessions
-              img={require("../creativeAssets/bench-illustration-2.png")}
-              title={bookedBench.benchName}
-              address={bookedBench.benchAddress}
-              sessionTime={bookedBench.st}
-              buttonContent={"Cancel"}
-            />
-            <FormButton
-              onPress={() => handleCancelFirebase()}
-              buttonTitle={"Cancel appointment"}
-            />
+            <Text>You currently have {bookedSessions.length} session</Text>
+            {bookedSessions.map((session) => {
+              console.log(session);
+              return (
+                <BenchSessions
+                  img={require("../creativeAssets/bench-illustration-2.png")}
+                  title={session.name}
+                  address={bookedBench.benchAddress}
+                  sessionTime={session.time}
+                  sessionDate={session.time}
+                  buttonContent={"Cancel"}
+                  behaviour={createAlert}
+                  target={session}
+                />
+              );
+            })}
           </>
         ) : (
           <View>

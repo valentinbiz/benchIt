@@ -10,6 +10,7 @@ function BenchSessions({
   sessionTime,
   target,
   buttonContent,
+  city,
 }) {
   const handleBookSession = () => {
     behaviour(target);
@@ -27,6 +28,7 @@ function BenchSessions({
           </View>
         ) : null}
         <Text style={styles.AddressText}>{address} </Text>
+        <Text style={styles.AddressText}>{city} </Text>
       </View>
       <TouchableOpacity
         style={styles.SelectButton}
