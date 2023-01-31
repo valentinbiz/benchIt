@@ -8,6 +8,7 @@ import BenchImageCapture from "./components/BenchImageCapture";
 import NewSessions from "./pages/NewSessions";
 import SignUp from "./pages/SignUp";
 import LogIn from "./pages/LogIn";
+import HomePage from "./pages/HomePage";
 import isLoggedInContext from "./contexts/IsLoggedInContext";
 import selectedBenchContext from "./contexts/selectedBenchContext";
 import bookedBenchContext from "./contexts/bookedBenchContext";
@@ -16,6 +17,7 @@ import UserContext from "./contexts/UserContext";
 import React, { useCallback, useEffect, useState } from "react";
 import * as SplashScreen from "expo-splash-screen";
 import * as Font from "expo-font";
+import AvailableSessionsContext from "./contexts/AvailableSessionsContext";
 
 const Stack = createNativeStackNavigator();
 SplashScreen.preventAutoHideAsync();
@@ -54,6 +56,7 @@ const App = () => {
     photoUrl: "",
   });
   const [appIsReady, setAppIsReady] = useState(false);
+  const [currAvailableSessions, setCurrAvailableSessions] = useState(null);
   // ignore async warning messages in app, still can't remove them from console :(
   // LogBox.ignoreAllLogs();
   useEffect(() => {
@@ -83,16 +86,27 @@ const App = () => {
           value={{ selectedBench, setSelectedBench }}
         >
           <bookedBenchContext.Provider value={{ bookedBench, setBookedBench }}>
-            <bookedSessionContext.Provider
-              value={{ bookedSession, setBookedSession }}
+            <AvailableSessionsContext.Provider
+              value={{ currAvailableSessions, setCurrAvailableSessions }}
             >
               <NavigationContainer onReady={onLayoutRootView}>
-                <Stack.Navigator screenOptions={headerStyling}>
+                <Stack.Navigator
+                  initialRouteName={"Home"}
+                  screenOptions={headerStyling}
+                >
                   <Stack.Screen
                     name="NavBar"
                     component={Navbar}
                     options={{ headerShown: false }}
                   />
+                  {isLoggedIn ? null : (
+                    <Stack.Screen
+                      name="Home"
+                      component={HomePage}
+                      options={{ headerShown: false }}
+                    />
+                  )}
+
                   <Stack.Screen
                     name="AccountSettings"
                     component={AccountSettings}
@@ -127,7 +141,7 @@ const App = () => {
                   />
                 </Stack.Navigator>
               </NavigationContainer>
-            </bookedSessionContext.Provider>
+            </AvailableSessionsContext.Provider>
           </bookedBenchContext.Provider>
         </selectedBenchContext.Provider>
       </UserContext.Provider>

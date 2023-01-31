@@ -16,6 +16,7 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 import { auth, db } from "../firebase/firebaseConfig";
 import selectedBenchContext from "../contexts/selectedBenchContext";
 import bookedBenchContext from "../contexts/bookedBenchContext";
+import AvailableSessionsContext from "../contexts/AvailableSessionsContext";
 import bookedSessionContext from "../contexts/bookedSessionsContext";
 import { NavigationHelpersContext } from "@react-navigation/native";
 
@@ -26,6 +27,7 @@ export default function NewBooking({ navigation }) {
   const [structuredData, setSctructuredData] = useState({});
   const { selectedBench } = useContext(selectedBenchContext);
   const { setBookedBench } = useContext(bookedBenchContext);
+  const { currAvailableSessions } = useContext(AvailableSessionsContext);
   const { setBookedSession } = useContext(bookedSessionContext);
 
   const handleSessionSelect = (session) => {
@@ -35,42 +37,33 @@ export default function NewBooking({ navigation }) {
   };
 
   const getSessions = () => {
-    const docRefCollection = doc(db, "sessions", `${selectedBench.benchId}`);
-    getDoc(docRefCollection)
-      .then((doc) => {
-        const sessionsArray = [];
-        sessionsArray.push(doc.data());
-        setSessionsForSpecificBench(sessionsArray);
-      })
-      .catch((error) => console.log(error));
+    const filteredArr = currAvailableSessions.filter((session) => {
+      if (session.benchName === selectedBench.benchName) {
+        return session;
+      }
+    });
+    setSessionsForSpecificBench(filteredArr);
   };
   const processData = () => {
     const formatDataObj = {};
     const sessions = sessionsForSpecificBench;
-
     for (const session of sessions) {
-      for (const day in session.result) {
-        let daySessions = session.result[day];
-        for (const hourSession of daySessions) {
-          let date = new Date(hourSession.startTime.seconds * 1000);
-          let formattedDate = `${date.getFullYear()}-${(
-            "0" +
-            (date.getMonth() + 1)
-          ).slice(-2)}-${
-            date.getDate().toString().length === 1
-              ? "0" + date.getDate()
-              : date.getDate()
-          }`;
-          formatDataObj[formattedDate] = formatDataObj[formattedDate] || [];
-          formatDataObj[formattedDate].push({
-            name: hourSession.benchName,
-            time: formattedDate,
-            duration: `1 hour session`,
-            session: hourSession,
-            sessionDay: day,
-          });
-        }
-      }
+      let date = new Date(session.startTime.seconds * 1000);
+      let formattedDate = `${date.getFullYear()}-${(
+        "0" +
+        (date.getMonth() + 1)
+      ).slice(-2)}-${
+        date.getDate().toString().length === 1
+          ? "0" + date.getDate()
+          : date.getDate()
+      }`;
+      formatDataObj[formattedDate] = formatDataObj[formattedDate] || [];
+      formatDataObj[formattedDate].push({
+        name: session.benchName,
+        time: formattedDate,
+        duration: `1 hour session`,
+        session: session,
+      });
     }
     setSctructuredData(formatDataObj);
   };
@@ -174,6 +167,12 @@ export default function NewBooking({ navigation }) {
                       refreshing={false}
                       selected={"2023-02-01"}
                     />
+                    <FormButton
+                      title="close"
+                      onPress={() => setModalVisible(false)}
+                    >
+                      Close
+                    </FormButton>
                   </View>
                 </View>
               </View>

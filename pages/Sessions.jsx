@@ -1,4 +1,4 @@
-import { getDocs, collection } from "firebase/firestore";
+import { getDoc, getDocs, collection, query, where, doc } from "firebase/firestore";
 // import { db, auth } from "../firebaseConfigOriginal";
 import { db, auth } from "../firebase/firebaseConfig";
 import React, { useContext, useEffect, useState } from "react";
@@ -18,17 +18,20 @@ import MapComponent from "../components/MapComponent";
 import ForecastCard from "../components/ForecastCard";
 import selectedBenchContext from "../contexts/selectedBenchContext";
 import UserContext from "../contexts/UserContext";
+import AvailableSessionsContext from "../contexts/AvailableSessionsContext";
 
 function Sessions({ navigation }) {
   const [viewType, setViewType] = useState("List");
   const [clickedBench, setClickedBench] = useState(false);
   const [sessions, setSessions] = useState("12th January, 15:00");
   const { selectedBench, setSelectedBench } = useContext(selectedBenchContext);
+  const { setCurrAvailableSessions } = useContext(AvailableSessionsContext);
 
   const [benches, setBenches] = useState([]);
   const [errorMsg, setErrorMsg] = useState(false);
   const [currLocation, setCurrLocation] = useState({});
   const { user } = useContext(UserContext);
+  
 
   const getBenches = () => {
     const docRefCollection = collection(db, "benches");
@@ -41,8 +44,31 @@ function Sessions({ navigation }) {
       .catch((error) => console.log(error));
   };
 
+  const getAvailableBenches = (maxCap) => {
+    const availableSessions = [];
+    const docRefCollection = collection(db, "sessions");
+
+    getDocs(docRefCollection)
+      .then(docs => {
+        docs.forEach(doc => {
+          const sessions = doc.data().result;
+            for (let day in sessions) {
+              const sessionsInDay = sessions[day];
+              sessionsInDay.forEach((session) => {
+                if (session.capacity === maxCap  ) {
+                  availableSessions.push(session);
+                }
+              });
+          }
+        })
+        setCurrAvailableSessions(availableSessions);
+      })
+      .catch(error => console.log(error));
+  }
+
   useEffect(() => {
     getBenches();
+    getAvailableBenches(1);
   }, []);
 
   async function getCurrLocation() {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { View, Text, StyleSheet, ScrollView, KeyboardAvoidingView } from "react-native";
 
 import FormInput from "../components/FormInput";

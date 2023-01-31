@@ -23,10 +23,8 @@ export default function Account({ navigation }) {
   const handleSignOut = () => {
     auth
       .signOut()
-      .then(() => {
-        setIsLoggedIn(false);
-        navigation.navigate("Home");
-      })
+      .then(() => setIsLoggedIn(false))
+      .then(() =>  navigation.navigate("Home"))
       .catch((err) => console.log(err));
   };
 

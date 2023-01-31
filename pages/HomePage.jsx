@@ -18,8 +18,7 @@ function HomePage({ navigation }) {
   const { isLoggedIn, setIsLoggedIn } = useContext(isLoggedInContext);
   const { bookedBench } = useContext(bookedBenchContext);
   const { user } = useContext(UserContext);
-  console.log(bookedBench);
-
+  //console.log(bookedBench);
 
   return (
     <SafeAreaView style={styles.container}>

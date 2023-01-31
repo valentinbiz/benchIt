@@ -136,6 +136,7 @@
 //   },
 // ];
 
+<<<<<<< HEAD
 // benches.forEach((bench) => {
 //   for (let i = 0; i < 10; i++) {
 //     const start = new Date(
@@ -152,3 +153,20 @@
 //     console.log(i);
 //   }
 // });
+=======
+benches.forEach((bench) => {
+  for (let i = 0; i < 10; i++) {
+    const start = new Date(
+      new Date().setHours(startTime + i, 0, 0, 0)
+    ).getTime();
+    const end = new Date(new Date().setHours(endTime + i, 0, 0, 0)).getTime();
+    db.collection("sessions").doc().set({
+      benchName: bench.benchName,
+      location: bench.location,
+      startTime: start,
+      endTime: end,
+      booked: false,
+    });
+  }
+});
+>>>>>>> 0fc366747e2389944fc81fc3c21af84c1d742fcc
