@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import HomePage from "./HomePage";
 import Sessions from "./Sessions";
 import Account from "./Account";
@@ -8,6 +8,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { StyleSheet } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import isLoggedInContext from "../contexts/IsLoggedInContext";
 // Lets get together to decide on the icon pack https://oblador.github.io/react-native-vector-icons/
 
 const home = "Home";
@@ -21,66 +22,74 @@ const benchUpload = "Upload Bench";
 const Tab = createBottomTabNavigator();
 
 const Navbar = () => {
-  return (
-    <Tab.Navigator
-      initialRouteName={home}
-      screenOptions={({ route }) => ({
-        tabBarIcon: ({ focused, color, size }) => {
-          let iconName;
-          let routeName = route.name;
-          if (routeName === home) {
-            iconName = focused ? "home" : "home-outline";
-          } else if (routeName === login) {
-            iconName = focused ? "list-sharp" : "list-outline";
-          } else if (routeName === account) {
-            iconName = focused ? "person" : "person-outline";
-          } else if (routeName === signUp) {
-            iconName = focused ? "person-add" : "person-add-outline";
-          } else if (routeName === sessions) {
-            iconName = focused ? "book" : "book-outline";
-            // iconName = focused ? "bookmark" : "bookmark-outline";
-          } else if (routeName === schedule) {
-            // iconName = focused ? "time" : "time-outline";
-            iconName = focused ? "today" : "today-outline";
-          } else if (routeName === benchUpload) {
-            iconName = focused ? "md-add-circle" : "md-add-circle-outline";
-          }
+  const { isLoggedIn } = useContext(isLoggedInContext);
 
-          return <Ionicons name={iconName} size={32} color={"#B85F44"} />;
-        },
-        tabBarLabelStyle: styles.labelStyle,
-        tabBarStyle: styles.tabBar,
-        tabBarHideOnKeyboard: true, 
-      })}
-    >
-      <Tab.Screen
-        name={home}
-        component={HomePage}
-        options={{ headerShown: false }}
-      ></Tab.Screen>
-      <Tab.Screen
-        name={sessions}
-        component={Sessions}
-        options={{ headerShown: false }}
-      ></Tab.Screen>
-      <Tab.Screen
-        name={benchUpload}
-        component={BenchUpload}
-        options={{ headerShown: false }}
-      ></Tab.Screen>
-      <Tab.Screen
-        name={schedule}
-        component={Schedule}
-        options={{ headerShown: false }}
-      ></Tab.Screen>
-      <Tab.Screen
-        name={account}
-        component={Account}
-        options={{ headerShown: false }}
-      ></Tab.Screen>
-    </Tab.Navigator>
+  return (
+    <>
+      {isLoggedIn ? (
+        <Tab.Navigator
+          initialRouteName={home}
+          screenOptions={({ route }) => ({
+            tabBarIcon: ({ focused, color, size }) => {
+              let iconName;
+              let routeName = route.name;
+              if (routeName === home) {
+                iconName = focused ? "home" : "home-outline";
+              } else if (routeName === login) {
+                iconName = focused ? "list-sharp" : "list-outline";
+              } else if (routeName === account) {
+                iconName = focused ? "person" : "person-outline";
+              } else if (routeName === signUp) {
+                iconName = focused ? "person-add" : "person-add-outline";
+              } else if (routeName === sessions) {
+                iconName = focused ? "book" : "book-outline";
+                // iconName = focused ? "bookmark" : "bookmark-outline";
+              } else if (routeName === schedule) {
+                // iconName = focused ? "time" : "time-outline";
+                iconName = focused ? "today" : "today-outline";
+              } else if (routeName === benchUpload) {
+                iconName = focused ? "md-add-circle" : "md-add-circle-outline";
+              }
+
+              return <Ionicons name={iconName} size={32} color={"#B85F44"} />;
+            },
+            tabBarLabelStyle: styles.labelStyle,
+            tabBarStyle: styles.tabBar,
+            tabBarHideOnKeyboard: true,
+          })}
+        >
+          <Tab.Screen
+            name={home}
+            component={HomePage}
+            options={{ headerShown: false }}
+          ></Tab.Screen>
+          <Tab.Screen
+            name={sessions}
+            component={Sessions}
+            options={{ headerShown: false }}
+          ></Tab.Screen>
+          <Tab.Screen
+            name={benchUpload}
+            component={BenchUpload}
+            options={{ headerShown: false }}
+          ></Tab.Screen>
+          <Tab.Screen
+            name={schedule}
+            component={Schedule}
+            options={{ headerShown: false }}
+          ></Tab.Screen>
+          <Tab.Screen
+            name={account}
+            component={Account}
+            options={{ headerShown: false }}
+          ></Tab.Screen>
+        </Tab.Navigator>
+      ) : null}
+    </>
   );
 };
+
+
 
 const styles = StyleSheet.create({
   labelStyle: {

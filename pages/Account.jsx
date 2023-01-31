@@ -9,7 +9,7 @@ import {
   ScrollView,
   TouchableHighlight,
 } from "react-native";
-import { auth } from "../firebaseConfigOriginal";
+import { auth } from "../firebase/firebaseConfig";
 import { AntDesign } from "@expo/vector-icons";
 import isLoggedInContext from "../contexts/IsLoggedInContext";
 import UserContext from "../contexts/UserContext";
@@ -23,10 +23,8 @@ export default function Account({ navigation }) {
   const handleSignOut = () => {
     auth
       .signOut()
-      .then(() => {
-        setIsLoggedIn(false);
-        navigation.navigate("Home");
-      })
+      .then(() => setIsLoggedIn(false))
+      .then(() =>  navigation.navigate("Home"))
       .catch((err) => console.log(err));
   };
 

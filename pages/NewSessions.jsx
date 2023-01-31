@@ -13,16 +13,40 @@ import { db, auth } from "../firebaseConfigOriginal";
 import BenchSessions from "../components/BenchSessions";
 import FormButton from "../components/FormButton";
 import MapComponent from "../components/MapComponent";
+import AvailableSessionsContext from "../contexts/AvailableSessionsContext";
 
 function NewSessions({ navigation }) {
   const [viewType, setViewType] = useState("List");
   const [clickedBench, setClickedBench] = useState(false);
+  const [benches, setBenches] = useState([]);
+  const { setCurrAvailableSessions } = useContext(AvailableSessionContext);
 
   const bookingSelect = (target) => {
     setClickedBench(target);
   };
 
-  const [benches, setBenches] = useState([]);
+   const getAvailableBenches = (maxCap) => {
+     const availableSessions = [];
+     const docRefCollection = collection(db, "sessions");
+
+     getDocs(docRefCollection)
+       .then((docs) => {
+         docs.forEach((doc) => {
+           const sessions = doc.data().result;
+           for (let day in sessions) {
+             const sessionsInDay = sessions[day];
+             sessionsInDay.forEach((session) => {
+               if (session.capacity === maxCap) {
+                 availableSessions.push(session);
+               }
+             });
+           }
+         });
+         setCurrAvailableSessions(availableSessions);
+       })
+       .catch((error) => console.log(error));
+   };
+  
 
   const getBenches = () => {
     const docRefCollection = collection(db, "benches");
@@ -35,8 +59,10 @@ function NewSessions({ navigation }) {
       .catch((error) => console.log(error));
   };
 
+
   useEffect(() => {
     getBenches();
+    getAvailableBenches(2);
   }, []);
   return (
     <>

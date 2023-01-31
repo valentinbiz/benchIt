@@ -149,6 +149,5 @@ benches.forEach((bench) => {
       endTime: end,
       booked: false,
     });
-    console.log(i);
   }
 });
