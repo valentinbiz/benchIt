@@ -28,7 +28,7 @@ import AvailableSessionsContext from "../contexts/AvailableSessionsContext";
 import LocationContext from "../contexts/LocationContext";
 import sessionStyles from "../styles/SessionStyles";
 
-function Sessions({ navigation }) {
+function NewSessions({ navigation }) {
   const [viewType, setViewType] = useState("List");
   const [clickedBench, setClickedBench] = useState(false);
   const { selectedBench, setSelectedBench } = useContext(selectedBenchContext);
@@ -178,6 +178,6 @@ function Sessions({ navigation }) {
   );
 }
 
-export default Sessions;
+export default NewSessions;
 
 // {"benchCity": "Liverpool", "benchDescription": "Mysterious bench set aside from Prince Rupert's Tower", "benchId": 10, "benchName": "Whispering Willow Bench", "benchPicture": "https://images.unsplash.com/photo-1573079883023-62fc208b9d75?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80", "latitude": "53.418877980620884", "longitude": "-2.970565414361296"}
