@@ -132,7 +132,7 @@ const App = () => {
                       <Stack.Screen
                         name="NewSessions"
                         component={NewSessions}
-                        options={{ title: "New Sessions" }}
+                        options={{ headerShown: false }}
                       />
                       <Stack.Screen
                         name="SignUp"
