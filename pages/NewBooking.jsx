@@ -49,7 +49,6 @@ export default function NewBooking({ navigation }) {
     const formatDataObj = {};
     const sessions = sessionsForSpecificBench;
     for (const session of sessions) {
-      // console.log(session, "<SESSION");
       let date = new Date(session.startTime.seconds * 1000);
       let formattedDate = `${date.getFullYear()}-${(
         "0" +
@@ -62,10 +61,13 @@ export default function NewBooking({ navigation }) {
       formatDataObj[formattedDate] = formatDataObj[formattedDate] || [];
       formatDataObj[formattedDate].push({
         name: session.benchName,
-        time: formattedDate,
         duration: `1 hour session`,
         session: session,
-        sessionDay: session.day,
+        sessionDay: date.toDateString(),
+        sessionTime: date.toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        }),
         benchId: selectedBench.benchId,
       });
     }
@@ -77,7 +79,6 @@ export default function NewBooking({ navigation }) {
     getDoc(docRefCollection)
       .then((doc) => {
         const sessions = doc.data().result;
-        console.log(sessions, "<<<session data");
         const desiredDay = sessionData.sessionDay;
         const sessionArray = sessions[desiredDay]
           ? sessions[desiredDay]
@@ -122,10 +123,10 @@ export default function NewBooking({ navigation }) {
   }, []);
   return (
     <>
-      <View style={styles.buttonsContainer}>
+      <View style={styles.mainContent}>
+        <Text style={styles.SessionsHeader}>Finish booking</Text>
         <View style={styles.calendarContainer}>
           <View style={styles.infoContainer}>
-            <Text style={styles.text}>Finalise your booking</Text>
             <View style={{ widht: 400 }}>
               <Image
                 source={require("../creativeAssets/undrawBooking.png")}
@@ -138,10 +139,15 @@ export default function NewBooking({ navigation }) {
                 }}
               />
             </View>
-            <Text style={{ fontSize: 30, padding: 20 }}>
-              Please select one available session for Serenity Bench!
-            </Text>
-            <Text> </Text>
+            <View>
+              <Text style={styles.SessionSubtitle}>
+                Please select one available session for{" "}
+                <Text style={styles.accentColor}>
+                  {" "}
+                  {selectedBench.benchName}!
+                </Text>
+              </Text>
+            </View>
           </View>
 
           <View style={styles.centeredView}>
@@ -150,7 +156,6 @@ export default function NewBooking({ navigation }) {
               transparent={true}
               visible={modalVisible}
               onRequestClose={() => {
-                Alert.alert("Modal has been closed.");
                 setModalVisible(!modalVisible);
               }}
             >
@@ -162,60 +167,89 @@ export default function NewBooking({ navigation }) {
                       renderItem={(item) => (
                         <TouchableOpacity style={styles.item}>
                           <Text style={styles.itemText}>
-                            {" "}
-                            {item.name} {item.time.toLocaleString()}
-                            {"\n"} ({item.duration})
+                            {"\n"} {item.sessionTime} {" · "}
+                            {item.name}
+                            {"\n"} {item.sessionDay} {" · "} {item.duration}
                           </Text>
-                          <FormButton
-                            buttonTitle="Select session"
-                            btnHeight={30}
-                            onPress={() => handleSessionSelect(item)}
-                          />
+                          <View style={styles.buttonContainer}>
+                            <FormButton
+                              buttonTitle="Select session"
+                              btnHeight={30}
+                              onPress={() => handleSessionSelect(item)}
+                            />
+                          </View>
                         </TouchableOpacity>
                       )}
                       theme={{
-                        agendaDayTextColor: "black",
-                        agendaDayNumColor: "green",
-                        agendaTodayColor: "red",
-                        agendaKnobColor: "gray",
-                        agendaBackgroundColor: "gray",
+                        agendaDayTextColor: "#B85F44",
+                        agendaDayNumColor: "#B85F44",
+                        agendaTodayColor: "#342C2C",
+
+                        textDefaultColor: "#FCFEF7",
+                        agendaKnobColor: "#342C2C",
+                        agendaBackgroundColor: "#342C2C",
+                        calendarBackground: "#B85F44",
+                        dotColor: "#342C2C", // dots
+                        textDisabledColor: "#333",
+                        selectedDayBackgroundColor: "#342C2C",
+                        textSectionTitleColor: "#FCFEF7",
                       }}
-                      style={{ borderRadius: 15 }}
+                      style={{
+                        borderTopRightRadius: 15,
+                        borderTopLeftRadius: 15,
+                      }}
                       refreshControl={null}
                       showClosingKnob={true}
                       refreshing={false}
                       selected={"2023-02-01"}
                     />
-                    <FormButton
-                      title="close"
-                      onPress={() => setModalVisible(false)}
-                    >
-                      Close
-                    </FormButton>
+                    <View style={styles.buttonContainer}>
+                      <FormButton
+                        buttonTitle="Close Calendar"
+                        colorScheme={"#342C2C"}
+                        onPress={() => setModalVisible(false)}
+                      />
+                    </View>
                   </View>
                 </View>
               </View>
             </Modal>
             {sessionData ? (
-              <View style={{ marginTop: 200 }}>
-                <Text>Session details: </Text>
-                <Text> Activity: {sessionData.name}</Text>
-                <Text> Time: {sessionData.time}</Text>
-                <Text> Duration: {sessionData.duration}</Text>
+              <View style={styles.SessionsInfo}>
+                <Text style={styles.SessionsInfo}>Session details: </Text>
+                <Text style={styles.SessionInfoText}>
+                  {" "}
+                  Bench: {sessionData.name}
+                </Text>
+                <Text style={styles.SessionInfoText}>
+                  {" "}
+                  Time: {sessionData.sessionTime}
+                </Text>
+                <Text style={styles.SessionInfoText}>
+                  {" "}
+                  Date: {sessionData.sessionDay}
+                </Text>
+                <Text style={styles.SessionInfoText}>
+                  {" "}
+                  Address: {sessionData.session.benchAddress}
+                </Text>
+                <Text style={styles.SessionInfoText}> Duration: 1 hour</Text>
               </View>
             ) : null}
           </View>
-          <Pressable
-            style={[styles.button, styles.buttonOpen]}
-            onPress={() => {
-              setModalVisible(true), processData();
-            }}
-          >
-            <Text style={styles.textStyle}>Select an available session</Text>
-          </Pressable>
-          <View style={{ paddingHorizontal: 20, alignItems: "center" }}>
+
+          <View style={styles.buttonContainer}>
+            <FormButton
+              buttonTitle="Select a session"
+              onPress={() => {
+                setModalVisible(true), processData();
+              }}
+            />
+          </View>
+          <View style={styles.buttonContainer}>
             <FormButton
               buttonTitle="Book this session"
+              colorScheme={"#342C2C"}
               onPress={() => handleBookFirebase()}
             />
           </View>
@@ -226,6 +260,41 @@ export default function NewBooking({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+  mainContent: {
+    backgroundColor: "#FCFEF7",
+    height: "100%",
+  },
+  SessionsHeader: {
+    marginTop: 40,
+    color: "#342C2C",
+    fontSize: 30,
+    textAlign: "center",
+    fontFamily: "Cabin_Bold",
+  },
+  SessionSubtitle: {
+    marginTop: 20,
+    color: "#342C2C",
+    fontSize: 30,
+    textAlign: "center",
+    fontFamily: "Cabin_Bold",
+  },
+  SessionsInfo: {
+    marginTop: 60,
+    color: "#342C2C",
+    fontSize: 25,
+    textAlign: "center",
+    fontFamily: "Cabin_Bold",
+  },
+  SessionInfoText: {
+    color: "#342C2C",
+    fontSize: 20,
+    textAlign: "justify",
+    fontFamily: "Cabin_Bold",
+  },
+  accentColor: {
+    color: "#B85F44",
+    fontFamily: "Cabin_Bold",
+  },
   centeredView: {
     flex: 1,
     justifyContent: "center",
@@ -238,6 +307,11 @@ const styles = StyleSheet.create({
   calendarContainer: {
     Width: 300,
     height: 500,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  buttonContainer: {
+    width: "100%",
     alignItems: "center",
   },
   buttonsContainer: {
@@ -261,7 +335,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
   },
   item: {
-    backgroundColor: "grey",
+    backgroundColor: "#CFDAE4",
     flex: 1,
     borderRadius: 15,
     padding: 10,
@@ -271,14 +345,14 @@ const styles = StyleSheet.create({
     justifyContent: "space-evenly",
   },
   itemText: {
+    fontFamily: "Cabin_400Regular",
     color: "black",
-    fontSize: 16,
+    fontSize: 20,
   },
   centeredView: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    // marginTop: 22,
   },
   modalView: {
     width: "90%",
@@ -303,18 +377,18 @@ const styles = StyleSheet.create({
     // elevation: 2,
   },
   buttonOpen: {
-    backgroundColor: "#F194FF",
+    backgroundColor: "#B85F44",
   },
-  buttonClose: {
-    backgroundColor: "#2196F3",
-  },
-  textStyle: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: "center",
-  },
+  // buttonClose: {
+  //   backgroundColor: "#2196F3",
+  // },
+  // textStyle: {
+  //   color: "white",
+  //   fontWeight: "bold",
+  //   textAlign: "center",
+  // },
+  // modalText: {
+  //   marginBottom: 15,
+  //   textAlign: "center",
+  // },
 });
