@@ -7,7 +7,7 @@ import {
   StyleSheet,
   ScrollView,
   KeyboardAvoidingView,
-  Image
+  Image,
 } from "react-native";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth, db } from "../firebase/firebaseConfig";
@@ -50,6 +50,7 @@ function SignUp({ navigation }) {
           setIsLoggedIn(true);
           navigation.navigate("Home");
         })
+        .then(() => {})
         .catch((err) => alert(err.message));
     }
   };

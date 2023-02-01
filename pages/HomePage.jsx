@@ -13,12 +13,16 @@ import benchIllustration from "../creativeAssets/bench-illustration.png";
 import isLoggedInContext from "../contexts/IsLoggedInContext";
 import bookedBenchContext from "../contexts/bookedBenchContext";
 import UserContext from "../contexts/UserContext";
+import bookedSessionContext from "../contexts/bookedSessionsContext";
 
 function HomePage({ navigation }) {
   const { isLoggedIn, setIsLoggedIn } = useContext(isLoggedInContext);
+  const { bookedSessions } = useContext(bookedSessionContext);
   const { bookedBench } = useContext(bookedBenchContext);
   const { user } = useContext(UserContext);
-  //console.log(bookedBench);
+
+  let numberOfSessions = null;
+  bookedSessions ? (numberOfSessions = bookedSessions.length) : null;
 
   return (
     <SafeAreaView style={styles.container}>
@@ -57,6 +61,25 @@ function HomePage({ navigation }) {
         ) : (
           <View style={styles.viewContainer}>
             <Text style={styles.greeting}>Hello there, {user.displayName}</Text>
+            {numberOfSessions > 0 ? (
+              <>
+                <Text style={styles.text}>
+                  You currently have
+                  <Text style={styles.accentColor}> {numberOfSessions} </Text>
+                  upcoming sessions. You can cancel the sessions in the Schedule
+                  page or book more sessions!
+                </Text>
+              </>
+            ) : (
+              <>
+                <Text style={styles.text}>
+                  No upcoming sessions as of right now
+                </Text>
+                <Text style={styles.text}>
+                  Check out the sessions page to book a bench!
+                </Text>
+              </>
+            )}
           </View>
         )}
       </ScrollView>
@@ -67,7 +90,8 @@ function HomePage({ navigation }) {
 const styles = StyleSheet.create({
   greeting: {
     fontFamily: "Cabin_400Regular",
-    fontSize: 22
+    fontSize: 22,
+    marginTop: 20,
   },
   container: {
     flex: 1,
@@ -86,6 +110,7 @@ const styles = StyleSheet.create({
     marginTop: 50,
     fontSize: 60,
     fontFamily: "TitanOne",
+    marginBottom: 30,
   },
   picture: {
     width: 250,
@@ -115,9 +140,17 @@ const styles = StyleSheet.create({
     fontFamily: "Cabin_400Regular",
     marginHorizontal: 5,
   },
+  text: {
+    color: "#342C2C",
+    fontSize: 20,
+    textAlign: "center",
+    fontFamily: "Cabin_400Regular",
+    marginHorizontal: 5,
+    marginTop: 20,
+  },
   accentColor: {
     color: "#B85F44",
-    fontFamily: "Cabin_Bold"
+    fontFamily: "Cabin_Bold",
   },
 });
 

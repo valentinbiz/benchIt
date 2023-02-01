@@ -159,13 +159,11 @@ export default function NewBooking({ navigation }) {
                   <View style={styles.container}>
                     <Agenda
                       items={structuredData}
-                      renderItem={(item, isFirst) => (
+                      renderItem={(item) => (
                         <TouchableOpacity style={styles.item}>
                           <Text style={styles.itemText}>
                             {" "}
-                            {item.name}
-                            {"\n"}
-                            {item.time.toLocaleString()}
+                            {item.name} {item.time.toLocaleString()}
                             {"\n"} ({item.duration})
                           </Text>
                           <FormButton
@@ -270,6 +268,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
     marginTop: 5,
     color: "black",
+    justifyContent: "space-evenly",
   },
   itemText: {
     color: "black",

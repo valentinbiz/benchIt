@@ -9,7 +9,7 @@ import {
   Platform,
   StyleSheet,
   ScrollView,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
 } from "react-native";
 import FormInput from "../components/FormInput";
 import FormButton from "../components/FormButton";
@@ -24,24 +24,27 @@ function LogIn({ navigation }) {
   const { setUser } = useContext(UserContext);
 
   const handleLogin = (email, password) => {
-    signInWithEmailAndPassword(auth, email, password).then((userCreds) => {
-      const user = userCreds.user;
-      setUser({
-        displayName: user.displayName,
-        email: user.email,
-      });
-    });
-  };
-
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user) {
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCreds) => {
+        const user = userCreds.user;
+        setUser({
+          displayName: user.displayName,
+          email: user.email,
+        });
+      })
+      .then(() => {
         navigation.navigate("Home");
         setIsLoggedIn(true);
-      }
-    });
-    return unsubscribe;
-  }, []);
+      });
+  };
+
+  // useEffect(() => {
+  //   const unsubscribe = auth.onAuthStateChanged((user) => {
+  //     if (user.displayName !== "Guest") {
+  //     }
+  //   });
+  //   return unsubscribe;
+  // }, []);
   return (
     <KeyboardAvoidingView style={styles.mainContent}>
       <ScrollView contentContainerStyle={styles.container}>
