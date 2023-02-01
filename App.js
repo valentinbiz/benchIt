@@ -36,13 +36,13 @@ let headerStyling = {
     fontSize: 24,
     flex: 1,
     fontFamily: "TitanOne",
-    color: "#B85F44",
+    color: "#342C2C",
   },
   headerTitleAlign: "center",
   headerBackTitleStyle: {
     fontFamily: "Cabin_Bold",
   },
-  headerTintColor: "#B85F44",
+  headerTintColor: "#342C2C",
 };
 
 const App = () => {
@@ -51,7 +51,7 @@ const App = () => {
   const [bookedBench, setBookedBench] = useState(null);
   const [user, setUser] = useState({
     displayName: "Guest",
-    email: "",
+    email: "mitch@gmail.com",
     userId: 0,
     photoUrl: "",
   });

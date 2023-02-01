@@ -63,6 +63,7 @@ function LogIn({ navigation }) {
             iconType="lock"
             secureTextEntry={true}
           />
+          <Text></Text>
           <FormButton
             buttonTitle="Log in"
             onPress={() => handleLogin(email, password)}

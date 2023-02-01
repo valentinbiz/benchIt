@@ -31,7 +31,7 @@ export default function Account({ navigation }) {
   const handlePress = () => navigation.navigate("AccountSettings");
 
   return (
-    <ScrollView>
+    <ScrollView style={styles.mainContent}>
       <View style={styles.wrapper}>
         <View style={styles.container}>
           {image && (
@@ -74,6 +74,9 @@ export default function Account({ navigation }) {
   );
 }
 const styles = StyleSheet.create({
+  mainContent: {
+    backgroundColor: "#FCFEF7"
+  },
   GreetingMessage: {
     textAlign: "center",
     marginVertical: 5,
@@ -92,6 +95,7 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "#FCFEF7",
   },
   container: {
     elevation: 2,

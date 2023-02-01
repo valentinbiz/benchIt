@@ -42,21 +42,21 @@ function HomePage({ navigation }) {
           <View style={styles.viewContainer}>
             <TouchableHighlight
               style={styles.button}
-              onPress={() => navigation.navigate("SignUp")}
-            >
-              <Text style={styles.buttonText}>Sign Up</Text>
-            </TouchableHighlight>
-            <Text style={styles.text_separator}>OR</Text>
-            <TouchableHighlight
-              style={styles.button}
               onPress={() => navigation.navigate("Login")}
             >
               <Text style={styles.buttonText}>Log In</Text>
             </TouchableHighlight>
+            <Text style={styles.text_separator}>OR</Text>
+            <TouchableHighlight
+              style={styles.button}
+              onPress={() => navigation.navigate("SignUp")}
+            >
+              <Text style={styles.buttonText}>Sign Up</Text>
+            </TouchableHighlight>
           </View>
         ) : (
           <View style={styles.viewContainer}>
-            <Text>Hello there, {user.displayName}</Text>
+            <Text style={styles.greeting}>Hello there, {user.displayName}</Text>
           </View>
         )}
       </ScrollView>
@@ -65,6 +65,10 @@ function HomePage({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+  greeting: {
+    fontFamily: "Cabin_400Regular",
+    fontSize: 22
+  },
   container: {
     flex: 1,
     justifyContent: "center",
@@ -78,6 +82,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   title: {
+    color: "#342C2C",
     marginTop: 50,
     fontSize: 60,
     fontFamily: "TitanOne",
@@ -104,6 +109,7 @@ const styles = StyleSheet.create({
     fontFamily: "Cabin_Bold",
   },
   missionText: {
+    color: "#342C2C",
     fontSize: 20,
     textAlign: "center",
     fontFamily: "Cabin_400Regular",

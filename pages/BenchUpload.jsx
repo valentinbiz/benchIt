@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
-import { View, Text, StyleSheet, ScrollView, KeyboardAvoidingView } from "react-native";
-
+import { View, Text, StyleSheet, ScrollView, KeyboardAvoidingView, Image } from "react-native";
+import newspaperIllustration from "../assets/newspaper-bench.png"
 import FormInput from "../components/FormInput";
 import FormButton from "../components/FormButton";
 
@@ -14,6 +14,9 @@ function BenchUpload({ navigation }) {
   return (
     <KeyboardAvoidingView style={styles.mainContent}>
       <ScrollView>
+        <View style={styles.viewContainer}>
+          <Image source={newspaperIllustration} style={styles.picture} />
+        </View>
         <View style={styles.formCard}>
           <Text style={styles.text}>Register a bench</Text>
 
@@ -61,11 +64,10 @@ function BenchUpload({ navigation }) {
           />
         </View>
         <View style={styles.SubmitPhotoContainer}>
-          <FormButton
-            buttonTitle="Submit bench"
-            colorScheme="#342C2C"
-            onPress={() => {}}
-          />
+          <FormButton buttonTitle="Submit bench" onPress={() => {}} />
+          <Text style={[styles.message, { fontSize: 12 }]}>
+            Add all the details and you're ready to submit!
+          </Text>
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
@@ -73,17 +75,28 @@ function BenchUpload({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+  picture: {
+    width: 50,
+    height: 50,
+  },
+  viewContainer: {
+    marginTop: 60,
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 2,
+  },
   mainContent: {
     height: "100%",
     backgroundColor: "#FCFEF7",
   },
   formCard: {
+    marginTop: -12,
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#342C2C",
-    borderRadius: 10,
-    marginTop: 80,
+    borderTopRightRadius: 10,
+    borderTopLeftRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 15,
     marginHorizontal: 10,
@@ -103,7 +116,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 15,
     marginBottom: 10,
     fontFamily: "Cabin_400Regular",
-    color: "#FCFEF7"
+    color: "#FCFEF7",
   },
   forgotButton: {
     marginVertical: 35,
@@ -141,10 +154,15 @@ const styles = StyleSheet.create({
     backgroundColor: "#2196F3",
   },
   SubmitPhotoContainer: {
-    flex: 1,
+    display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 10
+    marginHorizontal: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderBottomRightRadius: 10,
+    borderBottomLeftRadius: 10,
+    backgroundColor: "#342C2C",
   },
   textStyle: {
     color: "white",

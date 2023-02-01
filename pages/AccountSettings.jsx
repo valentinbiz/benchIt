@@ -12,9 +12,11 @@ import {
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
+import UserContext from "../contexts/UserContext";
 
 export default function AccountSettings() {
   const [image, setImage] = useState(null);
+  const { user } = useContext(UserContext);
 
   const checkForCameraRollPermission = async () => {
     const { status } = await ImagePicker.getMediaLibraryPermissionsAsync();
@@ -58,25 +60,22 @@ export default function AccountSettings() {
             <View style={styles.uploadBtnContainer}>
               <TouchableOpacity onPress={addImage} style={styles.uploadBtn}>
                 <Text>{image ? "Edit" : "Upload"} Image</Text>
-                <AntDesign name="camera" size={20} color="black" />
+                <AntDesign name="camera" size={20} color="#342C2C" />
               </TouchableOpacity>
             </View>
           </View>
         </View>
 
         <View style={styles.wrapper}>
-          <Text> You are logged in as Mitch! </Text>
+          <View style={styles.infoContainer}>
+            <Text style={styles.infoHeader}>Account Information</Text>
+            <Text style={styles.infoText}>Name - {user.displayName} 🙋🏼‍♂️</Text>
+            <Text style={styles.infoText}>Email - {user.email}</Text>
+            <Text style={styles.infoText}>Location - {"Manchester"}</Text>
+          </View>
 
           <FormButton
-            buttonTitle={`Name: ${"Mitch!! 🙋🏼‍♂️"}`}
-            onPress={() => navigation.navigate("Camera")}
-          />
-          <FormButton
-            buttonTitle={`Location: ${"Manchester"}`}
-            onPress={() => navigation.navigate("Camera")}
-          />
-          <FormButton
-            buttonTitle="Change Password"
+            buttonTitle="Reset Password"
             onPress={() => navigation.navigate("Camera")}
           />
           <FormButton
@@ -94,11 +93,33 @@ export default function AccountSettings() {
 }
 
 const styles = StyleSheet.create({
+  infoHeader: {
+    fontFamily: "Cabin_Bold",
+    color: "#FCFEF7",
+    fontSize: 28,
+    marginBottom: 6,
+    textAlign: "center",
+    padding: 0
+  },
+  infoText: {
+    fontFamily: "Cabin_400Regular",
+    color: "#FCFEF7",
+    fontSize: 18,
+  },
+  infoContainer: {
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    width: "80%",
+    marginHorizontal: 10,
+    marginBottom: 10,
+    backgroundColor: "#342C2C",
+    borderRadius: 10,
+  },
   wrapper: {
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
-    paddingTop: 30,
+    paddingTop: 10,
   },
   container: {
     elevation: 2,

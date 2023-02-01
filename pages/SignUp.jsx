@@ -7,6 +7,7 @@ import {
   StyleSheet,
   ScrollView,
   KeyboardAvoidingView,
+  Image
 } from "react-native";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth, db } from "../firebase/firebaseConfig";
@@ -16,6 +17,7 @@ import UserContext from "../contexts/UserContext";
 import FormInput from "../components/FormInput";
 import FormButton from "../components/FormButton";
 import SocialButton from "../components/SocialButton";
+import mole from "../assets/mole.png";
 
 function SignUp({ navigation }) {
   const [displayName, setDisplayName] = useState();
@@ -55,6 +57,9 @@ function SignUp({ navigation }) {
     <KeyboardAvoidingView style={styles.mainContent}>
       <ScrollView>
         <View style={styles.container}>
+          <View style={styles.viewContainer}>
+            <Image source={mole} style={styles.picture} />
+          </View>
           <View style={styles.formCard}>
             <Text style={styles.header}>Register your account</Text>
 
@@ -91,6 +96,7 @@ function SignUp({ navigation }) {
               iconType="lock"
               secureTextEntry={true}
             />
+            <Text></Text>
             <FormButton buttonTitle="Sign up" onPress={() => handleSignUp()} />
           </View>
 
@@ -127,11 +133,22 @@ function SignUp({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+  picture: {
+    width: 75,
+    height: 50,
+  },
+  viewContainer: {
+    flex: 1,
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
+    zIndex: 2,
+  },
   mainContent: {
     height: "100%",
     backgroundColor: "#FCFEF7",
   },
   formCard: {
+    marginTop: -4,
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
