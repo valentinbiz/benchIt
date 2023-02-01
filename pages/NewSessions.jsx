@@ -1,4 +1,14 @@
-import React, { useEffect, useState, useContext } from "react";
+import {
+  getDoc,
+  getDocs,
+  collection,
+  query,
+  where,
+  doc,
+} from "firebase/firestore";
+// import { db, auth } from "../firebaseConfigOriginal";
+import { db, auth } from "../firebase/firebaseConfig";
+import React, { useContext, useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -6,26 +16,39 @@ import {
   ScrollView,
   TouchableOpacity,
   Image,
-  StyleSheet,
 } from "react-native";
-import { getDocs, collection } from "firebase/firestore";
-import { db, auth } from "../firebase/firebaseConfig";
+import * as Location from "expo-location";
 import BenchSessions from "../components/BenchSessions";
 import FormButton from "../components/FormButton";
 import MapComponent from "../components/MapComponent";
-import AvailableSessionsContext from "../contexts/AvailableSessionsContext";
+import ForecastCard from "../components/ForecastCard";
 import selectedBenchContext from "../contexts/selectedBenchContext";
+import UserContext from "../contexts/UserContext";
+import AvailableSessionsContext from "../contexts/AvailableSessionsContext";
+import LocationContext from "../contexts/LocationContext";
+import sessionStyles from "../styles/SessionStyles";
 
-function NewSessions({ navigation }) {
+function Sessions({ navigation }) {
   const [viewType, setViewType] = useState("List");
   const [clickedBench, setClickedBench] = useState(false);
-  const [benches, setBenches] = useState([]);
-  const { setCurrAvailableSessions } = useContext(AvailableSessionsContext);
   const { selectedBench, setSelectedBench } = useContext(selectedBenchContext);
+  const { setCurrAvailableSessions } = useContext(AvailableSessionsContext);
+  const { currLocation, setCurrLocation } = useContext(LocationContext);
 
-  const bookingSelect = (target) => {
-    setClickedBench(target);
-    setSelectedBench(target);
+  const [ viewRef, setViewRef ] = useState(null);
+  const [benches, setBenches] = useState([]);
+  const [errorMsg, setErrorMsg] = useState(false);
+  const { user } = useContext(UserContext);
+
+  const getBenches = () => {
+    const docRefCollection = collection(db, "benches");
+    getDocs(docRefCollection)
+      .then((documents) => {
+        const benchesArray = [];
+        documents.forEach((doc) => benchesArray.push(doc.data()));
+        setBenches(benchesArray);
+      })
+      .catch((error) => console.log(error));
   };
 
   const getAvailableBenches = (maxCap) => {
@@ -40,7 +63,7 @@ function NewSessions({ navigation }) {
             const sessionsInDay = sessions[day];
             sessionsInDay.forEach((session) => {
               if (session.capacity === maxCap) {
-                availableSessions.push(session);
+                availableSessions.push({ ...session, day });
               }
             });
           }
@@ -50,174 +73,111 @@ function NewSessions({ navigation }) {
       .catch((error) => console.log(error));
   };
 
-  const getBenches = () => {
-    const docRefCollection = collection(db, "benches");
-    getDocs(docRefCollection)
-      .then((documents) => {
-        const benchesArray = [];
-        documents.forEach((doc) => benchesArray.push(doc.data()));
-        setBenches(benchesArray);
-      })
-      .catch((error) => console.log(error));
-  };
-
   useEffect(() => {
     getBenches();
     getAvailableBenches(2);
+    getCurrLocation();
   }, []);
+
+  async function getCurrLocation() {
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== "granted") {
+      setErrorMsg("Permission to access location was denied");
+      return;
+    }
+
+    let location = await Location.getCurrentPositionAsync({});
+    setCurrLocation([location.coords.latitude, location.coords.longitude]);
+  }
+
+  const bookingSelect = (target) => {
+    setClickedBench(target);
+    setSelectedBench(target);
+    viewRef.scrollToEnd({ animation: true });
+  };
+
+  let text = "Waiting..";
+  if (errorMsg) {
+    text = errorMsg;
+  } else if (currLocation) {
+    text = JSON.stringify(currLocation);
+  }
+
   return (
-    <>
-      <ScrollView nestedScrollEnabled={true}>
-        <Text
-          style={{
-            paddingHorizontal: 20,
-            fontSize: 30,
-            paddingTop: 30,
-          }}
-        >
-          Create your own booking
-        </Text>
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            backgroundColor: "#FFF",
-            padding: 10,
-            borderRadius: 12,
-            marginHorizontal: 20,
-            marginTop: 20,
-          }}
-        >
+    <View style={sessionStyles.mainContent}>
+      <Text style={sessionStyles.SessionsHeader}>New sessions</Text>
+      <ScrollView nestedScrollEnabled={true} ref={(ref) => setViewRef(ref)}>
+        <View style={sessionStyles.SearchBar}>
           <TextInput
-            placeholder="Search for benches!"
-            placeholderTextColor="#345c74"
-            style={{
-              fontSize: 12,
-              width: 280,
-              paddingHorizontal: 12,
-            }}
+            placeholder="Search for benches..."
+            placeholderTextColor="#6C5B5B"
+            style={sessionStyles.SearchInput}
           />
           <Image
-            source={require("../creativeAssets/sear.png")}
-            style={{ height: 14, width: 14 }}
+            source={require("../creativeAssets/search-icon.png")}
+            style={sessionStyles.SearchIcon}
           />
         </View>
-        <View
-          style={{
-            flexDirection: "row",
-            backgroundColor: "#808080",
-            marginTop: 20,
-            marginHorizontal: 20,
-            borderRadius: 15,
-            paddingVertical: 20,
-            paddingLeft: 30,
-          }}
-        >
-          <View>
-            <Text style={{ fontSize: 20, width: 200 }}>
-              Select a bench you would like to book
-            </Text>
-            <View style={{ flexDirection: "row", height: 35 }}>
-              <TouchableOpacity
-                onPress={() => setViewType("List")}
-                style={{
-                  flexDirection: "row",
-                  backgroundColor: "#f58084",
-                  alignItems: "center",
-                  marginTop: 15,
-                  width: 66,
-                  borderRadius: 14,
-                  paddingHorizontal: 10,
-                }}
-              >
-                <Text
-                  style={{
-                    color: "#FFF",
-                    fontSize: 12,
-                  }}
-                >
-                  List View
-                </Text>
-              </TouchableOpacity>
-              <Text style={{ marginTop: 15, fontSize: 20 }}> / </Text>
-              <TouchableOpacity
-                onPress={() => setViewType("Map")}
-                style={{
-                  flexDirection: "row",
-                  backgroundColor: "#f58084",
-                  alignItems: "center",
-                  marginTop: 15,
-                  width: 70,
-                  borderRadius: 14,
-                  paddingHorizontal: 10,
-                }}
-              >
-                <Text
-                  style={{
-                    color: "#FFF",
-                    fontSize: 12,
-                  }}
-                >
-                  Map view
-                </Text>
-              </TouchableOpacity>
-            </View>
+        <ForecastCard></ForecastCard>
+          <Text style={sessionStyles.toggleInfo}>Toggle between views to look for available benches</Text>
+        <View style={sessionStyles.ViewToggleCard}>
+          <View style={sessionStyles.toggleContainer}>
+            <TouchableOpacity
+              onPress={() => setViewType("List")}
+              style={sessionStyles.ViewToggleButton}
+            >
+              <Text style={sessionStyles.ViewToggleText}>List</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => setViewType("Map")}
+              style={sessionStyles.ViewToggleButton}
+            >
+              <Text style={sessionStyles.ViewToggleText}>Map</Text>
+            </TouchableOpacity>
           </View>
-          <Image
-            source={require("../creativeAssets/undraw.png")}
-            style={{ marginLeft: -5, marginTop: 0 }}
-          />
         </View>
-        <Text
-          style={{
-            color: "#345c74",
-            fontSize: 20,
-            paddingHorizontal: 20,
-            marginTop: 20,
-            marginBottom: 10,
-          }}
-        >
-          Available benches
-        </Text>
+
         {viewType === "List" ? (
-          <View>
-            <ScrollView style={{ height: 300 }} nestedScrollEnabled={true}>
-              {benches.map((bench) => {
-                return (
-                  <>
-                    <BenchSessions
-                      key={bench.benchId}
-                      img={require("../creativeAssets/bench.png")}
-                      title={bench.benchName}
-                      address={bench.benchAddress}
-                      bg={"#fcfef7"}
-                      behaviour={bookingSelect}
-                      target={bench}
-                    />
-                  </>
-                );
-              })}
-            </ScrollView>
-          </View>
+          <ScrollView style={sessionStyles.SessionsList} nestedScrollEnabled={true}>
+            {benches.map((bench) => {
+              return (
+                <BenchSessions
+                  key={bench.benchId}
+                  img={require("../creativeAssets/bench-illustration-2.png")}
+                  title={bench.benchName}
+                  address={bench.benchAddress}
+                  bg={"#fcfef7"}
+                  behaviour={bookingSelect}
+                  city={bench.benchCity}
+                latitude={Number(bench.latitude)}
+                longitude={Number(bench.longitude)}
+                  target={bench}
+                />
+              );
+            })}
+          </ScrollView>
         ) : (
-          <MapComponent />
+          <MapComponent benches={benches} />
         )}
-        <View style={{ paddingHorizontal: 20, alignItems: "center" }}>
+        <View style={sessionStyles.SessionsButton}>
           {clickedBench ? (
             <>
-              <Text> You have picked {clickedBench.benchName}</Text>
+              <Text style={sessionStyles.pickedBench}>
+                {" "}
+                You have picked {clickedBench.benchName}
+              </Text>
               <FormButton
                 buttonTitle={"Continue"}
-                onPress={() => {
-                  navigation.navigate("NewBooking");
-                }}
+                onPress={() => navigation.navigate("NewBooking")}
               />
             </>
           ) : null}
         </View>
       </ScrollView>
-    </>
+    </View>
   );
 }
 
-export default NewSessions;
+export default Sessions;
+
+// {"benchCity": "Liverpool", "benchDescription": "Mysterious bench set aside from Prince Rupert's Tower", "benchId": 10, "benchName": "Whispering Willow Bench", "benchPicture": "https://images.unsplash.com/photo-1573079883023-62fc208b9d75?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80", "latitude": "53.418877980620884", "longitude": "-2.970565414361296"}
