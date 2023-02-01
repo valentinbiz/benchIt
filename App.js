@@ -60,6 +60,7 @@ const App = () => {
   // ignore async warning messages in app, still can't remove them from console :(
   // LogBox.ignoreAllLogs();
   useEffect(() => {
+    setIsLoggedIn(false);
     async function prepare() {
       try {
         await Font.loadAsync(customFonts);

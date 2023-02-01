@@ -89,8 +89,6 @@ const Navbar = () => {
   );
 };
 
-
-
 const styles = StyleSheet.create({
   labelStyle: {
     color: "#342C2C",
