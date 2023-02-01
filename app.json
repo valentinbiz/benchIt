@@ -7,7 +7,7 @@
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/BenchIt-1.png",
+      "image": "./assets/Benchitsplash.png",
       "resizeMode": "contain",
       "backgroundColor": "#FCFEF7"
     },
