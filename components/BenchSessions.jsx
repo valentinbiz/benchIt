@@ -52,7 +52,10 @@ const { currLocation } = useContext(LocationContext);
     <Text style={styles.AddressText}>{currLocation ? calcDist({
       latitude: latitude,
       longitude: longitude
-    }, currLocation
+    }, {
+      latitude: currLocation[0],
+      longitude: currLocation[1]
+    }
     ) + "km" : null}</Text>
       </View>
       <TouchableOpacity
