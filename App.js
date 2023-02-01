@@ -58,10 +58,7 @@ const App = () => {
   });
   const [appIsReady, setAppIsReady] = useState(false);
   const [currAvailableSessions, setCurrAvailableSessions] = useState(null);
-  const [currLocation, setCurrLocation] = useState({
-    latitude: 53.483959,
-    longitude: -2.244644
-  });
+  const [currLocation, setCurrLocation] = useState(null);
   // ignore async warning messages in app, still can't remove them from console :(
   // LogBox.ignoreAllLogs();
   useEffect(() => {

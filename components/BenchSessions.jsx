@@ -49,11 +49,11 @@ const { currLocation } = useContext(LocationContext);
         ) : null}
         <Text style={styles.AddressText}>{address} </Text>
         <Text style={styles.AddressText}>{city} </Text>
-    <Text style={styles.AddressText}>{calcDist({
+    <Text style={styles.AddressText}>{currLocation ? calcDist({
       latitude: latitude,
       longitude: longitude
     }, currLocation
-    )} km</Text>
+    ) + "km" : null}</Text>
       </View>
       <TouchableOpacity
         style={styles.SelectButton}
