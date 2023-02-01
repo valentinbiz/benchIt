@@ -1,5 +1,22 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Text, TouchableOpacity, View, Image, StyleSheet } from "react-native";
+import LocationContext from "../contexts/LocationContext";
+
+const calcDist = (loc1, loc2) => {
+  const R = 6371e3; // metres
+  const φ1 = loc1.latitude * Math.PI / 180; // φ, λ in radians
+  const φ2 = loc2.latitude * Math.PI / 180;
+  const Δφ = (loc2.latitude - loc1.latitude) * Math.PI / 180;
+  const Δλ = (loc2.longitude - loc1.longitude) * Math.PI / 180;
+
+  const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+    Math.cos(φ1) * Math.cos(φ2) *
+    Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+  const d = R * c; // in metres
+  return (d / 1000).toFixed(2);
+}
 
 function BenchSessions({
   img,
@@ -11,11 +28,14 @@ function BenchSessions({
   target,
   buttonContent,
   city,
+  latitude,
+  longitude
 }) {
   const handleBookSession = () => {
     behaviour(target);
   };
 
+const { currLocation } = useContext(LocationContext);
   return (
     <TouchableOpacity style={[styles.BenchCard, { backgroundColor: bg }]}>
       <Image source={img} style={styles.Image} />
@@ -29,6 +49,11 @@ function BenchSessions({
         ) : null}
         <Text style={styles.AddressText}>{address} </Text>
         <Text style={styles.AddressText}>{city} </Text>
+    <Text style={styles.AddressText}>{calcDist({
+      latitude: latitude,
+      longitude: longitude
+    }, currLocation
+    )} km</Text>
       </View>
       <TouchableOpacity
         style={styles.SelectButton}

@@ -26,16 +26,17 @@ import ForecastCard from "../components/ForecastCard";
 import selectedBenchContext from "../contexts/selectedBenchContext";
 import UserContext from "../contexts/UserContext";
 import AvailableSessionsContext from "../contexts/AvailableSessionsContext";
+import LocationContext from "../contexts/LocationContext";
 
 function Sessions({ navigation }) {
   const [viewType, setViewType] = useState("List");
   const [clickedBench, setClickedBench] = useState(false);
   const { selectedBench, setSelectedBench } = useContext(selectedBenchContext);
   const { setCurrAvailableSessions } = useContext(AvailableSessionsContext);
+  const { currLocation, setCurrLocation } = useContext(LocationContext);
 
   const [benches, setBenches] = useState([]);
   const [errorMsg, setErrorMsg] = useState(false);
-  const [currLocation, setCurrLocation] = useState({});
   const { user } = useContext(UserContext);
 
   const getBenches = () => {
@@ -74,6 +75,7 @@ function Sessions({ navigation }) {
   useEffect(() => {
     getBenches();
     getAvailableBenches(1);
+    getCurrLocation();
   }, []);
 
   async function getCurrLocation() {
@@ -159,6 +161,8 @@ function Sessions({ navigation }) {
                   bg={"#fcfef7"}
                   behaviour={bookingSelect}
                   city={bench.benchCity}
+                latitude={Number(bench.latitude)}
+                longitude={Number(bench.longitude)}
                   target={bench}
                 />
               );
