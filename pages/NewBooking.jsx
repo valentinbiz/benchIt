@@ -16,35 +16,40 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 import { auth, db } from "../firebase/firebaseConfig";
 import selectedBenchContext from "../contexts/selectedBenchContext";
 import bookedBenchContext from "../contexts/bookedBenchContext";
+import bookedSessionContext from "../contexts/bookedSessionsContext";
+import { NavigationHelpersContext } from "@react-navigation/native";
 import AvailableSessionsContext from "../contexts/AvailableSessionsContext";
 
-export default function NewBooking() {
+export default function NewBooking({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [sessionData, setSessionData] = useState(null);
   const [sessionsForSpecificBench, setSessionsForSpecificBench] = useState();
   const [structuredData, setSctructuredData] = useState({});
   const { selectedBench } = useContext(selectedBenchContext);
-  const { setBookedBench } = useContext(bookedBenchContext);
-  const { currAvailableSessions } = useContext(AvailableSessionsContext)
+  const { bookedBench, setBookedBench } = useContext(bookedBenchContext);
+  const { bookedSessions, setBookedSessions } =
+    useContext(bookedSessionContext);
+  const { currAvailableSessions } = useContext(AvailableSessionsContext);
 
   const handleSessionSelect = (session) => {
     setModalVisible(false);
     setSessionData(session);
+    // setBookedSessions(session);
   };
 
   const getSessions = () => {
-    const filteredArr = currAvailableSessions.filter(session => {
+    const filteredArr = currAvailableSessions.filter((session) => {
       if (session.benchName === selectedBench.benchName) {
         return session;
       }
-    })
+    });
     setSessionsForSpecificBench(filteredArr);
   };
-
   const processData = () => {
     const formatDataObj = {};
-    const sessions = sessionsForSpecificBench;  
+    const sessions = sessionsForSpecificBench;
     for (const session of sessions) {
+      // console.log(session, "<SESSION");
       let date = new Date(session.startTime.seconds * 1000);
       let formattedDate = `${date.getFullYear()}-${(
         "0" +
@@ -60,7 +65,9 @@ export default function NewBooking() {
         time: formattedDate,
         duration: `1 hour session`,
         session: session,
-      });   
+        sessionDay: session.day,
+        benchId: selectedBench.benchId,
+      });
     }
     setSctructuredData(formatDataObj);
   };
@@ -70,23 +77,41 @@ export default function NewBooking() {
     getDoc(docRefCollection)
       .then((doc) => {
         const sessions = doc.data().result;
+        console.log(sessions, "<<<session data");
         const desiredDay = sessionData.sessionDay;
-        const sessionArray = sessions[desiredDay];
+        const sessionArray = sessions[desiredDay]
+          ? sessions[desiredDay]
+          : sessions;
         for (let i = 0; i < sessionArray.length; i++) {
           if (
             sessionArray[i].startTime.seconds ===
             sessionData.session.startTime.seconds
           ) {
-            sessionArray[i].user_1 = auth.currentUser.uid;
-            sessionArray[i].capacity -= 1;
-            console.log("found it");
+            if (
+              sessionArray[i].user_1 === null &&
+              sessionArray[i].capacity > 0
+            ) {
+              sessionArray[i].user_1 = auth.currentUser.uid;
+              sessionArray[i].capacity -= 1;
+            } else if (
+              sessionArray[i].user_1 !== null &&
+              sessionArray[i].capacity > 0 &&
+              sessionArray[i].capacity < 2
+            ) {
+              sessionArray[i].user_2 = auth.currentUser.uid;
+              sessionArray[i].capacity -= 1;
+            } else {
+              console.log("Session is fully booked or capacity is negative.");
+            }
             break;
           }
         }
         return setDoc(docRefCollection, { result: sessions });
       })
       .then(() => {
-        setBookedBench(selectedBench);
+        setBookedBench([...bookedBench, selectedBench]);
+        setBookedSessions([...bookedSessions, sessionData]);
+        navigation.navigate("Schedule");
         console.log("Session updated successfully");
       })
       .catch((error) => console.log(error));

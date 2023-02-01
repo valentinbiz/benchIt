@@ -9,34 +9,34 @@ function BenchSessions({
   behaviour,
   sessionTime,
   target,
+  buttonContent,
+  city,
 }) {
   const handleBookSession = () => {
-    console.log("Book Session clicked");
     behaviour(target);
   };
 
   return (
-    <TouchableOpacity
-      style={[styles.BenchCard, {backgroundColor: bg}]}
-    >
+    <TouchableOpacity style={[styles.BenchCard, { backgroundColor: bg }]}>
       <Image source={img} style={styles.Image} />
 
       <View style={{ width: 180 }}>
-        <Text style={styles.Title}>
-          {title}
-        </Text>
+        <Text style={styles.Title}>{title}</Text>
         {sessionTime ? (
           <View>
             <Text style={styles.SessionTimeText}>{sessionTime}</Text>
           </View>
         ) : null}
         <Text style={styles.AddressText}>{address} </Text>
+        <Text style={styles.AddressText}>{city} </Text>
       </View>
       <TouchableOpacity
         style={styles.SelectButton}
         onPress={() => handleBookSession()}
       >
-        <Text style={styles.SelectButtonText}>Select</Text>
+        <Text style={styles.SelectButtonText}>
+          {buttonContent ? buttonContent : "Select"}
+        </Text>
       </TouchableOpacity>
     </TouchableOpacity>
   );

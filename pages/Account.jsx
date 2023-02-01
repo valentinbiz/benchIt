@@ -52,8 +52,7 @@ export default function Account({ navigation }) {
       <View>
         <Text style={styles.GreetingMessage}>
           {" "}
-          You are logged in as {user.displayName}!{" "}
-          With Email {user.email}
+          You are logged in as {user.displayName}! With Email {user.email}
         </Text>
       </View>
       <View>

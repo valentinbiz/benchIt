@@ -1,4 +1,11 @@
-import { getDoc, getDocs, collection, query, where, doc } from "firebase/firestore";
+import {
+  getDoc,
+  getDocs,
+  collection,
+  query,
+  where,
+  doc,
+} from "firebase/firestore";
 // import { db, auth } from "../firebaseConfigOriginal";
 import { db, auth } from "../firebase/firebaseConfig";
 import React, { useContext, useEffect, useState } from "react";
@@ -23,7 +30,6 @@ import AvailableSessionsContext from "../contexts/AvailableSessionsContext";
 function Sessions({ navigation }) {
   const [viewType, setViewType] = useState("List");
   const [clickedBench, setClickedBench] = useState(false);
-  const [sessions, setSessions] = useState("12th January, 15:00");
   const { selectedBench, setSelectedBench } = useContext(selectedBenchContext);
   const { setCurrAvailableSessions } = useContext(AvailableSessionsContext);
 
@@ -31,7 +37,6 @@ function Sessions({ navigation }) {
   const [errorMsg, setErrorMsg] = useState(false);
   const [currLocation, setCurrLocation] = useState({});
   const { user } = useContext(UserContext);
-  
 
   const getBenches = () => {
     const docRefCollection = collection(db, "benches");
@@ -49,22 +54,22 @@ function Sessions({ navigation }) {
     const docRefCollection = collection(db, "sessions");
 
     getDocs(docRefCollection)
-      .then(docs => {
-        docs.forEach(doc => {
+      .then((docs) => {
+        docs.forEach((doc) => {
           const sessions = doc.data().result;
-            for (let day in sessions) {
-              const sessionsInDay = sessions[day];
-              sessionsInDay.forEach((session) => {
-                if (session.capacity === maxCap  ) {
-                  availableSessions.push(session);
-                }
-              });
+          for (let day in sessions) {
+            const sessionsInDay = sessions[day];
+            sessionsInDay.forEach((session) => {
+              if (session.capacity === maxCap) {
+                availableSessions.push({ ...session, day });
+              }
+            });
           }
-        })
+        });
         setCurrAvailableSessions(availableSessions);
       })
-      .catch(error => console.log(error));
-  }
+      .catch((error) => console.log(error));
+  };
 
   useEffect(() => {
     getBenches();
@@ -153,7 +158,7 @@ function Sessions({ navigation }) {
                   address={bench.benchAddress}
                   bg={"#fcfef7"}
                   behaviour={bookingSelect}
-                  sessionTime={sessions}
+                  city={bench.benchCity}
                   target={bench}
                 />
               );

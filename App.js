@@ -1,6 +1,6 @@
 import AccountSettings from "./pages/AccountSettings";
 import Navbar from "./pages/Navbar";
-import { StyleSheet, View, Text, LogBox } from "react-native";
+// import { StyleSheet, View, Text, LogBox } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import NewBooking from "./pages/NewBooking";
@@ -12,8 +12,7 @@ import HomePage from "./pages/HomePage";
 import isLoggedInContext from "./contexts/IsLoggedInContext";
 import selectedBenchContext from "./contexts/selectedBenchContext";
 import bookedBenchContext from "./contexts/bookedBenchContext";
-// import { useState } from "react";
-// import { LogBox } from "react-native";
+import bookedSessionContext from "./contexts/bookedSessionsContext";
 import UserContext from "./contexts/UserContext";
 import React, { useCallback, useEffect, useState } from "react";
 import * as SplashScreen from "expo-splash-screen";
@@ -48,7 +47,8 @@ let headerStyling = {
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [selectedBench, setSelectedBench] = useState(null);
-  const [bookedBench, setBookedBench] = useState(null);
+  const [bookedBench, setBookedBench] = useState([]);
+  const [bookedSessions, setBookedSessions] = useState([]);
   const [user, setUser] = useState({
     displayName: "Guest",
     email: "mitch@gmail.com",
@@ -70,7 +70,6 @@ const App = () => {
         setAppIsReady(true);
       }
     }
-
     prepare();
   }, []);
 
@@ -87,62 +86,66 @@ const App = () => {
           value={{ selectedBench, setSelectedBench }}
         >
           <bookedBenchContext.Provider value={{ bookedBench, setBookedBench }}>
-            <AvailableSessionsContext.Provider
-              value={{ currAvailableSessions, setCurrAvailableSessions }}
+            <bookedSessionContext.Provider
+              value={{ bookedSessions, setBookedSessions }}
             >
-              <NavigationContainer onReady={onLayoutRootView}>
-                <Stack.Navigator
-                  initialRouteName={"Home"}
-                  screenOptions={headerStyling}
-                >
-                  <Stack.Screen
-                    name="NavBar"
-                    component={Navbar}
-                    options={{ headerShown: false }}
-                  />
-                  {isLoggedIn ? null : (
+              <AvailableSessionsContext.Provider
+                value={{ currAvailableSessions, setCurrAvailableSessions }}
+              >
+                <NavigationContainer onReady={onLayoutRootView}>
+                  <Stack.Navigator
+                    initialRouteName={"Home"}
+                    screenOptions={headerStyling}
+                  >
                     <Stack.Screen
-                      name="Home"
-                      component={HomePage}
+                      name="NavBar"
+                      component={Navbar}
                       options={{ headerShown: false }}
                     />
-                  )}
+                    {isLoggedIn ? null : (
+                      <Stack.Screen
+                        name="Home"
+                        component={HomePage}
+                        options={{ headerShown: false }}
+                      />
+                    )}
 
-                  <Stack.Screen
-                    name="AccountSettings"
-                    component={AccountSettings}
-                    options={{ title: "Account Settings" }}
-                  />
-                  <Stack.Screen
-                    name="NewBooking"
-                    component={NewBooking}
-                    options={{ title: "New Booking" }}
-                  />
-                  <Stack.Screen
-                    name="Camera"
-                    component={BenchImageCapture}
-                    options={{ title: "Camera" }}
-                  />
-                  <Stack.Screen
-                    name="NewSessions"
-                    component={NewSessions}
-                    options={{ title: "New Sessions" }}
-                  />
-                  <Stack.Screen
-                    name="SignUp"
-                    component={SignUp}
-                    options={{
-                      title: "Sign Up",
-                    }}
-                  />
-                  <Stack.Screen
-                    name="Login"
-                    component={LogIn}
-                    options={{ title: "Log In" }}
-                  />
-                </Stack.Navigator>
-              </NavigationContainer>
-            </AvailableSessionsContext.Provider>
+                    <Stack.Screen
+                      name="AccountSettings"
+                      component={AccountSettings}
+                      options={{ title: "Account Settings" }}
+                    />
+                    <Stack.Screen
+                      name="NewBooking"
+                      component={NewBooking}
+                      options={{ title: "New Booking" }}
+                    />
+                    <Stack.Screen
+                      name="Camera"
+                      component={BenchImageCapture}
+                      options={{ title: "Camera" }}
+                    />
+                    <Stack.Screen
+                      name="NewSessions"
+                      component={NewSessions}
+                      options={{ title: "New Sessions" }}
+                    />
+                    <Stack.Screen
+                      name="SignUp"
+                      component={SignUp}
+                      options={{
+                        title: "Sign Up",
+                      }}
+                    />
+                    <Stack.Screen
+                      name="Login"
+                      component={LogIn}
+                      options={{ title: "Log In" }}
+                    />
+                  </Stack.Navigator>
+                </NavigationContainer>
+              </AvailableSessionsContext.Provider>
+            </bookedSessionContext.Provider>
           </bookedBenchContext.Provider>
         </selectedBenchContext.Provider>
       </UserContext.Provider>
