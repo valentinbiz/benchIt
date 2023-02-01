@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebaseConfig";
+// import { auth } from "../firebaseConfigOriginal";
+import { auth } from "../firebase/firebaseConfig";
 import {
   View,
   Text,
@@ -62,6 +63,7 @@ function LogIn({ navigation }) {
             iconType="lock"
             secureTextEntry={true}
           />
+          <Text></Text>
           <FormButton
             buttonTitle="Log in"
             onPress={() => handleLogin(email, password)}

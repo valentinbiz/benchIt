@@ -1,6 +1,14 @@
-import { getDocs, collection } from "firebase/firestore";
-import { db, auth } from "../firebaseConfig";
-import React, { useEffect, useState, useContext } from "react";
+import {
+  getDoc,
+  getDocs,
+  collection,
+  query,
+  where,
+  doc,
+} from "firebase/firestore";
+// import { db, auth } from "../firebaseConfigOriginal";
+import { db, auth } from "../firebase/firebaseConfig";
+import React, { useContext, useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -8,52 +16,26 @@ import {
   ScrollView,
   TouchableOpacity,
   Image,
-  StyleSheet
+  StyleSheet,
 } from "react-native";
 import * as Location from "expo-location";
 import BenchSessions from "../components/BenchSessions";
 import FormButton from "../components/FormButton";
 import MapComponent from "../components/MapComponent";
 import ForecastCard from "../components/ForecastCard";
+import selectedBenchContext from "../contexts/selectedBenchContext";
 import UserContext from "../contexts/UserContext";
+import AvailableSessionsContext from "../contexts/AvailableSessionsContext";
 
 function Sessions({ navigation }) {
   const [viewType, setViewType] = useState("List");
   const [clickedBench, setClickedBench] = useState(false);
-  const [sessions, setSessions] = useState("12th January, 15:00");
-  const [testBenches, setTestBenches] = useState([
-    {
-      benchId: 1,
-      img: "../creativeAssets/bench.png",
-      title: "Serenity Bench",
-      address: "12 Oxford Road, Manchester",
-      bg: "#8888",
-    },
-    {
-      benchId: 2,
-      img: "../creativeAssets/bench.png",
-      title: "Serenity Bench",
-      address: "1 Oxford Road, Manchester",
-      bg: "white",
-    },
-    {
-      benchId: 3,
-      img: "../creativeAssets/bench.png",
-      title: "Serenity Bench",
-      address: "1dd2 Oxford Road, Manchester",
-      bg: "salmon",
-    },
-    {
-      benchId: 4,
-      img: "../creativeAssets/bench.png",
-      title: "Serenity Bench",
-      address: "1a2 Oxford Road, Manchester",
-      bg: "black",
-    },
-  ]);
+  const { selectedBench, setSelectedBench } = useContext(selectedBenchContext);
+  const { setCurrAvailableSessions } = useContext(AvailableSessionsContext);
+
   const [benches, setBenches] = useState([]);
-  const [ errorMsg, setErrorMsg ] = useState(false);
-  const [ currLocation, setCurrLocation ] = useState({});
+  const [errorMsg, setErrorMsg] = useState(false);
+  const [currLocation, setCurrLocation] = useState({});
   const { user } = useContext(UserContext);
 
   const getBenches = () => {
@@ -67,8 +49,31 @@ function Sessions({ navigation }) {
       .catch((error) => console.log(error));
   };
 
+  const getAvailableBenches = (maxCap) => {
+    const availableSessions = [];
+    const docRefCollection = collection(db, "sessions");
+
+    getDocs(docRefCollection)
+      .then((docs) => {
+        docs.forEach((doc) => {
+          const sessions = doc.data().result;
+          for (let day in sessions) {
+            const sessionsInDay = sessions[day];
+            sessionsInDay.forEach((session) => {
+              if (session.capacity === maxCap) {
+                availableSessions.push({ ...session, day });
+              }
+            });
+          }
+        });
+        setCurrAvailableSessions(availableSessions);
+      })
+      .catch((error) => console.log(error));
+  };
+
   useEffect(() => {
     getBenches();
+    getAvailableBenches(1);
   }, []);
 
   async function getCurrLocation() {
@@ -84,7 +89,8 @@ function Sessions({ navigation }) {
 
   const bookingSelect = (target) => {
     setClickedBench(target);
-  }
+    setSelectedBench(target);
+  };
 
   let text = "Waiting..";
   if (errorMsg) {
@@ -137,7 +143,6 @@ function Sessions({ navigation }) {
             style={styles.ViewToggleImage}
           />
         </View>
-
         <Text style={styles.SessionsHeader}>
           {" "}
           Available sessions {/* {text} current location */}
@@ -153,7 +158,7 @@ function Sessions({ navigation }) {
                   address={bench.benchAddress}
                   bg={"#fcfef7"}
                   behaviour={bookingSelect}
-                  sessionTime={sessions}
+                  city={bench.benchCity}
                   target={bench}
                 />
               );

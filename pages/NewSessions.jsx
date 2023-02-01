@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
   View,
   Text,
@@ -9,21 +9,46 @@ import {
   StyleSheet,
 } from "react-native";
 import { getDocs, collection } from "firebase/firestore";
-import { db, auth } from "../firebaseConfig";
+import { db, auth } from "../firebase/firebaseConfig";
 import BenchSessions from "../components/BenchSessions";
 import FormButton from "../components/FormButton";
 import MapComponent from "../components/MapComponent";
+import AvailableSessionsContext from "../contexts/AvailableSessionsContext";
+import selectedBenchContext from "../contexts/selectedBenchContext";
 
 function NewSessions({ navigation }) {
   const [viewType, setViewType] = useState("List");
   const [clickedBench, setClickedBench] = useState(false);
+  const [benches, setBenches] = useState([]);
+  const { setCurrAvailableSessions } = useContext(AvailableSessionsContext);
+  const { selectedBench, setSelectedBench } = useContext(selectedBenchContext);
 
   const bookingSelect = (target) => {
     setClickedBench(target);
-    console.log(clickedBench);
+    setSelectedBench(target);
   };
 
-  const [benches, setBenches] = useState([]);
+  const getAvailableBenches = (maxCap) => {
+    const availableSessions = [];
+    const docRefCollection = collection(db, "sessions");
+
+    getDocs(docRefCollection)
+      .then((docs) => {
+        docs.forEach((doc) => {
+          const sessions = doc.data().result;
+          for (let day in sessions) {
+            const sessionsInDay = sessions[day];
+            sessionsInDay.forEach((session) => {
+              if (session.capacity === maxCap) {
+                availableSessions.push(session);
+              }
+            });
+          }
+        });
+        setCurrAvailableSessions(availableSessions);
+      })
+      .catch((error) => console.log(error));
+  };
 
   const getBenches = () => {
     const docRefCollection = collection(db, "benches");
@@ -38,6 +63,7 @@ function NewSessions({ navigation }) {
 
   useEffect(() => {
     getBenches();
+    getAvailableBenches(2);
   }, []);
   return (
     <>

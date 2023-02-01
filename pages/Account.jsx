@@ -9,31 +9,29 @@ import {
   ScrollView,
   TouchableHighlight,
 } from "react-native";
-import { auth } from "../firebaseConfig";
+import { auth } from "../firebase/firebaseConfig";
 import { AntDesign } from "@expo/vector-icons";
 import isLoggedInContext from "../contexts/IsLoggedInContext";
 import UserContext from "../contexts/UserContext";
 import InfoCard from "../components/InformationCard";
 
 export default function Account({ navigation }) {
-  const [ image, setImage ] = useState(image);
+  const [image, setImage] = useState(image);
   const { setIsLoggedIn } = useContext(isLoggedInContext);
   const { user } = useContext(UserContext);
 
   const handleSignOut = () => {
     auth
       .signOut()
-      .then(() => {
-        setIsLoggedIn(false);
-        navigation.navigate("Home");
-      })
+      .then(() => setIsLoggedIn(false))
+      .then(() =>  navigation.navigate("Home"))
       .catch((err) => console.log(err));
   };
 
   const handlePress = () => navigation.navigate("AccountSettings");
 
   return (
-    <ScrollView>
+    <ScrollView style={styles.mainContent}>
       <View style={styles.wrapper}>
         <View style={styles.container}>
           {image && (
@@ -54,8 +52,7 @@ export default function Account({ navigation }) {
       <View>
         <Text style={styles.GreetingMessage}>
           {" "}
-          You are logged in as {user.displayName}!{" "}
-          With Email {user.email}
+          You are logged in as {user.displayName}! With Email {user.email}
         </Text>
       </View>
       <View>
@@ -76,6 +73,9 @@ export default function Account({ navigation }) {
   );
 }
 const styles = StyleSheet.create({
+  mainContent: {
+    backgroundColor: "#FCFEF7"
+  },
   GreetingMessage: {
     textAlign: "center",
     marginVertical: 5,
@@ -94,6 +94,7 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "#FCFEF7",
   },
   container: {
     elevation: 2,

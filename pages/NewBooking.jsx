@@ -9,29 +9,124 @@ import {
   Image,
 } from "react-native";
 import FormButton from "../components/FormButton";
+
 import { Agenda } from "react-native-calendars";
-import { useState } from "react";
-export default function NewBooking() {
+import { useContext, useEffect, useState } from "react";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { auth, db } from "../firebase/firebaseConfig";
+import selectedBenchContext from "../contexts/selectedBenchContext";
+import bookedBenchContext from "../contexts/bookedBenchContext";
+import bookedSessionContext from "../contexts/bookedSessionsContext";
+import { NavigationHelpersContext } from "@react-navigation/native";
+import AvailableSessionsContext from "../contexts/AvailableSessionsContext";
+
+export default function NewBooking({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [sessionData, setSessionData] = useState(null);
+  const [sessionsForSpecificBench, setSessionsForSpecificBench] = useState();
+  const [structuredData, setSctructuredData] = useState({});
+  const { selectedBench } = useContext(selectedBenchContext);
+  const { bookedBench, setBookedBench } = useContext(bookedBenchContext);
+  const { bookedSessions, setBookedSessions } =
+    useContext(bookedSessionContext);
+  const { currAvailableSessions } = useContext(AvailableSessionsContext);
+
   const handleSessionSelect = (session) => {
     setModalVisible(false);
     setSessionData(session);
-    console.log(sessionData);
+    // setBookedSessions(session);
   };
+
+  const getSessions = () => {
+    const filteredArr = currAvailableSessions.filter((session) => {
+      if (session.benchName === selectedBench.benchName) {
+        return session;
+      }
+    });
+    setSessionsForSpecificBench(filteredArr);
+  };
+  const processData = () => {
+    const formatDataObj = {};
+    const sessions = sessionsForSpecificBench;
+    for (const session of sessions) {
+      // console.log(session, "<SESSION");
+      let date = new Date(session.startTime.seconds * 1000);
+      let formattedDate = `${date.getFullYear()}-${(
+        "0" +
+        (date.getMonth() + 1)
+      ).slice(-2)}-${
+        date.getDate().toString().length === 1
+          ? "0" + date.getDate()
+          : date.getDate()
+      }`;
+      formatDataObj[formattedDate] = formatDataObj[formattedDate] || [];
+      formatDataObj[formattedDate].push({
+        name: session.benchName,
+        time: formattedDate,
+        duration: `1 hour session`,
+        session: session,
+        sessionDay: session.day,
+        benchId: selectedBench.benchId,
+      });
+    }
+    setSctructuredData(formatDataObj);
+  };
+
+  const handleBookFirebase = () => {
+    const docRefCollection = doc(db, "sessions", `${selectedBench.benchId}`);
+    getDoc(docRefCollection)
+      .then((doc) => {
+        const sessions = doc.data().result;
+        console.log(sessions, "<<<session data");
+        const desiredDay = sessionData.sessionDay;
+        const sessionArray = sessions[desiredDay]
+          ? sessions[desiredDay]
+          : sessions;
+        for (let i = 0; i < sessionArray.length; i++) {
+          if (
+            sessionArray[i].startTime.seconds ===
+            sessionData.session.startTime.seconds
+          ) {
+            if (
+              sessionArray[i].user_1 === null &&
+              sessionArray[i].capacity > 0
+            ) {
+              sessionArray[i].user_1 = auth.currentUser.uid;
+              sessionArray[i].capacity -= 1;
+            } else if (
+              sessionArray[i].user_1 !== null &&
+              sessionArray[i].capacity > 0 &&
+              sessionArray[i].capacity < 2
+            ) {
+              sessionArray[i].user_2 = auth.currentUser.uid;
+              sessionArray[i].capacity -= 1;
+            } else {
+              console.log("Session is fully booked or capacity is negative.");
+            }
+            break;
+          }
+        }
+        return setDoc(docRefCollection, { result: sessions });
+      })
+      .then(() => {
+        setBookedBench([...bookedBench, selectedBench]);
+        setBookedSessions([...bookedSessions, sessionData]);
+        navigation.navigate("Schedule");
+        console.log("Session updated successfully");
+      })
+      .catch((error) => console.log(error));
+  };
+
+  useEffect(() => {
+    getSessions();
+  }, []);
   return (
     <>
       <View style={styles.buttonsContainer}>
         <View style={styles.calendarContainer}>
           <View style={styles.infoContainer}>
             <Text style={styles.text}>Finalise your booking</Text>
-            <View
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
+            <View style={{ widht: 400 }}>
               <Image
                 source={require("../creativeAssets/undrawBooking.png")}
                 style={{
@@ -39,20 +134,16 @@ export default function NewBooking() {
                   width: 150,
                   alignItems: "center",
                   justifyContent: "center",
+                  marginLeft: 100,
                 }}
               />
             </View>
-            <Text
-              style={{
-                fontSize: 20,
-                padding: 20,
-                fontFamily: "Cabin_400Regular",
-                textAlign: "center",
-              }}
-            >
+            <Text style={{ fontSize: 30, padding: 20 }}>
               Please select one available session for Serenity Bench!
             </Text>
+            <Text> </Text>
           </View>
+
           <View style={styles.centeredView}>
             <Modal
               animationType="slide"
@@ -67,56 +158,16 @@ export default function NewBooking() {
                 <View style={styles.modalView}>
                   <View style={styles.container}>
                     <Agenda
-                      items={{
-                        "2022-12-01": [
-                          {
-                            name: "Cycling",
-                            time: "12:00",
-                            duration: "1 hour",
-                          },
-                          {
-                            name: "Cycling",
-                            time: "12:00",
-                            duration: "1 hour",
-                          },
-                          {
-                            name: "Cycling",
-                            time: "12:00",
-                            duration: "1 hour",
-                          },
-                        ],
-                        "2022-12-02": [
-                          {
-                            name: "Cycling",
-                            time: "12:00",
-                            duration: "1 hour",
-                          },
-                        ],
-                        "2022-12-03": [
-                          {
-                            name: "Cycling:",
-                            time: "12:00",
-                            duration: "1 hour",
-                          },
-                        ],
-                        "2022-12-04": [
-                          {
-                            name: "Cycling",
-                            time: "12:00",
-                            duration: "1 hour",
-                          },
-                        ],
-                        "2022-12-05": [
-                          {
-                            name: "Cycling",
-                            time: "12:00",
-                            duration: "1 hour",
-                          },
-                        ],
-                      }}
+                      items={structuredData}
                       renderItem={(item, isFirst) => (
                         <TouchableOpacity style={styles.item}>
-                          <Text style={styles.itemText}>{item.name}</Text>
+                          <Text style={styles.itemText}>
+                            {" "}
+                            {item.name}
+                            {"\n"}
+                            {item.time.toLocaleString()}
+                            {"\n"} ({item.duration})
+                          </Text>
                           <FormButton
                             buttonTitle="Select session"
                             btnHeight={30}
@@ -135,8 +186,14 @@ export default function NewBooking() {
                       refreshControl={null}
                       showClosingKnob={true}
                       refreshing={false}
-                      selected={"2022-12-05"}
+                      selected={"2023-02-01"}
                     />
+                    <FormButton
+                      title="close"
+                      onPress={() => setModalVisible(false)}
+                    >
+                      Close
+                    </FormButton>
                   </View>
                 </View>
               </View>
@@ -152,14 +209,16 @@ export default function NewBooking() {
           </View>
           <Pressable
             style={[styles.button, styles.buttonOpen]}
-            onPress={() => setModalVisible(true)}
+            onPress={() => {
+              setModalVisible(true), processData();
+            }}
           >
             <Text style={styles.textStyle}>Select an available session</Text>
           </Pressable>
-          <View style={styles.bookSessionButton}>
+          <View style={{ paddingHorizontal: 20, alignItems: "center" }}>
             <FormButton
-              colorScheme={"#342C2C"}
               buttonTitle="Book this session"
+              onPress={() => handleBookFirebase()}
             />
           </View>
         </View>
@@ -167,6 +226,7 @@ export default function NewBooking() {
     </>
   );
 }
+
 const styles = StyleSheet.create({
   centeredView: {
     flex: 1,
@@ -188,13 +248,12 @@ const styles = StyleSheet.create({
   },
   calendar: {
     borderWidth: 1,
-    borderColor: "#B6C1CD",
+    borderColor: "#b6c1cd",
   },
   text: {
     alignSelf: "center",
     padding: 20,
-    fontSize: 28,
-    fontFamily: "Cabin_Bold",
+    fontSize: 40,
   },
   container: {
     flex: 1,
@@ -214,7 +273,7 @@ const styles = StyleSheet.create({
   },
   itemText: {
     color: "black",
-    fontSize: 12,
+    fontSize: 16,
   },
   centeredView: {
     flex: 1,
@@ -242,42 +301,21 @@ const styles = StyleSheet.create({
   button: {
     borderRadius: 20,
     padding: 10,
-    backgroundColor: "#342C2C",
-    marginVertical: 10,
     // elevation: 2,
   },
-  bookSessionButton: {
-    fontFamily: "Cabin_Bold",
-    width: "80%",
-    paddingHorizontal: 20,
-    alignItems: "center",
-  },
   buttonOpen: {
-    // select ava session
-    borderRadius: 10,
-    padding: 2,
-    backgroundColor: "#B85F44",
-    fontFamily: "Cabin_Bold",
+    backgroundColor: "#F194FF",
   },
   buttonClose: {
-    backgroundColor: "#342C2C",
-    borderRadius: 20,
-    padding: 10,
-    fontFamily: "Cabin_Bold",
+    backgroundColor: "#2196F3",
   },
   textStyle: {
-    fontFamily: "Cabin_Bold",
-    color: "#FCFEF7",
+    color: "white",
     fontWeight: "bold",
     textAlign: "center",
-    fontSize: 16,
-    padding: 8,
   },
   modalText: {
     marginBottom: 15,
     textAlign: "center",
   },
 });
-
-
-
