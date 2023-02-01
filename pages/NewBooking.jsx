@@ -162,37 +162,47 @@ export default function NewBooking({ navigation }) {
                       renderItem={(item) => (
                         <TouchableOpacity style={styles.item}>
                           <Text style={styles.itemText}>
-                            {" "}
                             {item.name} {item.time.toLocaleString()}
-                            {"\n"} ({item.duration})
+                            {"\n"}({item.duration})
                           </Text>
                           <FormButton
                             buttonTitle="Select session"
-                            btnHeight={30}
+                            
                             onPress={() => handleSessionSelect(item)}
                           />
                         </TouchableOpacity>
                       )}
                       theme={{
-                        agendaDayTextColor: "black",
-                        agendaDayNumColor: "green",
-                        agendaTodayColor: "red",
-                        agendaKnobColor: "gray",
-                        agendaBackgroundColor: "gray",
+                        agendaDayTextColor: "#B85F44",
+                        agendaDayNumColor: "#B85F44",
+                        agendaTodayColor: "#342C2C",
+
+                        textDefaultColor: "#FCFEF7",
+                        agendaKnobColor: "#342C2C",
+                        agendaBackgroundColor: "#342C2C",
+                        calendarBackground: "#B85F44",
+                        dotColor: "#342C2C", // dots
+                        textDisabledColor: "#333",
+                        selectedDayBackgroundColor: "#342C2C",
+                        textSectionTitleColor: "#FCFEF7",
                       }}
-                      style={{ borderRadius: 15 }}
+                      style={{
+                        borderTopRightRadius: 15,
+                        borderTopLeftRadius: 15,
+                      }}
                       refreshControl={null}
                       showClosingKnob={true}
                       refreshing={false}
                       selected={"2023-02-01"}
                     />
-                    <FormButton
-                      title="close"
-                      onPress={() => setModalVisible(false)}
-                    >
-                      Close
-                    </FormButton>
                   </View>
+                  <FormButton
+                    buttonTitle="Close Calendar"
+                    colorScheme={"#342C2C"}
+                    onPress={() => setModalVisible(false)}
+                  >
+                    Close
+                  </FormButton>
                 </View>
               </View>
             </Modal>
@@ -259,9 +269,10 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "90%",
     borderRadius: 15,
+    marginBottom: 10
   },
   item: {
-    backgroundColor: "grey",
+    backgroundColor: "#342C2C",
     flex: 1,
     borderRadius: 15,
     padding: 10,
@@ -271,7 +282,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-evenly",
   },
   itemText: {
-    color: "black",
+    fontFamily: "Cabin_Bold",
+    color: "#FCFEF7",
     fontSize: 16,
   },
   centeredView: {
@@ -284,7 +296,7 @@ const styles = StyleSheet.create({
     width: "90%",
     height: "60%",
     margin: 20,
-    backgroundColor: "white",
+    backgroundColor: "#B85F44",
     borderRadius: 20,
     // padding: 35,
     alignItems: "center",
