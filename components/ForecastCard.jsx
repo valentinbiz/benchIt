@@ -28,11 +28,11 @@ const getCurrConditions = (locationKey) => {
 
 function ForecastCard() {
   const [weatherCondition, setWeatherCondition] = useState("Sunny");
-  const [temp, setTemp] = useState("7.5 \n");
+  const [temp, setTemp] = useState("7.5°C \n");
   const [cityName, setCityName] = useState("Manchester \n");
   const [dateMessage, setDateMessage] = useState("Monday 30 January \n");
   const [recommendationMsg, setRecommendationMsg] = useState("Perfect for a bench session"); 
-  const [icon, setIcon] = useState(require("../assets/weather-icon-images/dummy-icon.png"));
+  const [icon, setIcon] = useState(require("../assets/weather-icon-images/sun-icon.png"));
   const monthNames = [
     "January",
     "February",
@@ -75,12 +75,12 @@ function ForecastCard() {
   return (
     <View style={styles.ForecastCard}>
       <Text style={styles.ForecastCardText}>
-        <Text style={styles.cityName}>{cityName}</Text>{" "}
-        <Text style={styles.dateMessage}>{dateMessage}</Text>{" "}
+        <Text style={styles.cityName}>{cityName}</Text>
+        <Text style={styles.dateMessage}>{dateMessage}</Text>
         <Text style={styles.weatherCondition}>{weatherCondition}</Text>
         <Image source={icon} style={{ width: 32, height: 32 }}></Image>
-        <Text style={styles.temp}>{temp}°C.</Text>{" "}
-        <Text style={styles.recommendationMsg}>{recommendationMsg}.</Text>{" "}
+        <Text style={styles.temp}>{temp}</Text>
+        <Text style={styles.recommendationMsg}>{recommendationMsg}.</Text>
       </Text>
     </View>
   );
@@ -91,27 +91,21 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   cityName: {
-    fontSize: 18,
-    fontFamily: "Cabin_Bold",
+    fontSize: 22,
+    fontFamily: "TitanOne",
     color: "#B85F44",
   },
   ForecastCard: {
-    flex: 1,
-    justifyContent: "flex-start",
-    alignItems: "flex-start",
-    backgroundColor: "#FCFEF7",
-    // marginTop: 20,
+    backgroundColor: "#342C2C",
     marginHorizontal: 20,
-    borderRadius: 30,
+    borderTopRightRadius: 30,
+    borderTopLeftRadius: 30,
     padding: 15,
-    width: 300,
-    // borderWidth: 2,
-    // borderColor: "#B85F44",
   },
   ForecastCardText: {
-    textAlign: "right",
-    color: "#342C2C",
-    fontFamily: "Cabin_400Regular",
+    textAlign: "left",
+    color: "#FCFEF7",
+    fontFamily: "Cabin_Bold",
   },
 });
   

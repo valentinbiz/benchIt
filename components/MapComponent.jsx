@@ -32,7 +32,7 @@ function MapComponent({ benches }) {
             <Marker
               coordinate={benchCoords}
               title={bench.benchName}
-              description={bench.benchDescription}
+              description={bench.benchAddress}
               key={bench.benchId}
               onCalloutPress={() => navigateToBookSession(bench.benchId)}
             ></Marker>

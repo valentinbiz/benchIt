@@ -33,6 +33,7 @@ function Sessions({ navigation }) {
   const { selectedBench, setSelectedBench } = useContext(selectedBenchContext);
   const { setCurrAvailableSessions } = useContext(AvailableSessionsContext);
 
+  const [ viewRef, setViewRef ] = useState(null);
   const [benches, setBenches] = useState([]);
   const [errorMsg, setErrorMsg] = useState(false);
   const [currLocation, setCurrLocation] = useState({});
@@ -90,6 +91,7 @@ function Sessions({ navigation }) {
   const bookingSelect = (target) => {
     setClickedBench(target);
     setSelectedBench(target);
+    viewRef.scrollToEnd({ animation: true });
   };
 
   let text = "Waiting..";
@@ -101,10 +103,8 @@ function Sessions({ navigation }) {
 
   return (
     <View style={styles.mainContent}>
-      <ScrollView nestedScrollEnabled={true}>
-        <Text style={styles.GreetingMessage}>
-          Welcome back, {auth.currentUser?.displayName || user.displayName}!
-        </Text>
+      <Text style={styles.SessionsHeader}>Available sessions</Text>
+      <ScrollView nestedScrollEnabled={true} ref={(ref) => setViewRef(ref)}>
         <View style={styles.SearchBar}>
           <TextInput
             placeholder="Search for sessions..."
@@ -117,36 +117,24 @@ function Sessions({ navigation }) {
           />
         </View>
         <ForecastCard></ForecastCard>
+          <Text style={styles.toggleInfo}>Toggle between views to look for available sessions</Text>
         <View style={styles.ViewToggleCard}>
-          <View>
-            <Text style={styles.ViewToggleCard__header}>
-              Check out these available bench sessions!
-            </Text>
-            <View style={styles.ViewToggleCard__direction}>
-              <TouchableOpacity
-                onPress={() => setViewType("List")}
-                style={styles.ViewToggleButton}
-              >
-                <Text style={styles.ViewToggleText}>List</Text>
-              </TouchableOpacity>
-              <Text style={styles.ViewToggleText__separator}> / </Text>
-              <TouchableOpacity
-                onPress={() => setViewType("Map")}
-                style={styles.ViewToggleButton}
-              >
-                <Text style={styles.ViewToggleText}> Map </Text>
-              </TouchableOpacity>
-            </View>
+          <View style={styles.toggleContainer}>
+            <TouchableOpacity
+              onPress={() => setViewType("List")}
+              style={styles.ViewToggleButton}
+            >
+              <Text style={styles.ViewToggleText}>List</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => setViewType("Map")}
+              style={styles.ViewToggleButton}
+            >
+              <Text style={styles.ViewToggleText}>Map</Text>
+            </TouchableOpacity>
           </View>
-          <Image
-            source={require("../creativeAssets/undraw.png")}
-            style={styles.ViewToggleImage}
-          />
         </View>
-        <Text style={styles.SessionsHeader}>
-          {" "}
-          Available sessions {/* {text} current location */}
-        </Text>
+
         {viewType === "List" ? (
           <ScrollView style={styles.SessionsList} nestedScrollEnabled={true}>
             {benches.map((bench) => {
@@ -193,8 +181,26 @@ function Sessions({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+  toggleInfo: {
+    color: "#FCFEF7",
+    fontSize: 12,
+    fontFamily: "Cabin_400Regular",
+    backgroundColor: "#342C2C",
+    marginHorizontal: 20,
+    paddingHorizontal: 20,
+    textAlign: "center",
+    zIndex: 2,
+    marginBottom: -8
+  },
+  toggleContainer: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
   mainContent: {
     backgroundColor: "#FCFEF7",
+    height: "100%",
   },
   pickedBench: {
     fontFamily: "Cabin_400Regular",
@@ -216,7 +222,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#342C2C",
     marginHorizontal: 20,
-    marginTop: 10,
+    marginVertical: 10,
   },
   SearchInput: {
     fontSize: 16,
@@ -233,52 +239,30 @@ const styles = StyleSheet.create({
   ViewToggleCard: {
     flexDirection: "row",
     backgroundColor: "#342C2C",
-    // marginTop: 20,
     marginHorizontal: 20,
-    borderRadius: 30,
-    paddingVertical: 20,
-    paddingLeft: 30,
+    marginBottom: 10,
+    borderBottomLeftRadius: 30,
+    borderBottomRightRadius: 30,
+    padding: 20,
   },
   ViewToggleButton: {
-    flexDirection: "row",
     backgroundColor: "#B85F44",
-    alignItems: "center",
-    marginTop: 15,
-    width: 66,
+    width: "40%",
     borderRadius: 14,
-    paddingHorizontal: 10,
+    padding: 2,
+    marginHorizontal: 10,
   },
   ViewToggleText: {
     textAlign: "center",
     color: "#FCFEF7",
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: "600",
     fontFamily: "Cabin_Bold",
   },
-  ViewToggleCard__direction: {
-    flexDirection: "row",
-    height: 35,
-  },
-  ViewToggleCard__header: {
-    color: "#FCFEF7",
-    fontSize: 20,
-    width: 200,
-    fontFamily: "Cabin_400Regular",
-  },
-  ViewToggleText__separator: {
-    color: "#FCFEF7",
-    marginTop: 8,
-    fontSize: 24,
-    fontFamily: "Cabin_400Regular",
-  },
-  ViewToggleImage: {
-    marginLeft: -45,
-    marginTop: 20,
-  },
   SessionsHeader: {
+    marginTop: 40,
     color: "#342C2C",
-    fontSize: 24,
-    marginTop: 16,
+    fontSize: 30,
     textAlign: "center",
     fontFamily: "Cabin_Bold",
   },
