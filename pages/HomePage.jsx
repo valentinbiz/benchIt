@@ -38,7 +38,7 @@ function HomePage({ navigation }) {
           <Image source={benchIllustration} style={styles.picture} />
         </View>
 
-        {!isLoggedIn ? (
+        {user.displayName === "Guest" ? (
           <View style={styles.viewContainer}>
             <TouchableHighlight
               style={styles.button}
