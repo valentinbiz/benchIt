@@ -14,7 +14,7 @@ import selectedBenchContext from "./contexts/selectedBenchContext";
 import bookedBenchContext from "./contexts/bookedBenchContext";
 import bookedSessionContext from "./contexts/bookedSessionsContext";
 import UserContext from "./contexts/UserContext";
-import locationContext from "./contexts/LocationContext";
+import LocationContext from "./contexts/LocationContext";
 import React, { useCallback, useEffect, useState } from "react";
 import * as SplashScreen from "expo-splash-screen";
 import * as Font from "expo-font";
@@ -97,7 +97,7 @@ const App = () => {
               <AvailableSessionsContext.Provider
                 value={{ currAvailableSessions, setCurrAvailableSessions }}
               >
-                <locationContext.Provider value={{ currLocation, setCurrLocation }}>
+                <LocationContext.Provider value={{ currLocation, setCurrLocation }}>
                   <NavigationContainer onReady={onLayoutRootView}>
                     <Stack.Navigator
                       initialRouteName={"Home"}
@@ -150,7 +150,7 @@ const App = () => {
                       />
                     </Stack.Navigator>
                   </NavigationContainer>
-                </locationContext.Provider>
+                </LocationContext.Provider>
               </AvailableSessionsContext.Provider>
             </bookedSessionContext.Provider>
           </bookedBenchContext.Provider>
