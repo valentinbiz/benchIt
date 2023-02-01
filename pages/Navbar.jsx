@@ -40,8 +40,8 @@ const Navbar = () => {
             iconName = focused ? "book" : "book-outline";
             // iconName = focused ? "bookmark" : "bookmark-outline";
           } else if (routeName === schedule) {
-            // iconName = focused ? "time" : "time-outline";
-            iconName = focused ? "today" : "today-outline";
+            iconName = focused ? "time" : "time-outline";
+            // iconName = focused ? "today" : "today-outline";
           } else if (routeName === benchUpload) {
             iconName = focused ? "md-add-circle" : "md-add-circle-outline";
           }
@@ -50,7 +50,7 @@ const Navbar = () => {
         },
         tabBarLabelStyle: styles.labelStyle,
         tabBarStyle: styles.tabBar,
-        tabBarHideOnKeyboard: true, 
+        tabBarHideOnKeyboard: true,
       })}
     >
       <Tab.Screen
