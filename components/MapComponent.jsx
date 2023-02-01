@@ -3,7 +3,7 @@ import MapView, { Marker } from "react-native-maps";
 import { StyleSheet, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-function MapComponent({ benches }) {
+function MapComponent({ benches, behaviour }) {
   const [mapRegion, setMapRegion] = useState({
     latitude: 53.483959,
     longitude: -2.244644,
@@ -14,8 +14,12 @@ function MapComponent({ benches }) {
 
   const navigateToBookSession = (benchId) => {
     console.log("Book Session for ", benchId);
-    navigation.navigate("NewBooking");
   };
+
+  // const handleBookSession = () => {
+  //   behaviour(target);
+  // };
+
   return (
     <View style={styles.container}>
       <MapView
@@ -34,7 +38,7 @@ function MapComponent({ benches }) {
               title={bench.benchName}
               description={bench.benchDescription}
               key={bench.benchId}
-              onCalloutPress={() => navigateToBookSession(bench.benchId)}
+              onCalloutPress={() => behaviour(bench)}
             ></Marker>
           );
         })}
