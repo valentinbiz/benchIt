@@ -105,7 +105,7 @@ function Sessions({ navigation }) {
 
   return (
     <View style={styles.mainContent}>
-      <Text style={styles.SessionsHeader}>Available sessions</Text>
+      {/* <Text style={styles.SessionsHeader}>Available sessions</Text> */}
       <ScrollView nestedScrollEnabled={true} ref={(ref) => setViewRef(ref)}>
         <View style={styles.SearchBar}>
           <TextInput

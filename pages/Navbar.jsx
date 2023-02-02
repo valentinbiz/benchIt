@@ -19,6 +19,24 @@ const sessions = "Sessions";
 const schedule = "Schedule";
 const benchUpload = "Upload Bench";
 
+let headerStyling = {
+  headerStyle: {
+    backgroundColor: "#FCFEF7",
+    textAlign: "center",
+  },
+  headerTitleStyle: {
+    fontSize: 24,
+    flex: 1,
+    fontFamily: "TitanOne",
+    color: "#342C2C",
+  },
+  headerTitleAlign: "center",
+  headerBackTitleStyle: {
+    fontFamily: "Cabin_Bold",
+  },
+  headerTintColor: "#342C2C",
+};
+
 const Tab = createBottomTabNavigator();
 
 const Navbar = () => {
@@ -45,8 +63,8 @@ const Navbar = () => {
                 iconName = focused ? "book" : "book-outline";
                 // iconName = focused ? "bookmark" : "bookmark-outline";
               } else if (routeName === schedule) {
-                // iconName = focused ? "time" : "time-outline";
-                iconName = focused ? "today" : "today-outline";
+                iconName = focused ? "time" : "time-outline";
+                // iconName = focused ? "today" : "today-outline";
               } else if (routeName === benchUpload) {
                 iconName = focused ? "md-add-circle" : "md-add-circle-outline";
               }
@@ -56,6 +74,20 @@ const Navbar = () => {
             tabBarLabelStyle: styles.labelStyle,
             tabBarStyle: styles.tabBar,
             tabBarHideOnKeyboard: true,
+            headerStyle: {
+              backgroundColor: "#FCFEF7",
+            },
+            headerTitleStyle: {
+              fontSize: 32,
+              flex: 1,
+              fontFamily: "TitanOne",
+              color: "#342C2C",
+            },
+            headerTitleAlign: "center",
+            headerBackTitleStyle: {
+              fontFamily: "Cabin_Bold",
+            },
+            headerTintColor: "#342C2C",
           })}
         >
           <Tab.Screen
@@ -66,22 +98,22 @@ const Navbar = () => {
           <Tab.Screen
             name={sessions}
             component={Sessions}
-            options={{ headerShown: false }}
+            //options={{ headerShown: false }}
           ></Tab.Screen>
           <Tab.Screen
             name={benchUpload}
             component={BenchUpload}
-            options={{ headerShown: false }}
+            //options={{ headerShown: false }}
           ></Tab.Screen>
           <Tab.Screen
             name={schedule}
             component={Schedule}
-            options={{ headerShown: false }}
+            //options={{ headerShown: false }}
           ></Tab.Screen>
           <Tab.Screen
             name={account}
             component={Account}
-            options={{ headerShown: false }}
+            //options={{ headerShown: false }}
           ></Tab.Screen>
         </Tab.Navigator>
       ) : null}
