@@ -95,7 +95,9 @@ const App = () => {
               <AvailableSessionsContext.Provider
                 value={{ currAvailableSessions, setCurrAvailableSessions }}
               >
-                <LocationContext.Provider value={{ currLocation, setCurrLocation }}>
+                <LocationContext.Provider
+                  value={{ currLocation, setCurrLocation }}
+                >
                   <NavigationContainer onReady={onLayoutRootView}>
                     <Stack.Navigator
                       initialRouteName={"Home"}

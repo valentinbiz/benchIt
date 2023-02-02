@@ -38,19 +38,18 @@ function SignUp({ navigation }) {
         .then(() => {
           const user = {
             user_id: auth.currentUser.uid,
-            name: displayName,
-            user_email: email,
-            user_password: password,
+            displayName: displayName,
+            email: email,
+            password: password,
           };
+          setUser(user);
           const userRef = doc(db, "users", auth.currentUser.uid);
           setDoc(userRef, user, { merge: true });
         })
-
         .then(() => {
-          setIsLoggedIn(true);
           navigation.navigate("Home");
+          setIsLoggedIn(true);
         })
-        .then(() => {})
         .catch((err) => alert(err.message));
     }
   };
@@ -63,7 +62,6 @@ function SignUp({ navigation }) {
           </View>
           <View style={styles.formCard}>
             <Text style={styles.header}>Register your account</Text>
-
             <FormInput
               labelValue={displayName}
               onChangeText={(userName) => setDisplayName(userName)}

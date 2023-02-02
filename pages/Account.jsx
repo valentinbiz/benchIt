@@ -14,19 +14,19 @@ import { AntDesign } from "@expo/vector-icons";
 import isLoggedInContext from "../contexts/IsLoggedInContext";
 import UserContext from "../contexts/UserContext";
 import InfoCard from "../components/InformationCard";
-import accountImage from "../assets/mole2.png"
+import accountImage from "../assets/mole2.png";
 
 export default function Account({ navigation }) {
   const [image, setImage] = useState(image);
   const { setIsLoggedIn } = useContext(isLoggedInContext);
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
 
   const handleSignOut = () => {
     auth
       .signOut()
       .then(() => {
-        navigation.navigate("Login")
-        setIsLoggedIn(false)
+        navigation.navigate("Login");
+        setIsLoggedIn(false);
       })
       .catch((err) => console.log(err));
   };
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     textAlign: "center",
     marginTop: 40,
-    marginBottom: 15
+    marginBottom: 15,
   },
   SocialText: {
     marginVertical: 10,
@@ -130,6 +130,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   mainContent: {
+    backgroundColor: "#FCFEF7",
     backgroundColor: "#FCFEF7",
   },
   GreetingMessage: {

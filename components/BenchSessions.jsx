@@ -4,19 +4,19 @@ import LocationContext from "../contexts/LocationContext";
 
 const calcDist = (loc1, loc2) => {
   const R = 6371e3; // metres
-  const φ1 = loc1.latitude * Math.PI / 180; // φ, λ in radians
-  const φ2 = loc2.latitude * Math.PI / 180;
-  const Δφ = (loc2.latitude - loc1.latitude) * Math.PI / 180;
-  const Δλ = (loc2.longitude - loc1.longitude) * Math.PI / 180;
+  const φ1 = (loc1.latitude * Math.PI) / 180; // φ, λ in radians
+  const φ2 = (loc2.latitude * Math.PI) / 180;
+  const Δφ = ((loc2.latitude - loc1.latitude) * Math.PI) / 180;
+  const Δλ = ((loc2.longitude - loc1.longitude) * Math.PI) / 180;
 
-  const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
-    Math.cos(φ1) * Math.cos(φ2) *
-    Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+  const a =
+    Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+    Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
   const d = R * c; // in metres
   return (d / 1000).toFixed(2);
-}
+};
 
 function BenchSessions({
   img,
@@ -29,13 +29,13 @@ function BenchSessions({
   buttonContent,
   city,
   latitude,
-  longitude
+  longitude,
 }) {
   const handleBookSession = () => {
     behaviour(target);
   };
 
-const { currLocation } = useContext(LocationContext);
+  const { currLocation } = useContext(LocationContext);
   return (
     <TouchableOpacity style={[styles.BenchCard, { backgroundColor: bg }]}>
       <Image source={img} style={styles.Image} />
@@ -49,6 +49,22 @@ const { currLocation } = useContext(LocationContext);
         ) : null}
         <Text style={styles.AddressText}>{address} </Text>
         <Text style={styles.AddressText}>{city} </Text>
+<<<<<<< HEAD
+        <Text style={styles.AddressText}>
+          {currLocation
+            ? calcDist(
+                {
+                  latitude: latitude,
+                  longitude: longitude,
+                },
+                {
+                  latitude: currLocation[0],
+                  longitude: currLocation[1],
+                }
+              ).toString() + " km away"
+            : null}
+        </Text>
+=======
     <Text style={styles.AddressText}>{currLocation ? calcDist({
       latitude: latitude,
       longitude: longitude
@@ -57,6 +73,7 @@ const { currLocation } = useContext(LocationContext);
       longitude: currLocation[1]
     }
     ) + "km" : null}</Text>
+>>>>>>> 7832e42e3d594176aa2ec9d78caae7e32fcf1011
       </View>
       <TouchableOpacity
         style={styles.SelectButton}

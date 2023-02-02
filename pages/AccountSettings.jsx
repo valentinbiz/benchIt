@@ -13,7 +13,7 @@ import {
 import { AntDesign } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import UserContext from "../contexts/UserContext";
-import dogIllustration from "../assets/abstract-1044.png"
+import dogIllustration from "../assets/abstract-1044.png";
 import accountImage from "../assets/mole2.png";
 
 export default function AccountSettings() {
@@ -32,9 +32,7 @@ export default function AccountSettings() {
     }
   };
 
-  useEffect(() => {
-    
-  }, []);
+  useEffect(() => {}, []);
 
   const addImage = async () => {
     checkForCameraRollPermission();
@@ -55,13 +53,14 @@ export default function AccountSettings() {
       <ScrollView style={styles.mainContent}>
         <View style={styles.wrapper}>
           <View style={styles.container}>
-            {//image && (
+            {
+              //image && (
               <Image
                 source={accountImage}
                 style={{ width: 200, height: 200 }}
               />
-            //)
-          }
+              //)
+            }
             <View style={styles.uploadBtnContainer}>
               <TouchableOpacity onPress={addImage} style={styles.uploadBtn}>
                 <Text>{accountImage ? "Edit" : "Upload"} Image</Text>
@@ -135,7 +134,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     paddingTop: 10,
-    marginTop: 10
+    marginTop: 10,
   },
   container: {
     elevation: 2,
