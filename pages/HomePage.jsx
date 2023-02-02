@@ -8,7 +8,7 @@ import {
   Image,
   ScrollView,
 } from "react-native";
-import park from "../creativeAssets/bench.png";
+
 import benchIllustration from "../creativeAssets/bench-illustration.png";
 import isLoggedInContext from "../contexts/IsLoggedInContext";
 import bookedBenchContext from "../contexts/bookedBenchContext";

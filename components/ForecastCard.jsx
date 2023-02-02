@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import { Image, View, Text, StyleSheet } from "react-native";
 
 /* ====================== API functions ====================== */
@@ -25,14 +25,17 @@ const getCurrConditions = (locationKey) => {
   );
 };
 
-
 function ForecastCard() {
   const [weatherCondition, setWeatherCondition] = useState("Sunny");
   const [temp, setTemp] = useState("7.5°C \n");
   const [cityName, setCityName] = useState("Manchester \n");
   const [dateMessage, setDateMessage] = useState("Monday 30 January \n");
-  const [recommendationMsg, setRecommendationMsg] = useState("Perfect for a bench session"); 
-  const [icon, setIcon] = useState(require("../assets/weather-icon-images/sun-icon.png"));
+  const [recommendationMsg, setRecommendationMsg] = useState(
+    "Perfect for a bench session"
+  );
+  const [icon, setIcon] = useState(
+    require("../assets/weather-icon-images/sun-icon.png")
+  );
   const monthNames = [
     "January",
     "February",
@@ -47,8 +50,15 @@ function ForecastCard() {
     "November",
     "December",
   ];
-  const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-  
+  const dayNames = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
 
   const formatForecastMessage = (iconId) => {
     const currentDate = new Date();
@@ -57,10 +67,13 @@ function ForecastCard() {
         monthNames[currentDate.getMonth()]
       } \n`
     );
-    if (iconId >= 1 && iconId <= 5) setIcon(require("../assets/weather-icon-images/sun-icon.png"));
-    else if (iconId >= 6 && iconId <= 11) setIcon(require("../assets/weather-icon-images/cloud-icon.png"));
-    else if (iconId >= 12 && iconId <= 18) setIcon(require("../assets/weather-icon-images/rain-icon.png"));
-    else setIcon(require("../assets/weather-icon-images/dummy-icon.png")); 
+    if (iconId >= 1 && iconId <= 5)
+      setIcon(require("../assets/weather-icon-images/sun-icon.png"));
+    else if (iconId >= 6 && iconId <= 11)
+      setIcon(require("../assets/weather-icon-images/cloud-icon.png"));
+    else if (iconId >= 12 && iconId <= 18)
+      setIcon(require("../assets/weather-icon-images/rain-icon.png"));
+    else setIcon(require("../assets/weather-icon-images/dummy-icon.png"));
   };
 
   useEffect(() => {
@@ -74,7 +87,7 @@ function ForecastCard() {
     //     setTemp(result.data[0].Temperature.Metric.Value + "°C \n");
     //     formatForecastMessage(result.data[0].WeatherIcon);
     //   });
-  }, [])
+  }, []);
 
   return (
     <View style={styles.ForecastCard}>
@@ -86,6 +99,10 @@ function ForecastCard() {
         <Text style={styles.temp}>{temp}</Text>
         <Text style={styles.recommendationMsg}>{recommendationMsg}.</Text>
       </Text>
+      <Image
+        source={require("../creativeAssets/undraw-weather.png")}
+        style={{ width: 120, height: 90, marginLeft: 60, borderRadius: 15 }}
+      ></Image>
     </View>
   );
 }
@@ -105,6 +122,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 30,
     borderTopLeftRadius: 30,
     padding: 15,
+    flexDirection: "row",
   },
   ForecastCardText: {
     textAlign: "left",
@@ -112,5 +130,5 @@ const styles = StyleSheet.create({
     fontFamily: "Cabin_Bold",
   },
 });
-  
+
 export default ForecastCard;

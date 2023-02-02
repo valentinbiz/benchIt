@@ -1,19 +1,19 @@
 import React, { useState, useContext } from "react";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { auth, db } from "../firebase/firebaseConfig";
-import { StyleSheet, View, Text, Alert } from "react-native";
+import { StyleSheet, View, Text, Alert, ScrollView, Image } from "react-native";
 import BenchSessions from "../components/BenchSessions";
 import FormButton from "../components/FormButton";
 import bookedBenchContext from "../contexts/bookedBenchContext";
 import bookedSessionContext from "../contexts/bookedSessionsContext";
 import selectedBenchContext from "../contexts/selectedBenchContext";
 
-function Schedule() {
+import SchedulePic from "../creativeAssets/undraw-schedule.png";
+function Schedule({ navigation }) {
   const { bookedBench, setBookedBench } = useContext(bookedBenchContext);
   const { bookedSessions, setBookedSessions } =
     useContext(bookedSessionContext);
   const { selectedBench } = useContext(selectedBenchContext);
-
   const createAlert = (sessionToBeCancelled) =>
     Alert.alert(
       "Session cancellation",
@@ -30,7 +30,6 @@ function Schedule() {
         },
       ]
     );
-
   const handleCancelFirebase = (bookedSession) => {
     const docRefCollection = doc(db, "sessions", `${bookedSession.benchId}`);
     getDoc(docRefCollection)
@@ -71,64 +70,113 @@ function Schedule() {
   };
   return (
     <View style={styles.container}>
+      <View style={styles.buttonContainer}>
+        <Image style={styles.image} source={SchedulePic}></Image>
+      </View>
       <View>
-        <Text>Schedule Page</Text>
         {bookedSessions.length > 0 ? (
           <>
-            <Text>You currently have {bookedSessions.length} session</Text>
-            {bookedSessions.map((session) => {
-              console.log(session);
-              return (
-                <BenchSessions
-                  img={require("../creativeAssets/bench-illustration-2.png")}
-                  title={session.name}
-                  address={bookedBench.benchAddress}
-                  sessionTime={session.time}
-                  sessionDate={session.time}
-                  buttonContent={"Cancel"}
-                  behaviour={createAlert}
-                  target={session}
-                />
-              );
-            })}
+            <Text style={styles.scheduleMessage}>
+              You currently have{" "}
+              <Text style={styles.accentColor}> {bookedSessions.length} </Text>{" "}
+              session {"\n"} Unable to attend? Cancel and give the chance to
+              someone else
+            </Text>
+            <View style={styles.session}>
+              <ScrollView>
+                {bookedSessions.map((session) => {
+                  console.log(session.sessionDay);
+                  return (
+                    <BenchSessions
+                      img={require("../creativeAssets/bench-illustration-2.png")}
+                      title={session.name}
+                      address={bookedBench[0].benchAddress}
+                      sessionTime={session.sessionTime}
+                      sessionDay={session.sessionDay}
+                      buttonContent={"Cancel"}
+                      behaviour={createAlert}
+                      target={session}
+                      latitude={Number(bookedBench[0].latitude)}
+                      longitude={Number(bookedBench[0].longitude)}
+                    />
+                  );
+                })}
+              </ScrollView>
+            </View>
           </>
         ) : (
           <View>
-            <Text>
-              oh no! You don't currently have any sessions booked. Have a look
+            <Text style={styles.scheduleMessage}>
+              Oh no! You don't currently have any sessions booked. Have a look
               at available sessions here:
             </Text>
-            <FormButton />
+            <View style={styles.buttonContainer}>
+              <FormButton
+                btnHeight={40}
+                buttonTitle={"Sessions"}
+                onPress={() => {
+                  navigation.navigate("Sessions");
+                }}
+              />
+            </View>
           </View>
         )}
       </View>
     </View>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: "#FCFEF7",
     justifyContent: "center",
     alignContent: "center",
-    marginHorizontal: 16,
     height: "100%",
+    width: "100%",
+  },
+  image: {
+    width: 300,
+    height: 250,
+  },
+  schedule: {
+    marginTop: 20,
+    color: "#342C2C",
+    fontSize: 35,
+    textAlign: "center",
+    fontFamily: "Cabin_Bold",
+  },
+  scheduleMessage: {
+    fontFamily: "Cabin_400Regular",
+    textAlign: "center",
+    marginBottom: 5,
+    fontSize: 25,
   },
   header: {
     marginTop: 50,
-    fontSize: 32,
+    fontSize: 20,
     color: "#342C2C",
     textAlign: "center",
-    fontFamily: "Cabin_Bold",
   },
   message: {
     color: "#342C2C",
     textAlign: "center",
     fontFamily: "Cabin_400Regular",
-    marginBottom: 10,
+    marginBottom: 5,
+    alignContent: "center",
+    justifyContent: "center",
+  },
+  session: {
+    height: 400,
+  },
+  button: {
+    alignContent: "center",
+  },
+  buttonContainer: {
+    width: "100%",
+    alignItems: "center",
   },
   accentColor: {
     color: "#B85F44",
+    fontFamily: "Cabin_Bold",
   },
 });
-
 export default Schedule;

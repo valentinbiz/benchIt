@@ -25,6 +25,7 @@ function BenchSessions({
   bg,
   behaviour,
   sessionTime,
+  sessionDay,
   target,
   buttonContent,
   city,
@@ -45,6 +46,7 @@ function BenchSessions({
         {sessionTime ? (
           <View>
             <Text style={styles.SessionTimeText}>{sessionTime}</Text>
+            <Text style={styles.SessionTimeText}>{sessionDay}</Text>
           </View>
         ) : null}
         <Text style={styles.AddressText}>{address} </Text>
@@ -115,6 +117,7 @@ const styles = StyleSheet.create({
   SelectButton: {
     backgroundColor: "#342C2C",
     borderRadius: 20,
+    marginLeft: 30,
   },
   SelectButtonText: {
     color: "#FCFEF7",

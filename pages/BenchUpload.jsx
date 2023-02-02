@@ -6,10 +6,12 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   Image,
+  Alert,
 } from "react-native";
 import newspaperIllustration from "../assets/newspaper-bench.png";
 import FormInput from "../components/FormInput";
 import FormButton from "../components/FormButton";
+import LocationContext from "../contexts/LocationContext";
 
 function BenchUpload({ navigation }) {
   const [address, setaddress] = useState("");
@@ -18,7 +20,35 @@ function BenchUpload({ navigation }) {
   const [password, setPassword] = useState();
   const [modalVisible, setModalVisible] = useState(false);
   const [clicked, setClicked] = useState(false);
+  const { currLocation } = useContext(LocationContext);
+  const [locationToBeUploaded, setLocationToBeUploaded] = useState([]);
 
+  const handleLocationUpload = () => {
+    if (currLocation.length === 2) {
+      setLocationToBeUploaded(currLocation);
+      Alert.alert(
+        "Location upload successfully",
+        "Location has been uploaded with success",
+        [
+          {
+            text: "Continue",
+            onPress: () => console.log(locationToBeUploaded),
+          },
+        ]
+      );
+    } else {
+      Alert.alert(
+        "Location upload failed",
+        "Location upload has failed. Please check you application permissions",
+        [
+          {
+            text: "Continue",
+            onPress: () => console.log(currLocation),
+          },
+        ]
+      );
+    }
+  };
   return (
     <KeyboardAvoidingView style={styles.mainContent}>
       <ScrollView>
@@ -90,7 +120,7 @@ function BenchUpload({ navigation }) {
           />
           <FormButton
             buttonTitle="Use GPS location"
-            onPress={() => navigation.navigate("Camera")}
+            onPress={() => handleLocationUpload()}
           />
         </View>
         <View style={styles.SubmitPhotoContainer}>
