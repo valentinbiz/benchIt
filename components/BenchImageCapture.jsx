@@ -30,11 +30,12 @@ export default function BenchImageCapture({ navigation }) {
     return <Text>No access to camera</Text>;
   }
 
-  const takePicture = async () => {
+  const takePicture = () => {
     if (!camera) return;
-    let photo = await camera.takePictureAsync();
-    setPreviewVisible(true);
-    setCapturedImage(photo);
+    camera.takePictureAsync.then((pic) => {
+      setPreviewVisible(true);
+      setCapturedImage(pic);
+    })
   };
 
   return (
