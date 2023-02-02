@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from "react";
+import {ref, uploadBytes } from "firebase/storage";
+import { storage } from "../firebase/firebaseConfig"
 import {
   Text,
   View,
   TouchableOpacity,
   ImageBackground,
   StyleSheet,
+  Image
 } from "react-native";
 import { Camera } from "expo-camera";
 import cameraButtonStyles from "../styles/CameraButtonStyles";
+
+const storageRef = ref(storage, "some-child1");
+
 
 export default function BenchImageCapture({ navigation }) {
   const [hasPermission, setHasPermission] = useState(null);
@@ -32,10 +38,17 @@ export default function BenchImageCapture({ navigation }) {
 
   const takePicture = () => {
     if (!camera) return;
-    camera.takePictureAsync.then((pic) => {
-      setPreviewVisible(true);
-      setCapturedImage(pic);
-    })
+    camera
+      .takePictureAsync()
+      .then((pic) => {
+        setPreviewVisible(true);
+        setCapturedImage(pic);
+        console.log(capturedImage);
+        return uploadBytes(storageRef, capturedImage.uri);
+      })
+      .then((snapshot) => {
+        console.log("Uploaded a blob or file!");
+      });
   };
 
   return (
@@ -65,25 +78,25 @@ export default function BenchImageCapture({ navigation }) {
                 justifyContent: "space-between",
               }}
             >
+              <View
+                style={{ width: 200, height: 200, backgroundColor: "pink" }}
+              >
+                <Image
+                  source={require("file:///data/user/0/host.exp.exponent/cache/ExperienceData/%2540anonymous%252FbenchIt-5b0ddd5b-2a99-4f81-9a43-d9a1fd8670df/Camera/0af5cd62-90a1-4932-8f6f-6676e0b92af9.jpg")}
+                ></Image>
+              </View>
               <TouchableOpacity
                 onPress={() => setPreviewVisible(false)}
                 style={cameraButtonStyles.btnStyle}
               >
-                <Text
-                  style={cameraButtonStyles.txtStyle}
-                >
-                  Re-take
-                </Text>
+                <Text style={cameraButtonStyles.txtStyle}>Re-take</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => navigation.navigate("Upload Bench")}
                 style={cameraButtonStyles.btnStyle}
+                image={capturedImage}
               >
-                <Text
-                  style={cameraButtonStyles.txtStyle}
-                >
-                  Submit Image
-                </Text>
+                <Text style={cameraButtonStyles.txtStyle}>Submit Image</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -118,10 +131,7 @@ export default function BenchImageCapture({ navigation }) {
                 );
               }}
             >
-              <Text style={cameraButtonStyles.txtStyle}>
-                {" "}
-                Flip{" "}
-              </Text>
+              <Text style={cameraButtonStyles.txtStyle}> Flip </Text>
             </TouchableOpacity>
             <View
               style={{
