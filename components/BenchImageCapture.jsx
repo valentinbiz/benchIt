@@ -7,8 +7,9 @@ import {
   StyleSheet,
 } from "react-native";
 import { Camera } from "expo-camera";
+import cameraButtonStyles from "../styles/CameraButtonStyles";
 
-export default function BenchImageCapture() {
+export default function BenchImageCapture({ navigation }) {
   const [hasPermission, setHasPermission] = useState(null);
   const [previewVisible, setPreviewVisible] = useState(false);
   const [capturedImage, setCapturedImage] = useState(null);
@@ -65,21 +66,22 @@ export default function BenchImageCapture() {
             >
               <TouchableOpacity
                 onPress={() => setPreviewVisible(false)}
-                style={{
-                  width: 130,
-                  height: 40,
-
-                  alignItems: "center",
-                  borderRadius: 4,
-                }}
+                style={cameraButtonStyles.btnStyle}
               >
                 <Text
-                  style={{
-                    color: "#fff",
-                    fontSize: 20,
-                  }}
+                  style={cameraButtonStyles.txtStyle}
                 >
                   Re-take
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("Upload Bench")}
+                style={cameraButtonStyles.btnStyle}
+              >
+                <Text
+                  style={cameraButtonStyles.txtStyle}
+                >
+                  Submit Image
                 </Text>
               </TouchableOpacity>
             </View>
@@ -102,6 +104,7 @@ export default function BenchImageCapture() {
           >
             <TouchableOpacity
               style={{
+                ...cameraButtonStyles.btnStyle,
                 position: "absolute",
                 top: "5%",
                 left: "5%",
@@ -114,7 +117,7 @@ export default function BenchImageCapture() {
                 );
               }}
             >
-              <Text style={{ fontSize: 20, marginBottom: 10, color: "white" }}>
+              <Text style={cameraButtonStyles.txtStyle}>
                 {" "}
                 Flip{" "}
               </Text>
