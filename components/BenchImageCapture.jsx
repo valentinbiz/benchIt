@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { Camera } from "expo-camera";
 
-export default function BenchImageCapture() {
+export default function BenchImageCapture({ navigation }) {
   const [hasPermission, setHasPermission] = useState(null);
   const [previewVisible, setPreviewVisible] = useState(false);
   const [capturedImage, setCapturedImage] = useState(null);
@@ -80,6 +80,25 @@ export default function BenchImageCapture() {
                   }}
                 >
                   Re-take
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("Upload Bench")}
+                style={{
+                  width: 130,
+                  height: 40,
+
+                  alignItems: "center",
+                  borderRadius: 4,
+                }}
+              >
+                <Text
+                  style={{
+                    color: "#fff",
+                    fontSize: 20,
+                  }}
+                >
+                  Submit Image
                 </Text>
               </TouchableOpacity>
             </View>
