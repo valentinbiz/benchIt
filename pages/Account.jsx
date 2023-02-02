@@ -18,13 +18,16 @@ import InfoCard from "../components/InformationCard";
 export default function Account({ navigation }) {
   const [image, setImage] = useState(image);
   const { setIsLoggedIn } = useContext(isLoggedInContext);
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
 
   const handleSignOut = () => {
     auth
       .signOut()
-      .then(() => setIsLoggedIn(false))
-      .then(() =>  navigation.navigate("Home"))
+      .then(() => {
+        setUser({});
+        // setIsLoggedIn(false);
+      })
+      .then(() => navigation.navigate("Home"))
       .catch((err) => console.log(err));
   };
 
@@ -74,7 +77,7 @@ export default function Account({ navigation }) {
 }
 const styles = StyleSheet.create({
   mainContent: {
-    backgroundColor: "#FCFEF7"
+    backgroundColor: "#FCFEF7",
   },
   GreetingMessage: {
     textAlign: "center",

@@ -38,13 +38,6 @@ function LogIn({ navigation }) {
       });
   };
 
-  // useEffect(() => {
-  //   const unsubscribe = auth.onAuthStateChanged((user) => {
-  //     if (user.displayName !== "Guest") {
-  //     }
-  //   });
-  //   return unsubscribe;
-  // }, []);
   return (
     <KeyboardAvoidingView style={styles.mainContent}>
       <ScrollView contentContainerStyle={styles.container}>

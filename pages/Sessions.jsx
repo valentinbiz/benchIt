@@ -32,10 +32,12 @@ function Sessions({ navigation }) {
   const [viewType, setViewType] = useState("List");
   const [clickedBench, setClickedBench] = useState(false);
   const { selectedBench, setSelectedBench } = useContext(selectedBenchContext);
-  const { setCurrAvailableSessions } = useContext(AvailableSessionsContext);
+  const { currAvailableSessions, setCurrAvailableSessions } = useContext(
+    AvailableSessionsContext
+  );
   const { currLocation, setCurrLocation } = useContext(LocationContext);
 
-  const [ viewRef, setViewRef ] = useState(null);
+  const [viewRef, setViewRef] = useState(null);
   const [benches, setBenches] = useState([]);
   const [errorMsg, setErrorMsg] = useState(false);
   const { user } = useContext(UserContext);
@@ -48,10 +50,11 @@ function Sessions({ navigation }) {
         documents.forEach((doc) => benchesArray.push(doc.data()));
         setBenches(benchesArray);
       })
+      .then(() => {})
       .catch((error) => console.log(error));
   };
 
-  const getAvailableBenches = (maxCap) => {
+  const getAvailableSessions = (maxCap) => {
     const availableSessions = [];
     const docRefCollection = collection(db, "sessions");
 
@@ -73,9 +76,10 @@ function Sessions({ navigation }) {
       .catch((error) => console.log(error));
   };
 
+  console.log(setCurrAvailableSessions);
   useEffect(() => {
+    getAvailableSessions(1);
     getBenches();
-    getAvailableBenches(1);
     getCurrLocation();
   }, []);
 
@@ -119,7 +123,9 @@ function Sessions({ navigation }) {
           />
         </View>
         <ForecastCard></ForecastCard>
-          <Text style={styles.toggleInfo}>Toggle between views to look for available sessions</Text>
+        <Text style={styles.toggleInfo}>
+          Toggle between views to look for available sessions
+        </Text>
         <View style={styles.ViewToggleCard}>
           <View style={styles.toggleContainer}>
             <TouchableOpacity
@@ -139,31 +145,46 @@ function Sessions({ navigation }) {
 
         {viewType === "List" ? (
           <ScrollView style={styles.SessionsList} nestedScrollEnabled={true}>
-            {benches.map((bench) => {
-              return (
-                <BenchSessions
-                  key={bench.benchId}
-                  img={require("../creativeAssets/bench-illustration-2.png")}
-                  title={bench.benchName}
-                  address={bench.benchAddress}
-                  bg={"#fcfef7"}
-                  behaviour={bookingSelect}
-                  city={bench.benchCity}
-                latitude={Number(bench.latitude)}
-                longitude={Number(bench.longitude)}
-                  target={bench}
-                />
-              );
-            })}
+            {benches
+              .filter((bench) => {
+                for (let i = 0; i < currAvailableSessions.length; i++) {
+                  if (bench.benchName === currAvailableSessions[i].benchName) {
+                    return bench;
+                  }
+                }
+              })
+              .map((bench) => {
+                return (
+                  <BenchSessions
+                    key={bench.benchId}
+                    img={require("../creativeAssets/bench-illustration-2.png")}
+                    title={bench.benchName}
+                    address={bench.benchAddress}
+                    bg={"#fcfef7"}
+                    behaviour={bookingSelect}
+                    city={bench.benchCity}
+                    latitude={Number(bench.latitude)}
+                    longitude={Number(bench.longitude)}
+                    target={bench}
+                  />
+                );
+              })}
           </ScrollView>
         ) : (
-          <MapComponent benches={benches} />
+          <MapComponent
+            benches={benches.filter((bench) => {
+              for (let i = 0; i < currAvailableSessions.length; i++) {
+                if (bench.benchName === currAvailableSessions[i].benchName) {
+                  return bench;
+                }
+              }
+            })}
+          />
         )}
         <View style={styles.SessionsButton}>
           {clickedBench ? (
             <>
               <Text style={styles.pickedBench}>
-                {" "}
                 You have picked {clickedBench.benchName}
               </Text>
               <FormButton
@@ -194,7 +215,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     textAlign: "center",
     zIndex: 2,
-    marginBottom: -8
+    marginBottom: -8,
   },
   toggleContainer: {
     flex: 1,
@@ -271,7 +292,7 @@ const styles = StyleSheet.create({
     fontFamily: "Cabin_Bold",
   },
   SessionsList: {
-    height: 300,
+    height: 350,
   },
   SessionsButton: {
     marginVertical: 2,

@@ -84,7 +84,7 @@ export default function AccountSettings() {
           />
           <FormButton
             buttonTitle={`Log out`}
-            onPress={() => navigation.navigate("Camera")}
+            // onPress={() => navigation.navigate("Camera")}
           />
         </View>
       </ScrollView>
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     fontSize: 28,
     marginBottom: 6,
     textAlign: "center",
-    padding: 0
+    padding: 0,
   },
   infoText: {
     fontFamily: "Cabin_400Regular",
