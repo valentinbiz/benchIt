@@ -49,7 +49,6 @@ function BenchSessions({
         ) : null}
         <Text style={styles.AddressText}>{address} </Text>
         <Text style={styles.AddressText}>{city} </Text>
-<<<<<<< HEAD
         <Text style={styles.AddressText}>
           {currLocation
             ? calcDist(
@@ -64,16 +63,6 @@ function BenchSessions({
               ).toString() + " km away"
             : null}
         </Text>
-=======
-    <Text style={styles.AddressText}>{currLocation ? calcDist({
-      latitude: latitude,
-      longitude: longitude
-    }, {
-      latitude: currLocation[0],
-      longitude: currLocation[1]
-    }
-    ) + "km" : null}</Text>
->>>>>>> 7832e42e3d594176aa2ec9d78caae7e32fcf1011
       </View>
       <TouchableOpacity
         style={styles.SelectButton}
