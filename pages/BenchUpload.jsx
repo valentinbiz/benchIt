@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     height: 50,
   },
   viewContainer: {
-    marginTop: 60,
+    //marginTop: 60,
     justifyContent: "center",
     alignItems: "center",
     zIndex: 2,

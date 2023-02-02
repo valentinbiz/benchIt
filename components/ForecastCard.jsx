@@ -52,7 +52,11 @@ function ForecastCard() {
 
   const formatForecastMessage = (iconId) => {
     const currentDate = new Date();
-    setDateMessage(`${dayNames[currentDate.getDay()]} ${currentDate.getDate()} ${monthNames[currentDate.getMonth()]},`);
+    setDateMessage(
+      `${dayNames[currentDate.getDay()]} ${currentDate.getDate()} ${
+        monthNames[currentDate.getMonth()]
+      } \n`
+    );
     if (iconId >= 1 && iconId <= 5) setIcon(require("../assets/weather-icon-images/sun-icon.png"));
     else if (iconId >= 6 && iconId <= 11) setIcon(require("../assets/weather-icon-images/cloud-icon.png"));
     else if (iconId >= 12 && iconId <= 18) setIcon(require("../assets/weather-icon-images/rain-icon.png"));
@@ -62,12 +66,12 @@ function ForecastCard() {
   useEffect(() => {
     // getGeoPosition()
     //   .then((result) => {
-    //     setCityName(result.data.EnglishName);
+    //     setCityName(result.data.EnglishName + " \n");
     //     return getCurrConditions(result.data.Key);
     //   })
     //   .then((result) => {
-    //     setWeatherCondition(result.data[0].WeatherText.toLowerCase());
-    //     setTemp(result.data[0].Temperature.Metric.Value);
+    //     setWeatherCondition(result.data[0].WeatherText);
+    //     setTemp(result.data[0].Temperature.Metric.Value + "°C \n");
     //     formatForecastMessage(result.data[0].WeatherIcon);
     //   });
   }, [])
@@ -109,7 +113,4 @@ const styles = StyleSheet.create({
   },
 });
   
-
-
-
 export default ForecastCard;

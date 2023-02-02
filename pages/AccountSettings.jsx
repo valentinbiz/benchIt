@@ -13,6 +13,8 @@ import {
 import { AntDesign } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import UserContext from "../contexts/UserContext";
+import dogIllustration from "../assets/abstract-1044.png";
+import accountImage from "../assets/mole2.png";
 
 export default function AccountSettings() {
   const [image, setImage] = useState(null);
@@ -21,19 +23,19 @@ export default function AccountSettings() {
   const checkForCameraRollPermission = async () => {
     const { status } = await ImagePicker.getMediaLibraryPermissionsAsync();
     if (status !== "granted") {
-      alert(
-        "Please grant camera roll permissions inside your system's settings"
-      );
+      console.log("Media Permissions not granted");
+      // alert(
+      //   "Please grant camera roll permissions inside your system's settings"
+      // );
     } else {
       console.log("Media Permissions are granted");
     }
   };
 
-  useEffect(() => {
-    checkForCameraRollPermission();
-  }, []);
+  useEffect(() => {}, []);
 
   const addImage = async () => {
+    checkForCameraRollPermission();
     let _image = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
@@ -48,44 +50,47 @@ export default function AccountSettings() {
 
   return (
     <>
-      <ScrollView>
+      <ScrollView style={styles.mainContent}>
         <View style={styles.wrapper}>
           <View style={styles.container}>
-            {image && (
+            {
+              //image && (
               <Image
-                source={{ uri: image }}
+                source={accountImage}
                 style={{ width: 200, height: 200 }}
               />
-            )}
+              //)
+            }
             <View style={styles.uploadBtnContainer}>
               <TouchableOpacity onPress={addImage} style={styles.uploadBtn}>
-                <Text>{image ? "Edit" : "Upload"} Image</Text>
+                <Text>{accountImage ? "Edit" : "Upload"} Image</Text>
                 <AntDesign name="camera" size={20} color="#342C2C" />
               </TouchableOpacity>
             </View>
           </View>
         </View>
-
         <View style={styles.wrapper}>
-          <View style={styles.infoContainer}>
-            <Text style={styles.infoHeader}>Account Information</Text>
-            <Text style={styles.infoText}>Name - {user.displayName} 🙋🏼‍♂️</Text>
-            <Text style={styles.infoText}>Email - {user.email}</Text>
-            <Text style={styles.infoText}>Location - {"Manchester"}</Text>
-          </View>
-
           <FormButton
-            buttonTitle="Reset Password"
+            colorScheme={"#342C2C"}
+            buttonTitle="Password Reset Email"
             onPress={() => navigation.navigate("Camera")}
           />
           <FormButton
+            colorScheme={"#342C2C"}
             buttonTitle="Change Email"
             onPress={() => navigation.navigate("Camera")}
           />
           <FormButton
-            buttonTitle={`Log out`}
-            // onPress={() => navigation.navigate("Camera")}
+            colorScheme={"#342C2C"}
+            buttonTitle="Delete Account"
+            onPress={() => navigation.navigate("Camera")}
           />
+        </View>
+        <View style={styles.picContainer}>
+          <Image
+            source={dogIllustration}
+            style={{ height: 250, width: 250 }}
+          ></Image>
         </View>
       </ScrollView>
     </>
@@ -93,6 +98,15 @@ export default function AccountSettings() {
 }
 
 const styles = StyleSheet.create({
+  picContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#FCFEF7",
+  },
+  mainContent: {
+    backgroundColor: "#FCFEF7",
+    height: "100%",
+  },
   infoHeader: {
     fontFamily: "Cabin_Bold",
     color: "#FCFEF7",
@@ -120,6 +134,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     paddingTop: 10,
+    marginTop: 10,
   },
   container: {
     elevation: 2,
@@ -131,11 +146,11 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   uploadBtnContainer: {
-    opacity: 0.7,
+    opacity: 0.85,
     position: "absolute",
     right: 0,
     bottom: 0,
-    backgroundColor: "lightgrey",
+    backgroundColor: "#FCFEF7",
     width: "100%",
     height: "25%",
   },
