@@ -1,6 +1,6 @@
 # BenchIt - React Native Application
 
-Welcome to BenchIt, a team project created with React Native. This is a one stop shop for getting , including prerequisites, installation, and usage.
+Welcome to BenchIt, a team project created with React Native
 
 ## Table of Contents
 
@@ -16,8 +16,7 @@ Welcome to BenchIt, a team project created with React Native. This is a one stop
   - [Contribution guidelines](#contribution-guidelines)
   - [Code of Conduct](#code-of-conduct)
   - [License](#license)
-  - [Support](#support)
-  - [Conclusion](#conclusion)
+  - [Support 🙏](#support-)
   - [Credits](#credits)
     - [Valentin Bizgan @valentinbiz](#valentin-bizgan-valentinbiz)
     - [Hasan Nakib @hsnnkb-dev](#hasan-nakib-hsnnkb-dev)
@@ -27,7 +26,7 @@ Welcome to BenchIt, a team project created with React Native. This is a one stop
 
 ## Overview
 
-BenchIt's mission is to combat loneliness by connecting individuals in their local community through the shared experience of sitting on a bench.
+BenchIt's mission is to combat loneliness by connecting individuals in their local community through the shared experience of sitting on a bench 👨‍👩‍👧‍👦
 BenchIt is a [React Native](https://reactnative.dev/) app for booking and managing bench sessions to meet new people or old friends. With the ability to upload local benches and share the worlds love for benches in endless.
 
 ## Technologies
@@ -48,13 +47,13 @@ With these technologies, the team was able to build a high-quality, user-friendl
 
 Before getting started with the app, you'll need to install the following tools and technologies on your machine:
 
-- [Node.js](https://nodejs.org/en/download/)
-- [Expo CLI](https://docs.expo.dev/workflow/expo-cli/)
+- [Node.js](https://nodejs.org/en/download/) 19.0
+- [Expo CLI](https://docs.expo.dev/workflow/expo-cli/) latest
 - [Firebase account for the backend](https://firebase.google.com/)
 
 ## Installation
 
-To get started with the project, follow the steps below:
+To get started with the project, follow these steps 👣
 
 1. Clone the repository to your local machine:
 
@@ -76,7 +75,7 @@ npm install
 
 ## Backend Configuration
 
-BenchIt uses Firebase as the backend database. To configure the backend, follow these steps:
+BenchIt uses Firebase as the backend database. To configure the backend, follow these steps 👣
 
 1. Create a Firebase project on the Firebase website.
 1. From the Firebase Console, select the project that you just created.
@@ -96,7 +95,7 @@ This will start the development server and open the [Expo CLI](https://expo.dev/
 
 ## Usage
 
-BenchIt allows users to book and manage bench sessions. To use the app, follow these steps:
+BenchIt allows users to book and manage bench sessions. To use the app, follow these steps 👣
 
 1. Login to the app using your email and password.
 2. Go to the sessions page and book a session that you like the look of
@@ -128,17 +127,13 @@ We ask that all contributors adhere to our code of conduct, which can be found i
 
 BenchIt is released under the MIT license.
 
-## Support
+## Support 🙏
 
 If you have any questions, concerns, or need help with using the Benchit app, please do not hesitate to reach out to our support team at support@benchit.com. Our team is available 24/7 to help you with any issues you may encounter while using the app.
 
 In addition, if you are reporting a bug or suggesting a new feature, please include as much detail as possible in your email so we can better understand and address your issue. If possible, please also include screenshots or any other relevant information that may help us resolve the issue.
 
 We are committed to providing our users with a positive experience, and we appreciate your help in making Benchit a better app for everyone. Thank you for choosing Benchit!
-
-## Conclusion
-
-This readme has provided a comprehensive guide to setting up and running the React Native application. If you encounter any issues, please feel free to reach out to the team or check the documentation for React Native.
 
 ## Credits
 
