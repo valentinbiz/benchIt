@@ -14,6 +14,7 @@ import { AntDesign } from "@expo/vector-icons";
 import isLoggedInContext from "../contexts/IsLoggedInContext";
 import UserContext from "../contexts/UserContext";
 import InfoCard from "../components/InformationCard";
+import accountImage from "../assets/mole2.png"
 
 export default function Account({ navigation }) {
   const [image, setImage] = useState(image);
@@ -23,8 +24,10 @@ export default function Account({ navigation }) {
   const handleSignOut = () => {
     auth
       .signOut()
-      .then(() => setIsLoggedIn(false))
-      .then(() =>  navigation.navigate("Home"))
+      .then(() => {
+        navigation.navigate("Login")
+        setIsLoggedIn(false)
+      })
       .catch((err) => console.log(err));
   };
 
@@ -32,49 +35,102 @@ export default function Account({ navigation }) {
 
   return (
     <ScrollView style={styles.mainContent}>
+      <Text style={styles.header}>Your Account</Text>
       <View style={styles.wrapper}>
         <View style={styles.container}>
-          {image && (
-            <Image
-              source={{ uri: image }}
-              style={{ width: 200, height: 200 }}
-            />
-          )}
-          <View>
-            <TouchableOpacity>
-              <Text></Text>
-              <AntDesign name="camera" size={20} color="black" />
-            </TouchableOpacity>
-          </View>
+          <Image source={accountImage} style={{ height: 150, width: 150 }} />
         </View>
+        <View></View>
       </View>
 
-      <View>
-        <Text style={styles.GreetingMessage}>
-          {" "}
-          You are logged in as {user.displayName}! With Email {user.email}
-        </Text>
-      </View>
-      <View>
-        <InfoCard description={`Name: ${user.displayName}`}></InfoCard>
+      <View style={styles.wrapper}>
+        <View style={styles.infoContainer}>
+          <Text style={styles.infoHeader}>Account Information</Text>
+          <Text style={styles.infoText}>
+            <Text style={styles.keyText}>Name</Text>
+            <Text style={styles.valueText}> - {user.displayName}</Text>
+          </Text>
+          <Text style={styles.infoText}>
+            <Text style={styles.keyText}>Email</Text>
+            <Text style={styles.valueText}> - {user.email}</Text>
+          </Text>
+          <Text style={styles.infoText}>
+            <Text style={styles.keyText}>Location</Text>
+            <Text style={styles.valueText}> - {"Manchester"}</Text>
+          </Text>
+          <Text style={styles.infoText}>
+            <Text style={styles.keyText}>Biography</Text>
+            <Text style={styles.valueText}>
+              - Mitch, Match, Much. (Live, Laugh, Love)
+            </Text>
+          </Text>
+          <Text style={styles.infoText}>
+            <Text style={styles.keyText}>Sessions attended</Text>
+            <Text style={styles.valueText}> - 13</Text>
+          </Text>
+        </View>
       </View>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity onPress={handlePress}>
-          <Text style={styles.AccountSettings}>Go to Account Settings</Text>
-        </TouchableOpacity>
         <TouchableHighlight
           style={styles.button}
           onPress={() => handleSignOut()}
         >
           <Text style={styles.buttonText}>Sign Out</Text>
         </TouchableHighlight>
+        <Text style={styles.SocialText}>OR</Text>
+        <TouchableOpacity onPress={handlePress}>
+          <Text style={styles.AccountSettings}>Go to Account Settings</Text>
+        </TouchableOpacity>
       </View>
     </ScrollView>
   );
 }
 const styles = StyleSheet.create({
+  header: {
+    fontFamily: "Cabin_Bold",
+    color: "#342C2C",
+    fontSize: 30,
+    textAlign: "center",
+    marginTop: 40,
+    marginBottom: 15
+  },
+  SocialText: {
+    marginVertical: 10,
+    textAlign: "center",
+    fontFamily: "Cabin_Bold",
+  },
+  keyText: {
+    // textDecorationLine: "underline",
+    fontSize: 20,
+  },
+  valueText: {
+    color: "#FCFEF7",
+    fontFamily: "Cabin_400Regular",
+  },
+  infoHeader: {
+    fontFamily: "Cabin_Bold",
+    color: "#FCFEF7",
+    fontSize: 28,
+    marginBottom: 10,
+    textAlign: "center",
+  },
+  infoText: {
+    paddingHorizontal: 15,
+    fontFamily: "Cabin_Bold",
+    color: "#B85F44",
+    fontSize: 18,
+  },
+  infoContainer: {
+    padding: 10,
+    paddingBottom: 15,
+    width: "90%",
+    marginHorizontal: 10,
+    marginTop: 15,
+    backgroundColor: "#342C2C",
+    borderRadius: 10,
+  },
   mainContent: {
-    backgroundColor: "#FCFEF7"
+    backgroundColor: "#FCFEF7",
   },
   GreetingMessage: {
     textAlign: "center",
@@ -85,7 +141,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "400",
     color: "#2e64e5",
-    marginTop: 20,
     marginBottom: 10,
     textDecorationLine: "underline",
     fontFamily: "Cabin_400Regular",
@@ -98,9 +153,8 @@ const styles = StyleSheet.create({
   },
   container: {
     elevation: 2,
-    height: 200,
-    width: 200,
-    marginTop: 100,
+    height: 150,
+    width: 150,
     backgroundColor: "#efefef",
     position: "relative",
     borderRadius: 999,
