@@ -157,7 +157,7 @@ function Sessions({ navigation }) {
             })}
           </ScrollView>
         ) : (
-          <MapComponent benches={benches} />
+          <MapComponent benches={benches} behaviour={setClickedBench} />
         )}
         <View style={styles.SessionsButton}>
           {clickedBench ? (

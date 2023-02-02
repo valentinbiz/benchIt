@@ -39,7 +39,7 @@ export default function NewBooking({ navigation }) {
 
   const getSessions = () => {
     const filteredArr = currAvailableSessions.filter((session) => {
-      if (session.benchName === selectedBench.benchName) {
+      if (session.benchName === selectedBench) {
         return session;
       }
     });
