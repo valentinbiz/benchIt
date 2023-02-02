@@ -64,7 +64,7 @@ export default function AccountSettings() {
           }
             <View style={styles.uploadBtnContainer}>
               <TouchableOpacity onPress={addImage} style={styles.uploadBtn}>
-                <Text>{image ? "Edit" : "Upload"} Image</Text>
+                <Text>{accountImage ? "Edit" : "Upload"} Image</Text>
                 <AntDesign name="camera" size={20} color="#342C2C" />
               </TouchableOpacity>
             </View>

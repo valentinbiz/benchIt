@@ -35,7 +35,7 @@ export default function Account({ navigation }) {
 
   return (
     <ScrollView style={styles.mainContent}>
-      <Text style={styles.header}>Your Account</Text>
+      {/* <Text style={styles.header}>Your Account</Text> */}
       <View style={styles.wrapper}>
         <View style={styles.container}>
           <Image source={accountImage} style={{ height: 150, width: 150 }} />
