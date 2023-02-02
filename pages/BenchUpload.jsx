@@ -1,6 +1,13 @@
 import React, { useState, useContext } from "react";
-import { View, Text, StyleSheet, ScrollView, KeyboardAvoidingView, Image } from "react-native";
-import newspaperIllustration from "../assets/newspaper-bench.png"
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  KeyboardAvoidingView,
+  Image,
+} from "react-native";
+import newspaperIllustration from "../assets/newspaper-bench.png";
 import FormInput from "../components/FormInput";
 import FormButton from "../components/FormButton";
 
@@ -10,6 +17,7 @@ function BenchUpload({ navigation }) {
   const [benchDescription, setBenchDescription] = useState("");
   const [password, setPassword] = useState();
   const [modalVisible, setModalVisible] = useState(false);
+  const [clicked, setClicked] = useState(false);
 
   return (
     <KeyboardAvoidingView style={styles.mainContent}>
@@ -29,6 +37,14 @@ function BenchUpload({ navigation }) {
             autoCapitalize="none"
             autoCorrect={false}
           />
+          {!address && clicked ? (
+            <Text style={{ color: "red", marginLeft: "5%" }}>
+              Please enter location
+            </Text>
+          ) : (
+            ""
+          )}
+
           <FormInput
             labelValue={benchName}
             onChangeText={(benchName) => setBenchName(benchName)}
@@ -38,6 +54,13 @@ function BenchUpload({ navigation }) {
             autoCapitalize="none"
             autoCorrect={false}
           />
+          {!benchName && clicked ? (
+            <Text style={{ color: "red", marginLeft: "5%" }}>
+              Please enter a name for this bench
+            </Text>
+          ) : (
+            ""
+          )}
           <FormInput
             labelValue={benchDescription}
             onChangeText={(benchDescription) =>
@@ -49,6 +72,13 @@ function BenchUpload({ navigation }) {
             autoCapitalize="none"
             autoCorrect={false}
           />
+          {!benchDescription && clicked ? (
+            <Text style={{ color: "red", marginLeft: "5%" }}>
+              Please enter a description for this bench
+            </Text>
+          ) : (
+            ""
+          )}
           <Text style={styles.message}>
             Registering a bench requires the accurate location and a good
             picture of the bench
@@ -64,7 +94,12 @@ function BenchUpload({ navigation }) {
           />
         </View>
         <View style={styles.SubmitPhotoContainer}>
-          <FormButton buttonTitle="Submit bench" onPress={() => {}} />
+          <FormButton
+            buttonTitle="Submit bench"
+            onPress={() => {
+              setClicked(true);
+            }}
+          />
           <Text style={[styles.message, { fontSize: 12 }]}>
             Add all the details and you're ready to submit!
           </Text>
