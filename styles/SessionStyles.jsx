@@ -10,7 +10,7 @@ const sessionStyles = StyleSheet.create({
     paddingHorizontal: 20,
     textAlign: "center",
     zIndex: 2,
-    marginBottom: -8
+    marginBottom: -8,
   },
   toggleContainer: {
     flex: 1,
@@ -23,7 +23,10 @@ const sessionStyles = StyleSheet.create({
     height: "100%",
   },
   pickedBench: {
+    marginTop: 10,
+    marginBottom: 10,
     fontFamily: "Cabin_400Regular",
+    fontSize: 20,
   },
   GreetingMessage: {
     fontSize: 30,
@@ -87,7 +90,7 @@ const sessionStyles = StyleSheet.create({
     fontFamily: "Cabin_Bold",
   },
   SessionsList: {
-    height: 300,
+    height: 400,
   },
   SessionsButton: {
     marginVertical: 2,
@@ -96,4 +99,4 @@ const sessionStyles = StyleSheet.create({
   },
 });
 
-export default sessionStyles; 
+export default sessionStyles;

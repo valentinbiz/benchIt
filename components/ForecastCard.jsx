@@ -77,16 +77,16 @@ function ForecastCard() {
   };
 
   useEffect(() => {
-    // getGeoPosition()
-    //   .then((result) => {
-    //     setCityName(result.data.EnglishName + " \n");
-    //     return getCurrConditions(result.data.Key);
-    //   })
-    //   .then((result) => {
-    //     setWeatherCondition(result.data[0].WeatherText);
-    //     setTemp(result.data[0].Temperature.Metric.Value + "°C \n");
-    //     formatForecastMessage(result.data[0].WeatherIcon);
-    //   });
+    getGeoPosition()
+      .then((result) => {
+        setCityName(result.data.EnglishName + " \n");
+        return getCurrConditions(result.data.Key);
+      })
+      .then((result) => {
+        setWeatherCondition(result.data[0].WeatherText);
+        setTemp(result.data[0].Temperature.Metric.Value + "°C \n");
+        formatForecastMessage(result.data[0].WeatherIcon);
+      });
   }, []);
 
   return (

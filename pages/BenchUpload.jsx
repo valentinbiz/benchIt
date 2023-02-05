@@ -8,10 +8,27 @@ import {
   Image,
   Alert,
 } from "react-native";
+
+import { auth, db } from "../firebase/firebaseConfig";
+import { doc, setDoc } from "firebase/firestore";
 import newspaperIllustration from "../assets/newspaper-bench.png";
 import FormInput from "../components/FormInput";
 import FormButton from "../components/FormButton";
 import LocationContext from "../contexts/LocationContext";
+import triggerRenderBenchContext from "../contexts/benchesRenderContext";
+import * as ImagePicker from "expo-image-picker";
+
+async function BenchImageCapture() {
+  let result = await ImagePicker.launchImageLibraryAsync({
+    mediaTypes: ImagePicker.MediaTypeOptions.All,
+    allowsEditing: true,
+    aspect: [4, 3],
+    quality: 1,
+  });
+  if (!result.canceled) {
+    return result.assets[0].uri;
+  }
+}
 
 function BenchUpload({ navigation }) {
   const [address, setaddress] = useState("");
@@ -22,6 +39,8 @@ function BenchUpload({ navigation }) {
   const [clicked, setClicked] = useState(false);
   const { currLocation } = useContext(LocationContext);
   const [locationToBeUploaded, setLocationToBeUploaded] = useState([]);
+  const [image, setImage] = useState(null);
+  const { setTriggerRenderBenches } = useContext(triggerRenderBenchContext);
 
   const handleLocationUpload = () => {
     if (currLocation.length === 2) {
@@ -49,6 +68,33 @@ function BenchUpload({ navigation }) {
       );
     }
   };
+  const handleBenchUpload = () => {
+    const benchToPost = {
+      benchAddress: address,
+      benchCity: "Manchester",
+      benchDescription: benchDescription,
+      benchId: "bench_11",
+      benchName: benchName,
+      benchPicture:
+        "https://images.unsplash.com/photo-1638226815616-b7d5f68d76a5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
+      latitude: currLocation[0],
+      longitude: currLocation[1],
+    };
+    const benchRef = doc(db, "benches", "bench_11");
+    setDoc(benchRef, benchToPost, { merge: true });
+    Alert.alert(
+      "Bench added succesfully!",
+      "We are now one bench closer to beating loneliness!",
+      [
+        {
+          text: "Continue",
+          onPress: () => navigation.navigate("Home"),
+        },
+      ]
+    );
+    setTriggerRenderBenches(true);
+  };
+
   return (
     <KeyboardAvoidingView style={styles.mainContent}>
       <ScrollView>
@@ -116,7 +162,7 @@ function BenchUpload({ navigation }) {
 
           <FormButton
             buttonTitle="Capture Bench Image"
-            onPress={() => navigation.navigate("Camera")}
+            onPress={() => setImage(BenchImageCapture())}
           />
           <FormButton
             buttonTitle="Use GPS location"
@@ -127,7 +173,7 @@ function BenchUpload({ navigation }) {
           <FormButton
             buttonTitle="Submit bench"
             onPress={() => {
-              setClicked(true);
+              handleBenchUpload();
             }}
           />
           <Text style={[styles.message, { fontSize: 12 }]}>

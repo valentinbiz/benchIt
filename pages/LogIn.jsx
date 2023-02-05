@@ -66,37 +66,41 @@ function LogIn({ navigation }) {
           />
         </View>
 
-        {Platform.OS === "android" ? (
-          <View>
-            <Text style={styles.SeparatorText}>OR</Text>
-            <SocialButton
-              buttonTitle="Sign In with Facebook"
-              btnType="facebook"
-              color="#4867aa"
-              backgroundColor="#e6eaf4"
-              onPress={() => {}}
-            />
+        {/* {Platform.OS === "android" ? ( */}
+        <View style={{ marginTop: 50 }}>
+          <Text style={styles.SeparatorText}>OR</Text>
+          <SocialButton
+            buttonTitle="Sign In with Facebook"
+            btnType="facebook"
+            color="#4867aa"
+            backgroundColor="#e6eaf4"
+            onPress={() => {}}
+          />
 
-            <SocialButton
-              buttonTitle="Sign In with Google"
-              btnType="google"
-              color="#de4d41"
-              backgroundColor="#f5e7ea"
-              onPress={() => {}}
-            />
-          </View>
-        ) : null}
-
-        <TouchableOpacity
-          style={styles.forgotButton}
-          onPress={() => navigation.navigate("SignUp")}
-        >
-          <Text style={styles.navButtonText}>Don't have an account?</Text>
-        </TouchableOpacity>
-        <Text style={[styles.SeparatorText, styles.blueText]}>OR</Text>
-        <TouchableOpacity style={styles.forgotButton} onPress={() => {}}>
-          <Text style={styles.navButtonText}>Forgot Password?</Text>
-        </TouchableOpacity>
+          <SocialButton
+            buttonTitle="Sign In with Google"
+            btnType="google"
+            color="#de4d41"
+            backgroundColor="#f5e7ea"
+            onPress={() => {}}
+          />
+        </View>
+        {/* ) : null} */}
+        <View style={{ flexDirection: "row", marginTop: 40 }}>
+          <TouchableOpacity
+            style={styles.forgotButton}
+            onPress={() => navigation.navigate("SignUp")}
+          >
+            <Text style={[styles.SeparatorText, styles.blueText]}>
+              Don't have an account?
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.forgotButton} onPress={() => {}}>
+            <Text style={[styles.SeparatorText2, styles.blueText]}>
+              {"     /    "}Forgot Password?
+            </Text>
+          </TouchableOpacity>
+        </View>
       </ScrollView>
     </KeyboardAvoidingView>
   );
@@ -152,6 +156,13 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontWeight: "400",
     fontFamily: "Cabin_Bold",
+    marginBottom: 30,
+  },
+  SeparatorText2: {
+    textAlign: "center",
+    fontWeight: "400",
+    fontFamily: "Cabin_Bold",
+    marginBottom: 30,
   },
 });
 

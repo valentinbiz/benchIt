@@ -88,6 +88,7 @@ function Schedule({ navigation }) {
                   console.log(session.sessionDay);
                   return (
                     <BenchSessions
+                      key={session.name}
                       img={require("../creativeAssets/bench-illustration-2.png")}
                       title={session.name}
                       address={bookedBench[0].benchAddress}

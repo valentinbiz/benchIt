@@ -44,6 +44,11 @@ function HomePage({ navigation }) {
 
         {user.displayName === "Guest" ? (
           <View style={styles.viewContainer}>
+            <Text style={styles.missionText}>
+              {" "}
+              Please use on of the following options to give benches a new
+              meaning in your life!
+            </Text>
             <TouchableHighlight
               style={styles.button}
               onPress={() => navigation.navigate("Login")}
@@ -122,7 +127,8 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 10,
     width: 200,
-    marginTop: 1,
+    marginTop: 20,
+    marginBottom: 20,
   },
   buttonText: {
     fontSize: 18,
@@ -138,7 +144,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: "center",
     fontFamily: "Cabin_400Regular",
-    marginHorizontal: 5,
+    marginHorizontal: 15,
+    marginTop: 10,
+    marginBottom: 10,
   },
   text: {
     color: "#342C2C",

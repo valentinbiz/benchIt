@@ -7,7 +7,7 @@
 
 // const benches = [
 //   {
-//     benchId: "bench1",
+//     benchId: "bench_1",
 //     benchName: "Serenity Bench",
 //     benchPicture:
 //       "https://images.unsplash.com/photo-1573079883023-62fc208b9d75?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80",
@@ -18,7 +18,7 @@
 //     benchGeolocation: "53.48281185518784, -2.2231092858106725",
 //   },
 //   {
-//     benchId: "bench2",
+//     benchId: "bench_2",
 //     benchName: "Dreamcatcher Bench",
 //     benchPicture:
 //       "https://images.unsplash.com/photo-1573079883023-62fc208b9d75?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80",
@@ -29,7 +29,7 @@
 //     benchGeolocation: "53.4801961558684, -2.2305466555388835",
 //   },
 //   {
-//     benchId: "bench3",
+//     benchId: "bench_3",
 //     benchName: "Eternity Bench",
 //     benchPicture:
 //       "https://images.unsplash.com/photo-1573079883023-62fc208b9d75?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80",
@@ -39,7 +39,7 @@
 //     benchGeolocation: "53.45154559856414, -2.2481028093276825",
 //   },
 //   {
-//     benchId: "bench4",
+//     benchId: "bench_4",
 //     benchName: "Tranquility Bench",
 //     benchPicture:
 //       "https://images.unsplash.com/photo-1573079883023-62fc208b9d75?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80",
@@ -108,6 +108,7 @@
 //     benchPicture:
 //       "https://images.unsplash.com/photo-1573079883023-62fc208b9d75?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80",
 //     benchDescription: "Mysterious bench set aside from Prince Rupert's Tower",
+
 //     benchAddress: "Everton Park and Garden",
 //     benchCity: "Liverpool",
 //     benchGeolocation: "53.418877980620884, -2.970565414361296",

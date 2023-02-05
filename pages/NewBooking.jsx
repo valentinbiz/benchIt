@@ -129,7 +129,7 @@ export default function NewBooking({ navigation }) {
           <View style={styles.infoContainer}>
             <View style={{ widht: 400 }}>
               <Image
-                source={require("../creativeAssets/undrawBooking.png")}
+                source={require("../creativeAssets/undraw_book_sessions.png")}
                 style={{
                   height: 150,
                   width: 150,
@@ -201,7 +201,7 @@ export default function NewBooking({ navigation }) {
                       refreshControl={null}
                       showClosingKnob={true}
                       refreshing={false}
-                      selected={"2023-02-01"}
+                      selected={"2023-02-03"}
                     />
                     <View style={styles.buttonContainer}>
                       <FormButton

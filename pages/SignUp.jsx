@@ -41,6 +41,7 @@ function SignUp({ navigation }) {
             displayName: displayName,
             email: email,
             password: password,
+            bookedSessions: [],
           };
           setUser(user);
           const userRef = doc(db, "users", auth.currentUser.uid);
@@ -99,31 +100,33 @@ function SignUp({ navigation }) {
             <FormButton buttonTitle="Sign up" onPress={() => handleSignUp()} />
           </View>
 
-          {Platform.OS === "android" ? (
-            <View>
-              <Text style={styles.SocialText}>OR</Text>
-              <SocialButton
-                buttonTitle="Facebook Sign Up"
-                btnType="facebook"
-                color="#4867aa"
-                backgroundColor="#e6eaf4"
-                onPress={() => {}}
-              />
+          {/* {Platform.OS === "android" ? ( */}
+          <View>
+            <Text style={styles.SocialText}>OR</Text>
+            <SocialButton
+              buttonTitle="Facebook Sign Up"
+              btnType="facebook"
+              color="#4867aa"
+              backgroundColor="#e6eaf4"
+              onPress={() => {}}
+            />
 
-              <SocialButton
-                buttonTitle="Google Sign Up"
-                btnType="google"
-                color="#de4d41"
-                backgroundColor="#f5e7ea"
-                onPress={() => {}}
-              />
-            </View>
-          ) : null}
+            <SocialButton
+              buttonTitle="Google Sign Up"
+              btnType="google"
+              color="#de4d41"
+              backgroundColor="#f5e7ea"
+              onPress={() => {}}
+            />
+          </View>
+          {/* ) : null} */}
           <TouchableOpacity
             style={styles.forgotButton}
             onPress={() => navigation.navigate("Login")}
           >
-            <Text style={styles.navButtonText}>Already have an account?</Text>
+            <Text style={[styles.SeparatorText2, styles.blueText]}>
+              Already have an account?
+            </Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -135,6 +138,12 @@ const styles = StyleSheet.create({
   picture: {
     width: 75,
     height: 50,
+  },
+  SeparatorText2: {
+    textAlign: "center",
+    fontWeight: "400",
+    fontFamily: "Cabin_Bold",
+    marginBottom: 30,
   },
   viewContainer: {
     flex: 1,
@@ -188,7 +197,6 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SignUp;
 const benches = [
   {
     benchAddress: "Prince Rupert Park",
@@ -218,7 +226,7 @@ const benches = [
     benchDescription:
       "Concrete bench with a great view of the Cotton Marina. Amazing views at sunset",
     benchId: "bench_1",
-    benchName: "serenity bench",
+    benchName: "Serenity bench",
     benchPicture:
       "https://images.unsplash.com/photo-1573079883023-62fc208b9d75?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80",
     latitude: "53.48281185518784",
@@ -237,7 +245,7 @@ const benches = [
     longitude: "-2.3093218713936987",
   },
   {
-    benchAddress: "ROe Green Loopline",
+    benchAddress: "Roe Green Loopline",
     benchCity: "Manchester",
     benchDescription:
       "Wooden bench overlooking green pastures with cows walking around",
@@ -306,4 +314,19 @@ const benches = [
     latitude: "53.44015590261774",
     longitude: "-3.0557294589579387",
   },
+
+  {
+    benchAddress: "Pollard Street 12",
+    benchCity: "Manchester",
+    benchDescription:
+      "Bench located next to the canal in a quiet new residential area",
+    benchId: "bench_11",
+    benchName: "Creative Mind Bench",
+    benchPicture:
+      "https://images.unsplash.com/photo-1638226815616-b7d5f68d76a5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
+    latitude: "53.49222707326119",
+    longitude: "-2.3132341507858696",
+  },
 ];
+
+export default SignUp;

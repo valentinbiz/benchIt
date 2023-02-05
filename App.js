@@ -1,6 +1,6 @@
 import AccountSettings from "./pages/AccountSettings";
 import Navbar from "./pages/Navbar";
-// import { StyleSheet, View, Text, LogBox } from "react-native";
+import { StyleSheet, View, Text, LogBox } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import NewBooking from "./pages/NewBooking";
@@ -13,8 +13,10 @@ import isLoggedInContext from "./contexts/IsLoggedInContext";
 import selectedBenchContext from "./contexts/selectedBenchContext";
 import bookedBenchContext from "./contexts/bookedBenchContext";
 import bookedSessionContext from "./contexts/bookedSessionsContext";
+import triggerRenderBenchContext from "./contexts/benchesRenderContext";
 import UserContext from "./contexts/UserContext";
 import LocationContext from "./contexts/LocationContext";
+
 import React, { useCallback, useEffect, useState } from "react";
 import * as SplashScreen from "expo-splash-screen";
 import * as Font from "expo-font";
@@ -50,6 +52,7 @@ const App = () => {
   const [selectedBench, setSelectedBench] = useState(null);
   const [bookedBench, setBookedBench] = useState([]);
   const [bookedSessions, setBookedSessions] = useState([]);
+  const [triggerRenderBenches, setTriggerRenderBenches] = useState(false);
   const [user, setUser] = useState({
     displayName: "Guest",
     email: "mitch@gmail.com",
@@ -60,7 +63,7 @@ const App = () => {
   const [currAvailableSessions, setCurrAvailableSessions] = useState(null);
   const [currLocation, setCurrLocation] = useState(null);
   // ignore async warning messages in app, still can't remove them from console :(
-  // LogBox.ignoreAllLogs();
+  LogBox.ignoreAllLogs();
   useEffect(() => {
     setIsLoggedIn(false);
     async function prepare() {
@@ -84,78 +87,84 @@ const App = () => {
 
   return (
     <isLoggedInContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>
-      <UserContext.Provider value={{ user, setUser }}>
-        <selectedBenchContext.Provider
-          value={{ selectedBench, setSelectedBench }}
-        >
-          <bookedBenchContext.Provider value={{ bookedBench, setBookedBench }}>
-            <bookedSessionContext.Provider
-              value={{ bookedSessions, setBookedSessions }}
+      <triggerRenderBenchContext.Provider
+        value={{ triggerRenderBenches, setTriggerRenderBenches }}
+      >
+        <UserContext.Provider value={{ user, setUser }}>
+          <selectedBenchContext.Provider
+            value={{ selectedBench, setSelectedBench }}
+          >
+            <bookedBenchContext.Provider
+              value={{ bookedBench, setBookedBench }}
             >
-              <AvailableSessionsContext.Provider
-                value={{ currAvailableSessions, setCurrAvailableSessions }}
+              <bookedSessionContext.Provider
+                value={{ bookedSessions, setBookedSessions }}
               >
-                <LocationContext.Provider
-                  value={{ currLocation, setCurrLocation }}
+                <AvailableSessionsContext.Provider
+                  value={{ currAvailableSessions, setCurrAvailableSessions }}
                 >
-                  <NavigationContainer onReady={onLayoutRootView}>
-                    <Stack.Navigator
-                      initialRouteName={"Home"}
-                      screenOptions={headerStyling}
-                    >
-                      <Stack.Screen
-                        name="NavBar"
-                        component={Navbar}
-                        options={{ headerShown: false }}
-                      />
-                      {isLoggedIn ? null : (
+                  <LocationContext.Provider
+                    value={{ currLocation, setCurrLocation }}
+                  >
+                    <NavigationContainer onReady={onLayoutRootView}>
+                      <Stack.Navigator
+                        initialRouteName={"Home"}
+                        screenOptions={headerStyling}
+                      >
                         <Stack.Screen
-                          name="Home"
-                          component={HomePage}
+                          name="NavBar"
+                          component={Navbar}
                           options={{ headerShown: false }}
                         />
-                      )}
+                        {isLoggedIn ? null : (
+                          <Stack.Screen
+                            name="Home"
+                            component={HomePage}
+                            options={{ headerShown: false }}
+                          />
+                        )}
 
-                      <Stack.Screen
-                        name="AccountSettings"
-                        component={AccountSettings}
-                        options={{ title: "Account Settings" }}
-                      />
-                      <Stack.Screen
-                        name="NewBooking"
-                        component={NewBooking}
-                        options={{ title: "New Booking" }}
-                      />
-                      <Stack.Screen
-                        name="Camera"
-                        component={BenchImageCapture}
-                        options={{ title: "Camera" }}
-                      />
-                      <Stack.Screen
-                        name="NewSessions"
-                        component={NewSessions}
-                        options={{ headerShown: false }}
-                      />
-                      <Stack.Screen
-                        name="SignUp"
-                        component={SignUp}
-                        options={{
-                          title: "Sign Up",
-                        }}
-                      />
-                      <Stack.Screen
-                        name="Login"
-                        component={LogIn}
-                        options={{ title: "Log In" }}
-                      />
-                    </Stack.Navigator>
-                  </NavigationContainer>
-                </LocationContext.Provider>
-              </AvailableSessionsContext.Provider>
-            </bookedSessionContext.Provider>
-          </bookedBenchContext.Provider>
-        </selectedBenchContext.Provider>
-      </UserContext.Provider>
+                        <Stack.Screen
+                          name="AccountSettings"
+                          component={AccountSettings}
+                          options={{ title: "Account Settings" }}
+                        />
+                        <Stack.Screen
+                          name="NewBooking"
+                          component={NewBooking}
+                          options={{ title: "New Booking" }}
+                        />
+                        <Stack.Screen
+                          name="Camera"
+                          component={BenchImageCapture}
+                          options={{ title: "Camera" }}
+                        />
+                        <Stack.Screen
+                          name="NewSessions"
+                          component={NewSessions}
+                          // options={{ headerShown: false }}
+                        />
+                        <Stack.Screen
+                          name="SignUp"
+                          component={SignUp}
+                          options={{
+                            title: "Sign Up",
+                          }}
+                        />
+                        <Stack.Screen
+                          name="Login"
+                          component={LogIn}
+                          options={{ title: "Log In" }}
+                        />
+                      </Stack.Navigator>
+                    </NavigationContainer>
+                  </LocationContext.Provider>
+                </AvailableSessionsContext.Provider>
+              </bookedSessionContext.Provider>
+            </bookedBenchContext.Provider>
+          </selectedBenchContext.Provider>
+        </UserContext.Provider>
+      </triggerRenderBenchContext.Provider>
     </isLoggedInContext.Provider>
   );
 };

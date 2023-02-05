@@ -8,35 +8,33 @@ import {
 } from "react-native";
 import { Camera } from "expo-camera";
 import cameraButtonStyles from "../styles/CameraButtonStyles";
-
 export default function BenchImageCapture({ navigation }) {
   const [hasPermission, setHasPermission] = useState(null);
   const [previewVisible, setPreviewVisible] = useState(false);
   const [capturedImage, setCapturedImage] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
   let camera;
-
   useEffect(() => {
     (async () => {
       const { status } = await Camera.requestCameraPermissionsAsync();
       setHasPermission(status === "granted");
     })();
   }, []);
-
   if (hasPermission === null) {
     return <View />;
   }
   if (hasPermission === false) {
     return <Text>No access to camera</Text>;
   }
-
-  const takePicture = async () => {
+  const takePicture = () => {
     if (!camera) return;
-    let photo = await camera.takePictureAsync();
-    setPreviewVisible(true);
-    setCapturedImage(photo);
+    camera.takePictureAsync().then((pic) => {
+      setPreviewVisible(true);
+      setCapturedImage(pic);
+      console.log(pic);
+      console.log(capturedImage);
+    });
   };
-
   return (
     <View
       style={{
@@ -68,21 +66,13 @@ export default function BenchImageCapture({ navigation }) {
                 onPress={() => setPreviewVisible(false)}
                 style={cameraButtonStyles.btnStyle}
               >
-                <Text
-                  style={cameraButtonStyles.txtStyle}
-                >
-                  Re-take
-                </Text>
+                <Text style={cameraButtonStyles.txtStyle}>Re-take</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => navigation.navigate("Upload Bench")}
                 style={cameraButtonStyles.btnStyle}
               >
-                <Text
-                  style={cameraButtonStyles.txtStyle}
-                >
-                  Submit Image
-                </Text>
+                <Text style={cameraButtonStyles.txtStyle}>Submit Image</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -117,10 +107,7 @@ export default function BenchImageCapture({ navigation }) {
                 );
               }}
             >
-              <Text style={cameraButtonStyles.txtStyle}>
-                {" "}
-                Flip{" "}
-              </Text>
+              <Text style={cameraButtonStyles.txtStyle}> Flip </Text>
             </TouchableOpacity>
             <View
               style={{

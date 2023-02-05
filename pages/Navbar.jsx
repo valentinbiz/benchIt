@@ -129,11 +129,9 @@ const styles = StyleSheet.create({
     fontFamily: "Cabin_Bold",
   },
   tabBar: {
-    //borderTopEndRadius: 20,
-    //borderTopLeftRadius: 20,
     backgroundColor: "#FCFEF7",
     padding: 10,
-    height: 64,
+    height: 100,
   },
   container: {
     flex: 1,

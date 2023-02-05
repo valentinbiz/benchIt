@@ -27,6 +27,7 @@ import UserContext from "../contexts/UserContext";
 import AvailableSessionsContext from "../contexts/AvailableSessionsContext";
 import LocationContext from "../contexts/LocationContext";
 import sessionStyles from "../styles/SessionStyles";
+import triggerRenderBenchContext from "../contexts/benchesRenderContext";
 
 function NewSessions({ navigation }) {
   const [viewType, setViewType] = useState("List");
@@ -35,10 +36,13 @@ function NewSessions({ navigation }) {
   const { setCurrAvailableSessions } = useContext(AvailableSessionsContext);
   const { currLocation, setCurrLocation } = useContext(LocationContext);
 
-  const [ viewRef, setViewRef ] = useState(null);
+  const [viewRef, setViewRef] = useState(null);
   const [benches, setBenches] = useState([]);
   const [errorMsg, setErrorMsg] = useState(false);
   const { user } = useContext(UserContext);
+  const { triggerRenderBenchs, setTriggerRenderBenches } = useContext(
+    triggerRenderBenchContext
+  );
 
   const getBenches = () => {
     const docRefCollection = collection(db, "benches");
@@ -77,7 +81,8 @@ function NewSessions({ navigation }) {
     getBenches();
     getAvailableBenches(2);
     getCurrLocation();
-  }, []);
+    setTriggerRenderBenches(false);
+  }, [triggerRenderBenchs]);
 
   async function getCurrLocation() {
     let { status } = await Location.requestForegroundPermissionsAsync();
@@ -105,7 +110,7 @@ function NewSessions({ navigation }) {
 
   return (
     <View style={sessionStyles.mainContent}>
-      <Text style={sessionStyles.SessionsHeader}>New sessions</Text>
+      {/* <Text style={sessionStyles.SessionsHeader}>New sessions</Text> */}
       <ScrollView nestedScrollEnabled={true} ref={(ref) => setViewRef(ref)}>
         <View style={sessionStyles.SearchBar}>
           <TextInput
@@ -119,7 +124,9 @@ function NewSessions({ navigation }) {
           />
         </View>
         <ForecastCard></ForecastCard>
-          <Text style={sessionStyles.toggleInfo}>Toggle between views to look for available benches</Text>
+        <Text style={sessionStyles.toggleInfo}>
+          Toggle between views to look for available benches
+        </Text>
         <View style={sessionStyles.ViewToggleCard}>
           <View style={sessionStyles.toggleContainer}>
             <TouchableOpacity
@@ -138,7 +145,10 @@ function NewSessions({ navigation }) {
         </View>
 
         {viewType === "List" ? (
-          <ScrollView style={sessionStyles.SessionsList} nestedScrollEnabled={true}>
+          <ScrollView
+            style={sessionStyles.SessionsList}
+            nestedScrollEnabled={true}
+          >
             {benches.map((bench) => {
               return (
                 <BenchSessions
@@ -149,8 +159,8 @@ function NewSessions({ navigation }) {
                   bg={"#fcfef7"}
                   behaviour={bookingSelect}
                   city={bench.benchCity}
-                latitude={Number(bench.latitude)}
-                longitude={Number(bench.longitude)}
+                  latitude={Number(bench.latitude)}
+                  longitude={Number(bench.longitude)}
                   target={bench}
                 />
               );
