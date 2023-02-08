@@ -2,6 +2,9 @@
 
 Welcome to BenchIt, a team project created with React Native
 
+<div style="display:flex">
+<div>
+
 ## Table of Contents
 
 - [BenchIt - React Native Application](#benchit---react-native-application)
@@ -23,6 +26,15 @@ Welcome to BenchIt, a team project created with React Native
     - [Tom Legg @theCodedJourney](#tom-legg-thecodedjourney)
     - [Ibrahim Yusuf @iy2k22](#ibrahim-yusuf-iy2k22)
     - [Mukesh Thapa @m-thapa](#mukesh-thapa-m-thapa)
+
+</div>
+<div style="margin-left: 250px" >
+<p>
+Demo
+<p>
+<video src="creativeAssets\demo short.mp4" height="450" />
+</div>
+</div>
 
 ## Overview
 
